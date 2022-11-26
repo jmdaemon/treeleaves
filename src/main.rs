@@ -3,9 +3,11 @@
 // Standard Library
 use std::fs::read_to_string;
 use std::str;
+use std::time::SystemTime;
 
 // Third Party Libraries
 use clap::{arg, Command};
+use chrono::{DateTime, Utc};
 use rusqlite::{Connection, Result};
 use walkdir::WalkDir;
 use md5::Md5;
@@ -48,6 +50,18 @@ fn create_images_db_table(conn: &Connection) -> Result<usize, rusqlite::Error> {
     )
 }
 
+fn insert_into_db(conn: &Connection, image_file: ImageFile) -> Result<usize, rusqlite::Error> {
+    const SQL_INSERT_IMAGE_TABLE: &str =
+        "INSERT INTO images (filename, tags, creation_date, last_modified, sha1, md5, source) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)";
+    conn.execute(
+        SQL_INSERT_IMAGE_TABLE, (
+            &image_file.filename, &image_file.tags,
+            &image_file.creation_date, &image_file.last_modified,
+            &image_file.sha1, &image_file.md5,
+            &image_file.source),
+        )
+}
+
 fn test_image_db_insert(conn: &Connection) -> Result<usize, rusqlite::Error> {
     let test_image = ImageFile {
         id: 0,
@@ -60,12 +74,7 @@ fn test_image_db_insert(conn: &Connection) -> Result<usize, rusqlite::Error> {
         md5: "fd2f82b6722681764075fce841a31b6f".to_string(),
         source: "https://ponerpics.org/images/1048610".to_string()
     };
-
-    conn.execute(
-        "INSERT INTO images (filename, tags, creation_date, last_modified, sha1, md5, source) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
-        (&test_image.filename, &test_image.tags, &test_image.creation_date,
-         &test_image.last_modified, &test_image.sha1, &test_image.md5, &test_image.source),
-    )
+    insert_into_db(conn, test_image)
 }
 
 // TODO: Return the image_iter directly from this function
@@ -99,11 +108,19 @@ fn sha1sum(contents: &String) -> String {
     hex::encode(Sha1::digest(contents))
 }
 
-fn tag_from_filetree(fp: String) -> String {
+fn tag_from_filetree(fp: &String) -> String {
     let bfp = fp.split('/');
     let bfpvec: Vec<&str> = bfp.collect();
     let tags = &bfpvec[1..bfpvec.len() - 1];
     String::from(tags.join(","))
+}
+
+fn format_time(systime: SystemTime) -> String {
+    //let now: DateTime<Utc> = systime.into();
+    //let now = nsystime.into().to_rfc3339();
+    //now
+    let dt: DateTime<Utc> = systime.into();
+    dt.to_rfc3339()
 }
 
 const PROGRAM_NAME: &str        = "treeleaves";
@@ -143,6 +160,9 @@ fn main() -> Result<()> {
         Some(("populate", sub_matches)) => {
             let dbfname = sub_matches.get_one::<String>("FILENAME");
             let cwd = sub_matches.get_one::<String>("WORKING_DIR");
+
+            // TODO: For the real db we'll replace this with a connect instead
+            let conn = create_images_db(dbfname.unwrap().to_owned())?;
             
             // Walk the directory of files
             // Get the full file path, and process the filename into tags
@@ -151,6 +171,7 @@ fn main() -> Result<()> {
             // 2. If not available from a booru, chop the file path into tags, and format appropriately
             // 3. Add the file to the database with the given tags
             let files = WalkDir::new(cwd.unwrap().as_str());
+            let index = 0;
             for entry in files {
                 let entry = entry.unwrap();
                 if entry.path().is_dir() {
@@ -169,18 +190,25 @@ fn main() -> Result<()> {
 
                 // Let's just assume that we are only left with tags from the file folder hierarchy
                 let fp = String::from(entry.path().to_str().unwrap());
-                let tags = tag_from_filetree(fp);
+                let tags = tag_from_filetree(&fp);
                 println!("{:?}", tags);
 
-                let creation_date = entry.path().metadata().unwrap().created().unwrap();
-                let modified_date = entry.path().metadata().unwrap().modified().unwrap();
-                println!("creation_date: {:?}", creation_date);
-                println!("modified_date: {:?}", modified_date);
+                let creation_date = format_time(entry.path().metadata().unwrap().created().unwrap());
+                let modified_date = format_time(entry.path().metadata().unwrap().modified().unwrap());
+                println!("creation_date: {}", creation_date);
+                println!("modified_date: {}", modified_date);
 
                 let md5 = md5sum(&conts);
                 let sha1 = sha1sum(&conts);
                 println!("md5: {}", md5);
                 println!("sha1: {}", sha1);
+
+                let image_file = ImageFile {
+                    id: index, filename: fp, tags: tags,
+                    creation_date: creation_date, last_modified: modified_date,
+                    md5: md5, sha1: sha1, source: "".to_string()
+                };
+                insert_into_db(&conn, image_file)?;
             }
         }
         _ => {},
