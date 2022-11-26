@@ -1,4 +1,7 @@
 #![allow(dead_code, unused_variables)]
+
+// Third Party Libraries
+use clap::{arg, Command};
 use rusqlite::{Connection, Result};
 
 #[derive(Debug)]
@@ -51,28 +54,97 @@ fn test_image_db_insert(conn: &Connection) -> Result<usize, rusqlite::Error> {
     )
 }
 
+const PROGRAM_NAME: &str        = "treeleaves";
+const VERSION: &str             = "0.1.0";
+const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
+const PROGRAM_DESCRIPTION: &str = "Tag and search files easily";
+
 fn main() -> Result<()> {
-    let conn = Connection::open_in_memory()?;
 
-    create_images_db(&conn)?;
-    test_image_db_insert(&conn)?;
+    let matches = Command::new(PROGRAM_NAME)
+        .version(VERSION)
+        .author(AUTHOR)
+        .about(PROGRAM_DESCRIPTION)
+        //.arg(arg!(--two <VALUE>).required(true))
+        //.arg(arg!(--one <VALUE>).required(true))
+        .subcommand(
+            Command::new("create")
+            .about("Creates the database with the given filename")
+            .arg(arg!([FILENAME])
+                .required(true)),
+            )
+        .subcommand(
+            Command::new("populate")
+            .about("Populates the database")
+            .arg(arg!([FILENAME])),
+            )
+        .get_matches();
 
-    let mut stmt = conn.prepare("SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images")?;
-    let image_iter = stmt.query_map([], |row| {
-        Ok(ImageFile {
-            id: row.get(0)?,
-            filename: row.get(1)?,
-            tags: row.get(2)?,
-            creation_date: row.get(3)?,
-            last_modified: row.get(4)?,
-            sha1: row.get(5)?,
-            md5: row.get(6)?,
-            source: row.get(7)?,
-        })
-    })?;
 
-    for image_file in image_iter {
-        println!("Found image {:?}", image_file.unwrap());
+    match matches.subcommand() {
+        Some(("create", sub_matches)) => {
+            let dbfname = sub_matches.get_one::<String>("FILENAME");
+
+            // TODO: Make the database with the given filename
+            let conn = Connection::open_in_memory()?;
+
+            create_images_db(&conn)?;
+            test_image_db_insert(&conn)?;
+
+            let mut stmt = conn.prepare("SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images")?;
+            let image_iter = stmt.query_map([], |row| {
+                Ok(ImageFile {
+                    id: row.get(0)?,
+                    filename: row.get(1)?,
+                    tags: row.get(2)?,
+                    creation_date: row.get(3)?,
+                    last_modified: row.get(4)?,
+                    sha1: row.get(5)?,
+                    md5: row.get(6)?,
+                    source: row.get(7)?,
+                })
+            })?;
+
+            for image_file in image_iter {
+                println!("Found image {:?}", image_file.unwrap());
+            }
+            //Ok(())
+        }
+
+        Some(("populate", sub_matches)) => {
+            //Ok(())
+        }
+            //println!(
+            //"'myapp add' was used, name is: {:?}",
+            //sub_matches.get_one::<String>("NAME")
+        //),
+        //_ => unreachable!("Exhausted list of subcommands and subcommand_required prevents `None`"),
+        _ => {},
+        //None => {},
     }
+
+
+    //let conn = Connection::open_in_memory()?;
+
+    //create_images_db(&conn)?;
+    //test_image_db_insert(&conn)?;
+
+    //let mut stmt = conn.prepare("SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images")?;
+    //let image_iter = stmt.query_map([], |row| {
+        //Ok(ImageFile {
+            //id: row.get(0)?,
+            //filename: row.get(1)?,
+            //tags: row.get(2)?,
+            //creation_date: row.get(3)?,
+            //last_modified: row.get(4)?,
+            //sha1: row.get(5)?,
+            //md5: row.get(6)?,
+            //source: row.get(7)?,
+        //})
+    //})?;
+
+    //for image_file in image_iter {
+        //println!("Found image {:?}", image_file.unwrap());
+    //}
     Ok(())
 }
