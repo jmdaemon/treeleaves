@@ -1,5 +1,8 @@
 #![allow(dead_code, unused_variables)]
 
+// Standard Library
+use std::boxed::Box;
+
 // Third Party Libraries
 use clap::{arg, Command};
 use rusqlite::{Connection, Result};
@@ -16,7 +19,13 @@ struct ImageFile {
     source: String,
 }
 
-fn create_images_db(conn: &Connection) -> Result<usize, rusqlite::Error> {
+fn create_images_db(dbfname: String) -> Result<Connection, rusqlite::Error> {
+    // TODO: Make the database with the given filename
+    let conn = Connection::open_in_memory();
+    conn
+}
+
+fn create_images_db_table(conn: &Connection) -> Result<usize, rusqlite::Error> {
     const SQL_CREATE_IMAGES_TABLE_TAGS_STRING: &str = "
     CREATE TABLE images (
         id    INTEGER PRIMARY KEY,
@@ -54,6 +63,45 @@ fn test_image_db_insert(conn: &Connection) -> Result<usize, rusqlite::Error> {
     )
 }
 
+//-> impl Fn(i32) -> i32 
+//fn test_image_db_select(conn: &Connection) -> Result<(), rusqlite::Error> {
+//fn test_image_db_select(conn: &Connection) -> Result<rusqlite::MappedRows<impl Fn(rusqlite::Row) -> ImageFile>, rusqlite::Error> {
+//fn test_image_db_select(conn: &Connection) -> impl rusqlite::MappedRows<rusqlite::Rows> {
+//fn test_image_db_select<F>(conn: &Connection) -> Box::new(dyn Fn(Option<rusqlite::MappedRows<F>>) ) {
+//fn test_image_db_select(conn: &Connection) -> Box<rusqlite::MappedRows<dyn Fn(rusqlite::Row) -> rusqlite::Rows>> {
+//fn test_image_db_select(conn: &Connection) -> Box<dyn Fn(rusqlite::Row) -> rusqlite::Rows> {
+//fn test_image_db_select(conn: &Connection) -> Box<dyn rusqlite::RowIndex <dyn Fn(rusqlite::Row) -> rusqlite::Rows>> {
+//fn test_image_db_select(conn: &Connection) -> Box<dyn rusqlite::RowIndex> {
+//fn test_image_db_select<T, F>(conn: &Connection) -> impl rusqlite::MappedRows<'_, F>
+//where
+    //F: FnMut(&rusqlite::Row<'_>) -> Result<T>
+//{
+
+fn test_image_db_select(conn: &Connection) {
+    //let mut stmt = conn.prepare("SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images")?;
+    let mut stmt = conn.prepare("SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images").unwrap();
+    let image_iter = stmt.query_map([], |row| {
+        Ok(ImageFile {
+            id: row.get(0)?,
+            filename: row.get(1)?,
+            tags: row.get(2)?,
+            creation_date: row.get(3)?,
+            last_modified: row.get(4)?,
+            sha1: row.get(5)?,
+            md5: row.get(6)?,
+            source: row.get(7)?,
+        })
+    //})?;
+    }).unwrap();
+    //Box::new(image_iter)
+    //Box::new(Some(image_iter))
+    //Ok(image_iter)
+
+    for image_file in image_iter {
+        println!("Found image {:?}", image_file.unwrap());
+    }
+}
+
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
 const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
@@ -84,67 +132,14 @@ fn main() -> Result<()> {
     match matches.subcommand() {
         Some(("create", sub_matches)) => {
             let dbfname = sub_matches.get_one::<String>("FILENAME");
-
-            // TODO: Make the database with the given filename
-            let conn = Connection::open_in_memory()?;
-
-            create_images_db(&conn)?;
+            let conn = create_images_db(dbfname.unwrap().to_owned())?;
+            create_images_db_table(&conn)?;
             test_image_db_insert(&conn)?;
-
-            let mut stmt = conn.prepare("SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images")?;
-            let image_iter = stmt.query_map([], |row| {
-                Ok(ImageFile {
-                    id: row.get(0)?,
-                    filename: row.get(1)?,
-                    tags: row.get(2)?,
-                    creation_date: row.get(3)?,
-                    last_modified: row.get(4)?,
-                    sha1: row.get(5)?,
-                    md5: row.get(6)?,
-                    source: row.get(7)?,
-                })
-            })?;
-
-            for image_file in image_iter {
-                println!("Found image {:?}", image_file.unwrap());
-            }
-            //Ok(())
+            test_image_db_select(&conn);
         }
-
         Some(("populate", sub_matches)) => {
-            //Ok(())
         }
-            //println!(
-            //"'myapp add' was used, name is: {:?}",
-            //sub_matches.get_one::<String>("NAME")
-        //),
-        //_ => unreachable!("Exhausted list of subcommands and subcommand_required prevents `None`"),
         _ => {},
-        //None => {},
     }
-
-
-    //let conn = Connection::open_in_memory()?;
-
-    //create_images_db(&conn)?;
-    //test_image_db_insert(&conn)?;
-
-    //let mut stmt = conn.prepare("SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images")?;
-    //let image_iter = stmt.query_map([], |row| {
-        //Ok(ImageFile {
-            //id: row.get(0)?,
-            //filename: row.get(1)?,
-            //tags: row.get(2)?,
-            //creation_date: row.get(3)?,
-            //last_modified: row.get(4)?,
-            //sha1: row.get(5)?,
-            //md5: row.get(6)?,
-            //source: row.get(7)?,
-        //})
-    //})?;
-
-    //for image_file in image_iter {
-        //println!("Found image {:?}", image_file.unwrap());
-    //}
     Ok(())
 }
