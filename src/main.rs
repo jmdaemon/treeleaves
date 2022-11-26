@@ -5,6 +5,7 @@
 // Third Party Libraries
 use clap::{arg, Command};
 use rusqlite::{Connection, Result};
+use walkdir::WalkDir;
 
 #[derive(Debug)]
 struct ImageFile {
@@ -127,6 +128,15 @@ fn main() -> Result<()> {
             // 1. Add support for booru style file name tags [FEATURE]
             // 2. If not available from a booru, chop the file path into tags, and format appropriately
             // 3. Add the file to the database with the given tags
+            let files = WalkDir::new(cwd.unwrap().as_str());
+            for entry in files {
+                let entry = entry.unwrap();
+                // TODO: Check if a file name matches any booru regex pattern
+                // TODO: Prompt booru and retrieve html result for tags
+                println!("{}", entry.path().display());
+
+                // TODO: Add the file to the database
+            }
         }
         _ => {},
     }
