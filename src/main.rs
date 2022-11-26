@@ -4,6 +4,8 @@
 use std::{fs::read_to_string, vec};
 use std::str;
 use std::time::SystemTime;
+use std::path::Path;
+use std::io;
 
 // Third Party Libraries
 use clap::{arg, Command};
@@ -142,6 +144,8 @@ fn format_time(systime: SystemTime) -> String {
 
 fn create_image_entry(conts: &String, index: i32, entry: walkdir::DirEntry) -> ImageFile {
     let fp = String::from(entry.path().to_str().unwrap());
+    println!("fp: {}", fp);
+
     let tags = tag_from_filetree(&fp);
     println!("tags: {:?}", tags);
 
@@ -157,6 +161,30 @@ fn create_image_entry(conts: &String, index: i32, entry: walkdir::DirEntry) -> I
 
     let image_file = ImageFile::new(index, fp, tags, creation_date, modified_date, sha1, md5, "".to_string());
     image_file
+}
+
+fn read_file_conts(fp: &Path) -> Result<String, io::Error> {
+    let conts_res = read_to_string(fp);
+    
+    // Read file contents, skip files with read errors
+    let conts = match conts_res {
+        Ok(contents) => Ok(contents),
+        Err(error) => {
+            // Silently skip errors
+            // eprintln!("Error when reading file: {:?}", error);
+            //continue;
+            Err(error)
+        },
+    };
+    conts
+}
+
+fn file_is_empty(fp: &Path) -> bool {
+    let file_open = std::fs::File::open(fp);
+    match file_open {
+        Ok(file) => if file.metadata().unwrap().len() == 0 { true } else { false },
+        Err(error) => false
+    }
 }
 
 const PROGRAM_NAME: &str        = "treeleaves";
@@ -219,29 +247,16 @@ fn main() -> Result<()> {
             for entry in files {
                 let entry = entry.unwrap();
 
+                //if entry.path().is_dir() || file_is_empty(entry.path()) {
                 if entry.path().is_dir() {
                     continue; // Ignore directories
                 }
 
-                println!("fp: {}", entry.path().display());
-
                 // TODO: Check if a file name matches any booru regex pattern
                 // TODO: Prompt booru and retrieve html result for tags
-
-                let conts_res = read_to_string(entry.path());
-                
-                // Read file contents, skip files with read errors
-                let conts = match conts_res {
-                    Ok(contents) => contents,
-                    Err(error) => {
-                        // Silently skip errors
-                        // eprintln!("Error when reading file: {:?}", error);
-                        continue;
-                    },
-                };
-
+                let conts = read_file_conts(entry.path()).unwrap();
                 if conts.is_empty() {
-                    continue; // Ignore empty files
+                    continue; // Ignore unreadable or empty files
                 }
 
                 // Let's just assume that we are only left with tags from the file folder hierarchy
