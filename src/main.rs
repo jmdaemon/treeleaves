@@ -156,10 +156,17 @@ fn main() -> Result<()> {
                 // TODO: Add the file to the database
                 let conts = read_to_string(entry.path()).unwrap();
 
+                let creation_date = entry.path().metadata().unwrap().created().unwrap();
+                let modified_date = entry.path().metadata().unwrap().modified().unwrap();
+                println!("creation_date: {:?}", creation_date);
+                println!("modified_date: {:?}", modified_date);
+
                 let md5 = md5sum(&conts);
                 let sha1 = sha1sum(&conts);
                 println!("md5: {}", md5);
                 println!("sha1: {}", sha1);
+                //metadata(entry.path()).unwrap().created;
+
             }
         }
         _ => {},
