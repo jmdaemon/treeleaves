@@ -26,6 +26,14 @@ struct ImageFile {
     source: String,
 }
 
+impl ImageFile {
+    pub fn new(id: i32, filename: String, tags: String,
+    creation_date: String, last_modified: String,
+    sha1: String, md5: String, source: String) -> Self {
+        ImageFile { id, filename, tags, creation_date, last_modified, sha1, md5, source }
+    }
+}
+
 fn create_images_db(dbfname: String) -> Result<Connection, rusqlite::Error> {
     // TODO: Make the database with the given filename
     let conn = Connection::open_in_memory();
@@ -191,22 +199,24 @@ fn main() -> Result<()> {
             let mut index = 0;
             for entry in files {
                 let entry = entry.unwrap();
+
                 if entry.path().is_dir() {
                     continue; // Ignore directories
                 }
-                // TODO: Check if a file name matches any booru regex pattern
-                // TODO: Prompt booru and retrieve html result for tags
+
                 println!("fp: {}", entry.path().display());
 
-                // TODO: Add the file to the database
+                // TODO: Check if a file name matches any booru regex pattern
+                // TODO: Prompt booru and retrieve html result for tags
+
                 let conts_res = read_to_string(entry.path());
                 
+                // Read file contents, skip files with read errors
                 let conts = match conts_res {
                     Ok(contents) => contents,
                     Err(error) => {
                         // Silently skip errors
                         // eprintln!("Error when reading file: {:?}", error);
-                        //"".to_string()
                         continue;
                     },
                 };
@@ -230,15 +240,11 @@ fn main() -> Result<()> {
                 println!("md5: {}", md5);
                 println!("sha1: {}", sha1);
 
-                let image_file = ImageFile {
-                    id: index, filename: fp, tags: tags,
-                    creation_date: creation_date, last_modified: modified_date,
-                    sha1: sha1, md5: md5, source: "".to_string()
-                };
-                insert_into_db(&conn, image_file);
+                let image_file = ImageFile::new(index, fp, tags, creation_date, modified_date, sha1, md5, "".to_string());
+                insert_into_db(&conn, image_file)?;
                 index += 1;
             }
-            test_image_db_select(&conn);
+        test_image_db_select(&conn);
         }
         _ => {},
     }
