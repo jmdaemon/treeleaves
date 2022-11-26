@@ -140,6 +140,25 @@ fn format_time(systime: SystemTime) -> String {
     dt.to_rfc3339()
 }
 
+fn create_image_entry(conts: &String, index: i32, entry: walkdir::DirEntry) -> ImageFile {
+    let fp = String::from(entry.path().to_str().unwrap());
+    let tags = tag_from_filetree(&fp);
+    println!("tags: {:?}", tags);
+
+    let creation_date = format_time(entry.path().metadata().unwrap().created().unwrap());
+    let modified_date = format_time(entry.path().metadata().unwrap().modified().unwrap());
+    println!("creation_date: {}", creation_date);
+    println!("modified_date: {}", modified_date);
+
+    let md5 = md5sum(&conts);
+    let sha1 = sha1sum(&conts);
+    println!("md5: {}", md5);
+    println!("sha1: {}", sha1);
+
+    let image_file = ImageFile::new(index, fp, tags, creation_date, modified_date, sha1, md5, "".to_string());
+    image_file
+}
+
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
 const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
@@ -226,21 +245,7 @@ fn main() -> Result<()> {
                 }
 
                 // Let's just assume that we are only left with tags from the file folder hierarchy
-                let fp = String::from(entry.path().to_str().unwrap());
-                let tags = tag_from_filetree(&fp);
-                println!("tags: {:?}", tags);
-
-                let creation_date = format_time(entry.path().metadata().unwrap().created().unwrap());
-                let modified_date = format_time(entry.path().metadata().unwrap().modified().unwrap());
-                println!("creation_date: {}", creation_date);
-                println!("modified_date: {}", modified_date);
-
-                let md5 = md5sum(&conts);
-                let sha1 = sha1sum(&conts);
-                println!("md5: {}", md5);
-                println!("sha1: {}", sha1);
-
-                let image_file = ImageFile::new(index, fp, tags, creation_date, modified_date, sha1, md5, "".to_string());
+                let image_file = create_image_entry(&conts, index, entry);
                 insert_into_db(&conn, image_file)?;
                 index += 1;
             }
