@@ -1,7 +1,6 @@
 #![allow(dead_code, unused_variables)]
 
 // Standard Library
-use std::boxed::Box;
 
 // Third Party Libraries
 use clap::{arg, Command};
@@ -63,22 +62,8 @@ fn test_image_db_insert(conn: &Connection) -> Result<usize, rusqlite::Error> {
     )
 }
 
-//-> impl Fn(i32) -> i32 
-//fn test_image_db_select(conn: &Connection) -> Result<(), rusqlite::Error> {
-//fn test_image_db_select(conn: &Connection) -> Result<rusqlite::MappedRows<impl Fn(rusqlite::Row) -> ImageFile>, rusqlite::Error> {
-//fn test_image_db_select(conn: &Connection) -> impl rusqlite::MappedRows<rusqlite::Rows> {
-//fn test_image_db_select<F>(conn: &Connection) -> Box::new(dyn Fn(Option<rusqlite::MappedRows<F>>) ) {
-//fn test_image_db_select(conn: &Connection) -> Box<rusqlite::MappedRows<dyn Fn(rusqlite::Row) -> rusqlite::Rows>> {
-//fn test_image_db_select(conn: &Connection) -> Box<dyn Fn(rusqlite::Row) -> rusqlite::Rows> {
-//fn test_image_db_select(conn: &Connection) -> Box<dyn rusqlite::RowIndex <dyn Fn(rusqlite::Row) -> rusqlite::Rows>> {
-//fn test_image_db_select(conn: &Connection) -> Box<dyn rusqlite::RowIndex> {
-//fn test_image_db_select<T, F>(conn: &Connection) -> impl rusqlite::MappedRows<'_, F>
-//where
-    //F: FnMut(&rusqlite::Row<'_>) -> Result<T>
-//{
-
+// TODO: Return the image_iter directly from this function
 fn test_image_db_select(conn: &Connection) {
-    //let mut stmt = conn.prepare("SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images")?;
     let mut stmt = conn.prepare("SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images").unwrap();
     let image_iter = stmt.query_map([], |row| {
         Ok(ImageFile {
@@ -91,11 +76,7 @@ fn test_image_db_select(conn: &Connection) {
             md5: row.get(6)?,
             source: row.get(7)?,
         })
-    //})?;
     }).unwrap();
-    //Box::new(image_iter)
-    //Box::new(Some(image_iter))
-    //Ok(image_iter)
 
     for image_file in image_iter {
         println!("Found image {:?}", image_file.unwrap());
@@ -118,16 +99,15 @@ fn main() -> Result<()> {
         .subcommand(
             Command::new("create")
             .about("Creates the database with the given filename")
-            .arg(arg!([FILENAME])
-                .required(true)),
+            .arg(arg!([FILENAME]).required(true)),
             )
         .subcommand(
             Command::new("populate")
             .about("Populates the database")
-            .arg(arg!([FILENAME])),
+            .arg(arg!([FILENAME]).required(true))
+            .arg(arg!([WORKING_DIR]).required(true))
             )
         .get_matches();
-
 
     match matches.subcommand() {
         Some(("create", sub_matches)) => {
@@ -138,6 +118,15 @@ fn main() -> Result<()> {
             test_image_db_select(&conn);
         }
         Some(("populate", sub_matches)) => {
+            let dbfname = sub_matches.get_one::<String>("FILENAME");
+            let cwd = sub_matches.get_one::<String>("WORKING_DIR");
+            
+            // Walk the directory of files
+            // Get the full file path, and process the filename into tags
+            // Processing:
+            // 1. Add support for booru style file name tags [FEATURE]
+            // 2. If not available from a booru, chop the file path into tags, and format appropriately
+            // 3. Add the file to the database with the given tags
         }
         _ => {},
     }
