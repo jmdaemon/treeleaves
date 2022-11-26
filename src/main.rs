@@ -32,7 +32,7 @@ fn create_images_db(dbfname: String) -> Result<Connection, rusqlite::Error> {
     conn
 }
 
-fn create_images_db_table(conn: &mut Connection) -> Result<usize, rusqlite::Error> {
+fn create_images_db_table(conn: &Connection) -> Result<usize, rusqlite::Error> {
     const SQL_CREATE_IMAGES_TABLE_TAGS_STRING: &str = "
     CREATE TABLE images (
         id    INTEGER PRIMARY KEY,
@@ -48,7 +48,7 @@ fn create_images_db_table(conn: &mut Connection) -> Result<usize, rusqlite::Erro
     conn.execute(SQL_CREATE_IMAGES_TABLE_TAGS_STRING, (),) // Empty list of params
 }
 
-fn insert_into_db(conn: &mut Connection, image_file: ImageFile) -> Result<usize, rusqlite::Error> {
+fn insert_into_db(conn: &Connection, image_file: ImageFile) -> Result<usize, rusqlite::Error> {
     const SQL_INSERT_IMAGE_TABLE: &str =
         "INSERT INTO images (filename, tags, creation_date, last_modified, sha1, md5, source) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)";
     conn.execute(
@@ -60,7 +60,7 @@ fn insert_into_db(conn: &mut Connection, image_file: ImageFile) -> Result<usize,
         )
 }
 
-fn test_image_db_insert(conn: &mut Connection) -> Result<usize, rusqlite::Error> {
+fn test_image_db_insert(conn: &Connection) -> Result<usize, rusqlite::Error> {
     let test_image = ImageFile {
         id: 0,
         filename: "~/File.png".to_string(),
@@ -75,12 +75,10 @@ fn test_image_db_insert(conn: &mut Connection) -> Result<usize, rusqlite::Error>
     insert_into_db(conn, test_image)
 }
 
-//fn select_image(conn: &mut Connection) -> Vec<ImageFile> {
-fn select_image(conn: &mut Connection) -> Result<Vec<ImageFile>, rusqlite::Error> {
+fn select_image(conn: &Connection) -> Vec<ImageFile> {
     const SQL_SELECT_IMAGE_FROM_TABLE: &str =
         "SELECT id, filename, tags, creation_date, last_modified, sha1, md5, source FROM images";
-    //let mut stmt = conn.prepare(SQL_SELECT_IMAGE_FROM_TABLE).unwrap();
-    let mut stmt = conn.prepare(SQL_SELECT_IMAGE_FROM_TABLE)?;
+    let mut stmt = conn.prepare(SQL_SELECT_IMAGE_FROM_TABLE).unwrap();
     let image_iter = stmt.query_map([], |row| {
         Ok(ImageFile {
             id: row.get(0)?,
@@ -92,23 +90,18 @@ fn select_image(conn: &mut Connection) -> Result<Vec<ImageFile>, rusqlite::Error
             md5: row.get(6)?,
             source: row.get(7)?,
         })
-    //}).unwrap();
-    })?;
+    }).unwrap();
 
     let mut result: Vec<ImageFile> = vec![];
 
     for image_file in image_iter {
-        //result.push(image.unwrap());
-        //result.push(image_file.unwrap());
-        result.push(image_file?);
-        //println!("Found image {:?}", image_file?);
+        result.push(image_file.unwrap());
     }
-    Ok(result)
-        //image_iter.into_iter
+    result
 }
 
-fn test_image_db_select(conn: &mut Connection) {
-    let image_iter = select_image(conn).unwrap();
+fn test_image_db_select(conn: &Connection) {
+    let image_iter = select_image(conn);
     for image_file in image_iter {
         println!("Found image {:?}", image_file);
     }
@@ -173,20 +166,20 @@ fn main() -> Result<()> {
             //test_image_db_insert(&conn)?;
             //test_image_db_select(&conn);
 
-            let mut conn = create_images_db(dbfname.unwrap().to_owned())?;
-            create_images_db_table(&mut conn)?;
-            test_image_db_insert(&mut conn)?;
-            test_image_db_select(&mut conn);
+            let conn = create_images_db(dbfname.unwrap().to_owned())?;
+            create_images_db_table(&conn)?;
+            test_image_db_insert(&conn)?;
+            test_image_db_select(&conn);
         }
         Some(("populate", sub_matches)) => {
             let dbfname = sub_matches.get_one::<String>("FILENAME");
             let cwd = sub_matches.get_one::<String>("WORKING_DIR");
 
             // TODO: For the real db we'll replace this with a connect instead
-            //let mut conn = create_images_db(dbfname.unwrap().to_owned()).expect("Could not create images database.");
-            let mut conn = create_images_db(dbfname.unwrap().to_owned())?;
-            create_images_db_table(&mut conn)?;
-            //let mut conn = Connection::open_in_memory().expect("Could not create images database.");
+            //let conn = create_images_db(dbfname.unwrap().to_owned()).expect("Could not create images database.");
+            let conn = create_images_db(dbfname.unwrap().to_owned())?;
+            create_images_db_table(&conn)?;
+            //let conn = Connection::open_in_memory().expect("Could not create images database.");
             
             // Walk the directory of files
             // Get the full file path, and process the filename into tags
@@ -242,29 +235,10 @@ fn main() -> Result<()> {
                     creation_date: creation_date, last_modified: modified_date,
                     sha1: sha1, md5: md5, source: "".to_string()
                 };
-                //insert_into_db(&conn, image_file).expect("Could not insert into database");
-                //insert_into_db(&mut conn, image_file).expect("Could not insert into database");
-                insert_into_db(&mut conn, image_file);
-                //insert_into_db(conn, image_file).expect("Could not insert into database");
-                //const SQL_INSERT_IMAGE_TABLE: &str =
-                    //"INSERT INTO images (filename, tags, creation_date, last_modified, sha1, md5, source) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)";
-                //conn.execute(
-                    //SQL_INSERT_IMAGE_TABLE, (
-                        //&image_file.filename, &image_file.tags,
-                        //&image_file.creation_date, &image_file.last_modified,
-                        //&image_file.sha1, &image_file.md5,
-                        //&image_file.source),
-                    //).unwrap();
+                insert_into_db(&conn, image_file);
                 index += 1;
             }
-            test_image_db_select(&mut conn);
-
-            //let image_iter = select_image(&mut conn)?;
-            //for image_file in image_iter {
-                //println!("Found image {:?}", image_file);
-            //}
-
-            //select_image(&mut conn);
+            test_image_db_select(&conn);
         }
         _ => {},
     }
