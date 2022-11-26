@@ -99,6 +99,13 @@ fn sha1sum(contents: &String) -> String {
     hex::encode(Sha1::digest(contents))
 }
 
+fn tag_from_filetree(fp: String) -> String {
+    let bfp = fp.split('/');
+    let bfpvec: Vec<&str> = bfp.collect();
+    let tags = &bfpvec[1..bfpvec.len() - 1];
+    String::from(tags.join(","))
+}
+
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
 const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
@@ -156,6 +163,15 @@ fn main() -> Result<()> {
                 // TODO: Add the file to the database
                 let conts = read_to_string(entry.path()).unwrap();
 
+                if conts.is_empty() {
+                    continue; // Ignore empty files
+                }
+
+                // Let's just assume that we are only left with tags from the file folder hierarchy
+                let fp = String::from(entry.path().to_str().unwrap());
+                let tags = tag_from_filetree(fp);
+                println!("{:?}", tags);
+
                 let creation_date = entry.path().metadata().unwrap().created().unwrap();
                 let modified_date = entry.path().metadata().unwrap().modified().unwrap();
                 println!("creation_date: {:?}", creation_date);
@@ -165,8 +181,6 @@ fn main() -> Result<()> {
                 let sha1 = sha1sum(&conts);
                 println!("md5: {}", md5);
                 println!("sha1: {}", sha1);
-                //metadata(entry.path()).unwrap().created;
-
             }
         }
         _ => {},
