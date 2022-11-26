@@ -1,11 +1,19 @@
 #![allow(dead_code, unused_variables)]
 
 // Standard Library
+use std::fs::read_to_string;
+use std::str;
+//use std::alloc::System;
 
 // Third Party Libraries
 use clap::{arg, Command};
 use rusqlite::{Connection, Result};
 use walkdir::WalkDir;
+use md5::{Md5, Digest};
+//use digest::consts::U8;
+use digest::consts::U16;
+use hex;
+//use hex_literal::hex;
 
 #[derive(Debug)]
 struct ImageFile {
@@ -84,6 +92,27 @@ fn test_image_db_select(conn: &Connection) {
     }
 }
 
+//fn md5sum(contents: String) -> md5::Md5::u8, Self::OutputSize> {
+//fn md5sum(contents: String) -> md5::digest::generic_array::GenericArray<u8, md5::digest::typenum::UInt<md5::digest::typenum::UInt<md5::digest::typenum::UInt<md5::digest::typenum::UInt<md5::digest::typenum::UInt<md5::digest::typenum::UTerm, md5::digest::typenum::B1>, md5::digest::typenum::B0>, md5::digest::typenum::B0>, md5::digest::typenum::B0>, md5::digest::typenum::B0>> {
+//fn md5sum(contents: String) -> md5::digest::generic_array::GenericArray<u8, md5::digest::Digest::OutputSize> {
+fn md5sum(contents: String) -> md5::digest::generic_array::GenericArray<u8, U16> {
+//fn md5sum(contents: String) -> Vec<u8> {
+    // create a Md5 hasher instance
+    let mut hasher = Md5::new();
+
+    // process input message
+    hasher.update(contents.as_bytes());
+
+    // acquire hash digest in the form of GenericArray,
+    // which in this case is equivalent to [u8; 16]
+    let result = hasher.finalize();
+    //md5::Digest::output_size();
+    result
+    //result.to_vec()
+    //result.to_vec_in(System);
+    //result.as_slice()
+}
+
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
 const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
@@ -131,11 +160,29 @@ fn main() -> Result<()> {
             let files = WalkDir::new(cwd.unwrap().as_str());
             for entry in files {
                 let entry = entry.unwrap();
+                if entry.path().is_dir() {
+                    continue; // Ignore directories
+                }
                 // TODO: Check if a file name matches any booru regex pattern
                 // TODO: Prompt booru and retrieve html result for tags
                 println!("{}", entry.path().display());
 
                 // TODO: Add the file to the database
+                //let md5 = md5sum(entry.metadata().or_else
+                let conts = read_to_string(entry.path()).unwrap();
+                println!("{conts}");
+                let md5 = md5sum(conts);
+                //println!("{}", str::from_utf8(&md5.to_owned()).unwrap());
+
+                //let md5bytes = &md5.to_owned();
+                //let md5str = str::from_utf8(md5bytes).unwrap();
+                //println!("{}", md5str);
+                //let s = String::from_utf8_lossy(&md5);
+                //let s = String::from_utf8(md5).expect("Found invalid UTF-8");
+                //let s = String::from_utf8(md5).expect("Found invalid UTF-8");
+                //println!("{}", s);
+                //println!("{:x?}", md5);
+                println!("{}", hex::encode(md5));
             }
         }
         _ => {},
