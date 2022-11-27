@@ -247,17 +247,17 @@ fn main() -> Result<()> {
             for entry in files {
                 let entry = entry.unwrap();
 
-                //if entry.path().is_dir() || file_is_empty(entry.path()) {
-                if entry.path().is_dir() {
-                    continue; // Ignore directories
+                if entry.path().is_dir() || file_is_empty(entry.path()) {
+                    continue; // Ignore directories and empty files
                 }
 
                 // TODO: Check if a file name matches any booru regex pattern
                 // TODO: Prompt booru and retrieve html result for tags
-                let conts = read_file_conts(entry.path()).unwrap();
-                if conts.is_empty() {
-                    continue; // Ignore unreadable or empty files
+                let conts = read_file_conts(entry.path());
+                if conts.is_err() {
+                    continue; // Ignore unreadable files
                 }
+                let conts = conts.unwrap();
 
                 // Let's just assume that we are only left with tags from the file folder hierarchy
                 let image_file = create_image_entry(&conts, index, entry);
