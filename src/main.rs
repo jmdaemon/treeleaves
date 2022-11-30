@@ -8,7 +8,7 @@ use std::path::Path;
 use std::io;
 
 // Third Party Libraries
-use clap::{arg, Command};
+use clap::{arg, Arg, ArgAction, Command};
 use chrono::{DateTime, Utc};
 use rusqlite::{Connection, Result};
 use walkdir::WalkDir;
@@ -17,12 +17,12 @@ use sha1::Sha1;
 use hex;
 use lazy_static::lazy_static;
 use regex::Regex;
+use log::{debug, error, trace, info, warn, LevelFilter};
+use pretty_env_logger::env_logger::{Env, Builder};
+use pretty_env_logger::formatted_builder;
+//use env_logger::Env;
 
 lazy_static! {
-    //([0-9]{1,7}[_]{0,2}
-    //static ref REGEX_PONY_BOORU: Regex = Regex::new(r"([0-9]{1,7}(?=(_{0,2})))").unwrap();
-    //static ref REGEX_PONY_BOORU: Regex = Regex::new(r"([0-9]{1,7})(_{0,2})").unwrap();
-    //static ref REGEX_PONY_BOORU: Regex = Regex::new(r"([0-9]{1,7})(_{0,2})").unwrap();
     static ref REGEX_PONY_BOORU: Regex = Regex::new(r"^([0-9]{1,7})(_{0,2})").unwrap();
     //static ref REGEX_4CHAN: Regex = Regex::new(r"([0-9]{1,16}").unwrap();
 }
@@ -124,7 +124,7 @@ fn select_image(conn: &Connection) -> Vec<ImageFile> {
 fn test_image_db_select(conn: &Connection) {
     let image_iter = select_image(conn);
     for image_file in image_iter {
-        println!("Found image {:?}", image_file);
+        debug!("Found image {:?}", image_file);
     }
 }
 
@@ -155,20 +155,20 @@ fn format_time(systime: SystemTime) -> String {
 
 fn create_image_entry(conts: &String, index: i32, entry: walkdir::DirEntry) -> ImageFile {
     let fp = String::from(entry.path().to_str().unwrap());
-    println!("fp: {}", fp);
+    debug!("fp: {}", fp);
 
     let tags = get_image_file_tags(entry.path());
-    println!("tags: {:?}", tags);
+    debug!("tags: {:?}", tags);
 
     let creation_date = format_time(entry.path().metadata().unwrap().created().unwrap());
     let modified_date = format_time(entry.path().metadata().unwrap().modified().unwrap());
-    println!("creation_date: {}", creation_date);
-    println!("modified_date: {}", modified_date);
+    debug!("creation_date: {}", creation_date);
+    debug!("modified_date: {}", modified_date);
 
     let md5 = md5sum(&conts);
     let sha1 = sha1sum(&conts);
-    println!("md5: {}", md5);
-    println!("sha1: {}", sha1);
+    debug!("md5: {}", md5);
+    debug!("sha1: {}", sha1);
 
     let image_file = ImageFile::new(index, fp, tags, creation_date, modified_date, sha1, md5, "".to_string());
     image_file
@@ -199,7 +199,6 @@ fn file_is_empty(fp: &Path) -> bool {
 }
 
 fn get_file_id(fp: &str, re: &Regex) -> String {
-    //String::from(re.captures(fp).unwrap().get(0).unwrap().as_str())
     let caps = re.captures(fp);
     let mut file_id: String = String::new();
     if caps.is_some() {
@@ -209,21 +208,18 @@ fn get_file_id(fp: &str, re: &Regex) -> String {
 }
 
 fn get_file_id_ponybooru(fp: &str) -> String { get_file_id(fp, &REGEX_PONY_BOORU) }
-//fn get_file_id_4chan(fp: &str) { get_file_id(fp, REGEX_4CHAN) }
 
 fn get_image_file_tags(fp: &Path) -> String {
-    //let fpstr = fp.to_str().unwrap();
     let fname = fp.file_name().unwrap().to_str().unwrap().to_string();
     let fextopt = fp.extension();
-    let _fext: String;
+    let fext: String;
 
     if fextopt.is_some() {
-        _fext = fextopt.unwrap().to_str().unwrap().to_string();
+        fext = fextopt.unwrap().to_str().unwrap().to_string();
     }
-    //let fext = fp.extension().unwrap().to_str().unwrap().to_string();
 
     let ponybooru_file_id = get_file_id_ponybooru(fname.as_str());
-    println!("ponybooru_file_id: {ponybooru_file_id}");
+    debug!("ponybooru_file_id: {ponybooru_file_id}");
     let mut tags: String = "".to_string();
 
     if Some(ponybooru_file_id).is_some() {
@@ -240,26 +236,25 @@ fn get_image_file_tags(fp: &Path) -> String {
     tags
 }
 
-    //REGEX_4CHAN.captures(fp).unwrap().get(0).unwrap().as_str();
-    //REGEX_PONY_BOORU.captures(fp).and_then(|cap| {
-    //REGEX_PONY_BOORU.captures(fp).and_then(|cap| {
-        //cap.name("login").map(|login| login.as_str())
-    //})
-//}
-
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
 const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
 const PROGRAM_DESCRIPTION: &str = "Tag and search files easily";
 
 fn main() -> Result<()> {
+    //pretty_env_logger::init();
 
     let matches = Command::new(PROGRAM_NAME)
         .version(VERSION)
         .author(AUTHOR)
         .about(PROGRAM_DESCRIPTION)
-        //.arg(arg!(--two <VALUE>).required(true))
-        //.arg(arg!(--one <VALUE>).required(true))
+        //.arg(Arg::new("verbose")
+            //.short('v')
+            //.required(false)
+            //.action(ArgAction::SetTrue)
+            //.help("Show debug information")
+            //)
+        .arg(arg!(-v --verbose "Toggle verbose information").action(ArgAction::SetTrue))
         .subcommand(
             Command::new("create")
             .about("Creates the database with the given filename")
@@ -272,6 +267,31 @@ fn main() -> Result<()> {
             .arg(arg!([WORKING_DIR]).required(true))
             )
         .get_matches();
+    
+    //let verbose = matches.value_of("verbose").unwrap_or(false).to_owned();
+    let verbose: &bool = matches.get_one("verbose").unwrap();
+    println!("{verbose}");
+
+    if *verbose == true {
+        //Builder::from_env(Env::default().default_filter_or("trace")).init();
+        //Builder::from_env(Env::default().default_filter_or("trace")).init();
+        //pretty_env_logger::formatted_timed_builder().default_format().filter_level(LevelFilter::Trace).init();
+        pretty_env_logger::formatted_timed_builder().filter_level(LevelFilter::Trace).init();
+
+//env_logger::Builder::from_env(Env::default().default_filter_or("warn")).init();
+        //log::set_max_level(LevelFilter::Trace);
+        //log::set_max_level(LevelFilter::max());
+        //log::set_max_level(LevelFilter::Trace);
+        //log::set_max_level(LevelFilter::Debug);
+        //log::set_logger
+        //pretty_env_logger::env_logger::Logger::
+        //log::set_max_level(LevelFilter::Error);
+    }
+    println!("Running");
+    trace!("A");
+    info!("B");
+    debug!("C");
+    //error!("D");
 
     match matches.subcommand() {
         Some(("create", sub_matches)) => {
@@ -291,10 +311,8 @@ fn main() -> Result<()> {
             let cwd = sub_matches.get_one::<String>("WORKING_DIR");
 
             // TODO: For the real db we'll replace this with a connect instead
-            //let conn = create_images_db(dbfname.unwrap().to_owned()).expect("Could not create images database.");
             let conn = create_images_db(dbfname.unwrap().to_owned())?;
             create_images_db_table(&conn)?;
-            //let conn = Connection::open_in_memory().expect("Could not create images database.");
             
             // Walk the directory of files
             // Get the full file path, and process the filename into tags
