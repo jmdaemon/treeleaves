@@ -15,6 +15,17 @@ use walkdir::WalkDir;
 use md5::Md5;
 use sha1::Sha1;
 use hex;
+use lazy_static::lazy_static;
+use regex::Regex;
+
+lazy_static! {
+    //([0-9]{1,7}[_]{0,2}
+    //static ref REGEX_PONY_BOORU: Regex = Regex::new(r"([0-9]{1,7}(?=(_{0,2})))").unwrap();
+    //static ref REGEX_PONY_BOORU: Regex = Regex::new(r"([0-9]{1,7})(_{0,2})").unwrap();
+    //static ref REGEX_PONY_BOORU: Regex = Regex::new(r"([0-9]{1,7})(_{0,2})").unwrap();
+    static ref REGEX_PONY_BOORU: Regex = Regex::new(r"^([0-9]{1,7})(_{0,2})").unwrap();
+    //static ref REGEX_4CHAN: Regex = Regex::new(r"([0-9]{1,16}").unwrap();
+}
 
 #[derive(Debug)]
 struct ImageFile {
@@ -146,7 +157,7 @@ fn create_image_entry(conts: &String, index: i32, entry: walkdir::DirEntry) -> I
     let fp = String::from(entry.path().to_str().unwrap());
     println!("fp: {}", fp);
 
-    let tags = tag_from_filetree(&fp);
+    let tags = get_image_file_tags(entry.path());
     println!("tags: {:?}", tags);
 
     let creation_date = format_time(entry.path().metadata().unwrap().created().unwrap());
@@ -186,6 +197,55 @@ fn file_is_empty(fp: &Path) -> bool {
         Err(error) => false
     }
 }
+
+fn get_file_id(fp: &str, re: &Regex) -> String {
+    //String::from(re.captures(fp).unwrap().get(0).unwrap().as_str())
+    let caps = re.captures(fp);
+    let mut file_id: String = String::new();
+    if caps.is_some() {
+        file_id = caps.unwrap().get(0).unwrap().as_str().to_string();
+    }
+    file_id
+}
+
+fn get_file_id_ponybooru(fp: &str) -> String { get_file_id(fp, &REGEX_PONY_BOORU) }
+//fn get_file_id_4chan(fp: &str) { get_file_id(fp, REGEX_4CHAN) }
+
+fn get_image_file_tags(fp: &Path) -> String {
+    //let fpstr = fp.to_str().unwrap();
+    let fname = fp.file_name().unwrap().to_str().unwrap().to_string();
+    let fextopt = fp.extension();
+    let _fext: String;
+
+    if fextopt.is_some() {
+        _fext = fextopt.unwrap().to_str().unwrap().to_string();
+    }
+    //let fext = fp.extension().unwrap().to_str().unwrap().to_string();
+
+    let ponybooru_file_id = get_file_id_ponybooru(fname.as_str());
+    println!("ponybooru_file_id: {ponybooru_file_id}");
+    let mut tags: String = "".to_string();
+
+    if Some(ponybooru_file_id).is_some() {
+        let match_found = false;
+        // TODO:
+        // Query the available boorus for tags
+        // Check the file hash
+        // If a match is found, retrieve all the tags and format the string from the tags
+        // Else if not found, treat as a normal file
+        if !match_found {
+            tags = tag_from_filetree(&fp.to_str().unwrap().to_string());
+        }
+    }
+    tags
+}
+
+    //REGEX_4CHAN.captures(fp).unwrap().get(0).unwrap().as_str();
+    //REGEX_PONY_BOORU.captures(fp).and_then(|cap| {
+    //REGEX_PONY_BOORU.captures(fp).and_then(|cap| {
+        //cap.name("login").map(|login| login.as_str())
+    //})
+//}
 
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
