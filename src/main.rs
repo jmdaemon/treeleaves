@@ -253,7 +253,7 @@ fn fetch_tags_ponybooru(dom: &tl::VDom, parser: &tl::Parser) -> Vec<String> {
         let tags_list = elem.get(parser).unwrap();
         for tagelem in tags_list.children() {
             let tag = tags_list.inner_text(parser);
-            println!("{}", tag);
+            debug!("{}", tag);
             tagvec.push(tag.to_string());
         }
     }
@@ -359,16 +359,14 @@ fn main() -> Result<()> {
                 "ponerpics" => {
                     let url = fmt_url_req(&"https://ponerpics.org/".to_string(), file);
                     let html = send_req(&url).unwrap();
-                    println!("{html}");
+                    debug!("HTML Response:\n{html}");
 
-                    //let dom = Dom::parse(html).is_ok();
-                    println!("Parsing html response.");
+                    debug!("Parsing html response.");
                     let dom = tl::parse(html.as_str(), tl::ParserOptions::default()).unwrap();
                     let parser = dom.parser();
                     
-                    println!("Retrieving tags.");
+                    debug!("Retrieving tags.");
                     let tagvec = fetch_tags_ponybooru(&dom, &parser);
-                    println!("{:?}", tagvec);
                     let tags = tagvec.join(",");
                     println!("{}", tags);
                 },
