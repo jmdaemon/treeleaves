@@ -19,6 +19,7 @@ use regex::Regex;
 use rusqlite::{Connection, Result};
 use sha1::Sha1;
 use walkdir::WalkDir;
+use tl;
 
 lazy_static! {
     static ref REGEX_PONY_BOORU: Regex = Regex::new(r"^([0-9]{1,7})(_{0,2})").unwrap();
@@ -234,6 +235,17 @@ fn get_image_file_tags(fp: &Path) -> String {
     tags
 }
 
+fn send_req(url: &String) -> Result<String, Box<dyn std::error::Error>> {
+    let resp = reqwest::blocking::get(url)?.text()?;
+    //println!("{:#?}", resp);
+    Ok(resp)
+}
+
+fn fmt_url_req(url: &String, id: &String) -> String {
+    //format!("{url}/{id}")
+    format!("{}/{}", url, id)
+}
+
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
 const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
@@ -255,6 +267,13 @@ fn main() -> Result<()> {
             .about("Populates the database")
             .arg(arg!([FILENAME]).required(true))
             .arg(arg!([WORKING_DIR]).required(true))
+            )
+        .subcommand(
+            Command::new("fetch")
+            .about("Fetches tags for a file externally")
+            .arg(arg!([FILENAME]).required(true))
+            .arg(arg!([FILE]).required(true))
+            .arg(arg!([TAG_TYPE]).required(true))
             )
         .get_matches();
     
@@ -309,6 +328,90 @@ fn main() -> Result<()> {
                 index += 1;
             }
         test_image_db_select(&conn);
+        }
+        Some(("fetch", sub_matches)) => {
+            let dbfname = sub_matches.get_one::<String>("FILENAME").unwrap();
+            let file = sub_matches.get_one::<String>("FILE").unwrap();
+            let tag_type = sub_matches.get_one::<String>("TAG_TYPE").unwrap();
+
+            // Parse file path
+            let fp = Path::new(file);
+            let fname = fp.file_name().unwrap().to_str().unwrap().to_string();
+            let fextopt = fp.extension();
+
+            // Send http request
+            match tag_type.as_str() {
+                "ponerpics" => {
+                    let url = fmt_url_req(&"https://ponerpics.org/".to_string(), file);
+                    let html = send_req(&url).unwrap();
+                    println!("{html}");
+
+                    //let dom = Dom::parse(html).is_ok();
+                    println!("Parsing html response.");
+                    let dom = tl::parse(html.as_str(), tl::ParserOptions::default()).unwrap();
+                    let parser = dom.parser();
+                    
+                    println!("Retrieving tags.");
+                    //let mut elems = dom.query_selector(".tag-list").unwrap();
+                    //let mut elems = dom.query_selector(".tag dropdown").unwrap();
+                    //let elems = dom.query_selector("span .tag .dropdown").unwrap();
+
+                    //let mut elems = dom.query_selector(".tag-list").unwrap();
+                    //let mut elems = dom.query_selector("div .tag-list").unwrap();
+                    //let mut elems = dom.query_selector(".tag-list").unwrap();
+
+                    //let mut elems = dom.query_selector(".tag").unwrap();
+                    let mut elems = dom.query_selector(".tag__name").unwrap();
+
+                    //let elems = dom.query_selector("[tag-list]")
+                        //.expect("Failed to find element")
+                        //.get(parser)
+                        //.unwrap();
+
+                    //for elem in elems.next() {
+                    //println!("{:?}", elems);
+
+                    //let asdf = elems.get(dom.parser()).unwrap();
+
+                    //let node = elems
+
+                    //for elem in elems {
+                    //}
+
+                    //let tag_list = elems.next().unwrap();
+                    
+                    //let tag_list = elems.next().unwrap();
+
+                    //let tag_list = tag_list.get(parser).unwrap();
+
+                    //for tagelem in tag_list.children() {
+                        ////let tag = tagelem.all(parser);
+                        ////println!("{:?}\n\n", tag);
+                        //println!("{}", tag_list.inner_text(parser));
+
+                    let mut tagvec: Vec<String> = vec![];
+                    for elem in elems {
+                        let tags_list = elem.get(parser).unwrap();
+                        for tagelem in tags_list.children() {
+                            let tag = tags_list.inner_text(parser);
+                            println!("{}", tag);
+                            tagvec.push(tag.to_string());
+                        }
+                    }
+                    println!("{:?}", tagvec);
+
+                    //let tag_list = elems.next().unwrap();
+
+                    //for elem in elems {
+                        //println!("{:?}", elem);
+                    //}
+
+                    //println!("{html}")
+                },
+                _ => {
+                    // No-op
+                }
+            }
         }
         _ => {},
     }
