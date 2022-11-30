@@ -246,6 +246,21 @@ fn fmt_url_req(url: &String, id: &String) -> String {
     format!("{}/{}", url, id)
 }
 
+fn fetch_tags_ponybooru(dom: &tl::VDom, parser: &tl::Parser) -> Vec<String> {
+    let elems = dom.query_selector(".tag__name").unwrap();
+    let mut tagvec: Vec<String> = vec![];
+    for elem in elems {
+        let tags_list = elem.get(parser).unwrap();
+        for tagelem in tags_list.children() {
+            let tag = tags_list.inner_text(parser);
+            println!("{}", tag);
+            tagvec.push(tag.to_string());
+        }
+    }
+    tagvec
+
+}
+
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
 const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
@@ -352,61 +367,10 @@ fn main() -> Result<()> {
                     let parser = dom.parser();
                     
                     println!("Retrieving tags.");
-                    //let mut elems = dom.query_selector(".tag-list").unwrap();
-                    //let mut elems = dom.query_selector(".tag dropdown").unwrap();
-                    //let elems = dom.query_selector("span .tag .dropdown").unwrap();
-
-                    //let mut elems = dom.query_selector(".tag-list").unwrap();
-                    //let mut elems = dom.query_selector("div .tag-list").unwrap();
-                    //let mut elems = dom.query_selector(".tag-list").unwrap();
-
-                    //let mut elems = dom.query_selector(".tag").unwrap();
-                    let mut elems = dom.query_selector(".tag__name").unwrap();
-
-                    //let elems = dom.query_selector("[tag-list]")
-                        //.expect("Failed to find element")
-                        //.get(parser)
-                        //.unwrap();
-
-                    //for elem in elems.next() {
-                    //println!("{:?}", elems);
-
-                    //let asdf = elems.get(dom.parser()).unwrap();
-
-                    //let node = elems
-
-                    //for elem in elems {
-                    //}
-
-                    //let tag_list = elems.next().unwrap();
-                    
-                    //let tag_list = elems.next().unwrap();
-
-                    //let tag_list = tag_list.get(parser).unwrap();
-
-                    //for tagelem in tag_list.children() {
-                        ////let tag = tagelem.all(parser);
-                        ////println!("{:?}\n\n", tag);
-                        //println!("{}", tag_list.inner_text(parser));
-
-                    let mut tagvec: Vec<String> = vec![];
-                    for elem in elems {
-                        let tags_list = elem.get(parser).unwrap();
-                        for tagelem in tags_list.children() {
-                            let tag = tags_list.inner_text(parser);
-                            println!("{}", tag);
-                            tagvec.push(tag.to_string());
-                        }
-                    }
+                    let tagvec = fetch_tags_ponybooru(&dom, &parser);
                     println!("{:?}", tagvec);
-
-                    //let tag_list = elems.next().unwrap();
-
-                    //for elem in elems {
-                        //println!("{:?}", elem);
-                    //}
-
-                    //println!("{html}")
+                    let tags = tagvec.join(",");
+                    println!("{}", tags);
                 },
                 _ => {
                     // No-op
