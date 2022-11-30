@@ -2,25 +2,23 @@
 
 // Standard Library
 use std::{fs::read_to_string, vec};
+use std::io;
+use std::path::Path;
 use std::str;
 use std::time::SystemTime;
-use std::path::Path;
-use std::io;
 
 // Third Party Libraries
-use clap::{arg, Arg, ArgAction, Command};
 use chrono::{DateTime, Utc};
-use rusqlite::{Connection, Result};
-use walkdir::WalkDir;
-use md5::Md5;
-use sha1::Sha1;
+use clap::{arg, ArgAction, Command};
 use hex;
 use lazy_static::lazy_static;
-use regex::Regex;
 use log::{debug, error, trace, info, warn, LevelFilter};
-use pretty_env_logger::env_logger::{Env, Builder};
-use pretty_env_logger::formatted_builder;
-//use env_logger::Env;
+use md5::Md5;
+use pretty_env_logger::formatted_timed_builder;
+use regex::Regex;
+use rusqlite::{Connection, Result};
+use sha1::Sha1;
+use walkdir::WalkDir;
 
 lazy_static! {
     static ref REGEX_PONY_BOORU: Regex = Regex::new(r"^([0-9]{1,7})(_{0,2})").unwrap();
@@ -242,18 +240,10 @@ const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
 const PROGRAM_DESCRIPTION: &str = "Tag and search files easily";
 
 fn main() -> Result<()> {
-    //pretty_env_logger::init();
-
     let matches = Command::new(PROGRAM_NAME)
         .version(VERSION)
         .author(AUTHOR)
         .about(PROGRAM_DESCRIPTION)
-        //.arg(Arg::new("verbose")
-            //.short('v')
-            //.required(false)
-            //.action(ArgAction::SetTrue)
-            //.help("Show debug information")
-            //)
         .arg(arg!(-v --verbose "Toggle verbose information").action(ArgAction::SetTrue))
         .subcommand(
             Command::new("create")
@@ -268,39 +258,15 @@ fn main() -> Result<()> {
             )
         .get_matches();
     
-    //let verbose = matches.value_of("verbose").unwrap_or(false).to_owned();
     let verbose: &bool = matches.get_one("verbose").unwrap();
-    println!("{verbose}");
 
     if *verbose == true {
-        //Builder::from_env(Env::default().default_filter_or("trace")).init();
-        //Builder::from_env(Env::default().default_filter_or("trace")).init();
-        //pretty_env_logger::formatted_timed_builder().default_format().filter_level(LevelFilter::Trace).init();
-        pretty_env_logger::formatted_timed_builder().filter_level(LevelFilter::Trace).init();
-
-//env_logger::Builder::from_env(Env::default().default_filter_or("warn")).init();
-        //log::set_max_level(LevelFilter::Trace);
-        //log::set_max_level(LevelFilter::max());
-        //log::set_max_level(LevelFilter::Trace);
-        //log::set_max_level(LevelFilter::Debug);
-        //log::set_logger
-        //pretty_env_logger::env_logger::Logger::
-        //log::set_max_level(LevelFilter::Error);
+        formatted_timed_builder().filter_level(LevelFilter::Trace).init();
     }
-    println!("Running");
-    trace!("A");
-    info!("B");
-    debug!("C");
-    //error!("D");
 
     match matches.subcommand() {
         Some(("create", sub_matches)) => {
             let dbfname = sub_matches.get_one::<String>("FILENAME");
-            //let conn = create_images_db(dbfname.unwrap().to_owned())?;
-            //create_images_db_table(&conn)?;
-            //test_image_db_insert(&conn)?;
-            //test_image_db_select(&conn);
-
             let conn = create_images_db(dbfname.unwrap().to_owned())?;
             create_images_db_table(&conn)?;
             test_image_db_insert(&conn)?;
