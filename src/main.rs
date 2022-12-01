@@ -4,6 +4,7 @@
 use std::{fs::read_to_string, vec};
 use std::io;
 use std::path::Path;
+use std::process::exit;
 use std::str;
 use std::time::SystemTime;
 
@@ -146,9 +147,6 @@ fn tag_from_filetree(fp: &String) -> String {
 }
 
 fn format_time(systime: SystemTime) -> String {
-    //let now: DateTime<Utc> = systime.into();
-    //let now = nsystime.into().to_rfc3339();
-    //now
     let dt: DateTime<Utc> = systime.into();
     dt.to_rfc3339()
 }
@@ -250,7 +248,6 @@ fn fetch_tags_ponybooru(dom: &tl::VDom, parser: &tl::Parser) -> Vec<String> {
 }
 
 fn fetch_tags_from_booru(url: &String, id: &String) -> String {
-    //let url = fmt_url_req(&"https://ponerpics.org/".to_string(), file);
     let requrl = fmt_url_req(url, id);
     let html = send_req(&requrl).unwrap();
     debug!("HTML Response:\n{html}");
@@ -266,7 +263,6 @@ fn fetch_tags_from_booru(url: &String, id: &String) -> String {
     println!("{}", tags);
     tags
 }
-
 
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
@@ -307,11 +303,22 @@ fn main() -> Result<()> {
 
     match matches.subcommand() {
         Some(("create", sub_matches)) => {
+            // Initializes the database, and the specified table type
             let dbfname = sub_matches.get_one::<String>("FILENAME");
+            let dbpath = Path::new(dbfname.unwrap());
+            if dbpath.exists() {
+                println!("Database already exists.");
+                exit(1);
+            }
             let conn = create_images_db(dbfname.unwrap().to_owned())?;
             create_images_db_table(&conn)?;
-            test_image_db_insert(&conn)?;
-            test_image_db_select(&conn);
+
+            //conn.backup(dbfname.unwrap(), dbpath, None);
+            //rusqlite::DatabaseName::Main
+            conn.backup(rusqlite::DatabaseName::Main, dbpath, None).unwrap();
+
+            //test_image_db_insert(&conn)?;
+            //test_image_db_select(&conn);
         }
         Some(("populate", sub_matches)) => {
             let dbfname = sub_matches.get_one::<String>("FILENAME");

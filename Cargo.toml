@@ -16,7 +16,7 @@ md-5 = "0.10.5"
 pretty_env_logger = "0.4.0"
 regex = "1.7.0"
 reqwest = { version = "0.11", features = ["json", "blocking"] }
-rusqlite = { version = "0.28.0", features = ["bundled"] }
+rusqlite = { version = "0.28.0", features = ["bundled", "backup"] }
 sha1 = "0.10.5"
 #tokio = { version = "1", features = ["full"] }
 walkdir = "2.3.2"
