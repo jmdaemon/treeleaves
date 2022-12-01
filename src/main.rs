@@ -248,49 +248,11 @@ fn fmt_url_req(url: &String, id: &String) -> String {
 
 fn fetch_tags_ponybooru(dom: &tl::VDom, parser: &tl::Parser) -> Vec<String> {
     let elems = dom.query_selector(".tag__name").unwrap();
-    //let mut tagvec: Vec<String> = vec![];
-    //let mut tagvec = elems.map(
-    //let mut tagvec = elems.map(
-    let tagvec: Vec<String> = elems.map(|elem| {
-        let tags_list = elem.get(parser).unwrap();
-        tags_list.inner_text(parser).to_string()
-        //tags_list.children().map( |tagelem| { tags_list.inner_text(parser).to_string() })
-
-                //let tag = tags_list.inner_text(parser);
-                //tag.to_string()
-            //})
-
-        //tags_list.children().for_each(
-            //|tags_list| {
-                //let tag = tags_list.inner_text(parser);
-                //tag.to_string()
-            //}));
-
-        //tags_list.children().iter().map(
-            //|tags_list| {
-                //let tag = tags_list.inner_text(parser);
-                //tag.to_string()
-        //})
-
-        //for tagelem in tags_list.children() {
-            //let tag = tags_list.inner_text(parser);
-            //debug!("{}", tag);
-            ////tagvec.push(tag.to_string());
-            //tag.to_string()
-        //}
+    let tags: Vec<String> = elems.map(|elem| {
+            let tagslist= elem.get(parser).unwrap();
+            tagslist.inner_text(parser).to_string()
     }).collect();
-
-    //let mut tagvec: Vec<String> = vec![];
-    //for elem in elems {
-        //let tags_list = elem.get(parser).unwrap();
-        //for tagelem in tags_list.children() {
-            //let tag = tags_list.inner_text(parser);
-            //debug!("{}", tag);
-            //tagvec.push(tag.to_string());
-        //}
-    //}
-    tagvec
-
+    tags
 }
 
 const PROGRAM_NAME: &str        = "treeleaves";
