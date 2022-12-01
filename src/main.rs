@@ -23,6 +23,7 @@ use tl;
 
 lazy_static! {
     static ref REGEX_PONY_BOORU: Regex = Regex::new(r"^([0-9]{1,7})(_{0,2})").unwrap();
+    static ref PONERPICS: String = String::from("https://ponerpics.org");
     //static ref REGEX_4CHAN: Regex = Regex::new(r"([0-9]{1,16}").unwrap();
 }
 
@@ -217,34 +218,27 @@ fn get_image_file_tags(fp: &Path) -> String {
         fext = fextopt.unwrap().to_str().unwrap().to_string();
     }
 
+    // TODO:
+    // Query the available boorus for tags
+    // Check the file hash
     let ponybooru_file_id = get_file_id_ponybooru(fname.as_str());
     debug!("ponybooru_file_id: {ponybooru_file_id}");
     let mut tags: String = "".to_string();
 
-    if Some(ponybooru_file_id).is_some() {
-        let match_found = false;
-        // TODO:
-        // Query the available boorus for tags
-        // Check the file hash
-        // If a match is found, retrieve all the tags and format the string from the tags
-        // Else if not found, treat as a normal file
-        if !match_found {
-            tags = tag_from_filetree(&fp.to_str().unwrap().to_string());
-        }
+    if Some(&ponybooru_file_id).is_some() {
+        // If there is a match, use that as the tags as the tags
+
+    } else if ponybooru_file_id.is_empty() {
+        // Fallback to using default tags
+        tags = tag_from_filetree(&fp.to_str().unwrap().to_string());
     }
+
+    // TODO: Add option to append local tags onto booru tags
     tags
 }
 
-fn send_req(url: &String) -> Result<String, Box<dyn std::error::Error>> {
-    let resp = reqwest::blocking::get(url)?.text()?;
-    //println!("{:#?}", resp);
-    Ok(resp)
-}
-
-fn fmt_url_req(url: &String, id: &String) -> String {
-    //format!("{url}/{id}")
-    format!("{}/{}", url, id)
-}
+fn send_req(url: &String) -> Result<String, Box<dyn std::error::Error>> { Ok(reqwest::blocking::get(url)?.text()?) }
+fn fmt_url_req(url: &String, id: &String) -> String { format!("{url}/{id}") }
 
 fn fetch_tags_ponybooru(dom: &tl::VDom, parser: &tl::Parser) -> Vec<String> {
     let elems = dom.query_selector(".tag__name").unwrap();
@@ -254,6 +248,25 @@ fn fetch_tags_ponybooru(dom: &tl::VDom, parser: &tl::Parser) -> Vec<String> {
     }).collect();
     tags
 }
+
+fn fetch_tags_from_booru(url: &String, id: &String) -> String {
+    //let url = fmt_url_req(&"https://ponerpics.org/".to_string(), file);
+    let requrl = fmt_url_req(url, id);
+    let html = send_req(&requrl).unwrap();
+    debug!("HTML Response:\n{html}");
+
+    debug!("Parsing html response.");
+    let dom = tl::parse(html.as_str(), tl::ParserOptions::default()).unwrap();
+    let parser = dom.parser();
+    
+    debug!("Retrieving tags.");
+    // TODO: Remove hardcoding later
+    let tagvec = fetch_tags_ponybooru(&dom, &parser);
+    let tags = tagvec.join(",");
+    println!("{}", tags);
+    tags
+}
+
 
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
@@ -348,22 +361,12 @@ fn main() -> Result<()> {
             let fname = fp.file_name().unwrap().to_str().unwrap().to_string();
             let fextopt = fp.extension();
 
+            // Parse the file path
+            let ponybooru_file_id = get_file_id_ponybooru(fname.as_str());
+
             // Send http request
             match tag_type.as_str() {
-                "ponerpics" => {
-                    let url = fmt_url_req(&"https://ponerpics.org/".to_string(), file);
-                    let html = send_req(&url).unwrap();
-                    debug!("HTML Response:\n{html}");
-
-                    debug!("Parsing html response.");
-                    let dom = tl::parse(html.as_str(), tl::ParserOptions::default()).unwrap();
-                    let parser = dom.parser();
-                    
-                    debug!("Retrieving tags.");
-                    let tagvec = fetch_tags_ponybooru(&dom, &parser);
-                    let tags = tagvec.join(",");
-                    println!("{}", tags);
-                },
+                "ponerpics" => { fetch_tags_from_booru(&PONERPICS, &ponybooru_file_id); },
                 _ => {
                     // No-op
                 }
