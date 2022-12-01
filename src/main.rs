@@ -278,7 +278,8 @@ fn main() -> Result<()> {
         .subcommand(
             Command::new("create")
             .about("Creates the database with the given filename")
-            .arg(arg!([FILENAME]).required(true)),
+            .arg(arg!([FILENAME]).required(true))
+            .arg(arg!([TAB_TYPE]).required(true)),
             )
         .subcommand(
             Command::new("populate")
@@ -305,20 +306,29 @@ fn main() -> Result<()> {
         Some(("create", sub_matches)) => {
             // Initializes the database, and the specified table type
             let dbfname = sub_matches.get_one::<String>("FILENAME");
+            let tab_type = sub_matches.get_one::<String>("TAB_TYPE");
             let dbpath = Path::new(dbfname.unwrap());
             if dbpath.exists() {
                 println!("Database already exists.");
+                // Test the database
+                let conn = create_images_db(dbfname.unwrap().to_owned())?;
+                test_image_db_insert(&conn)?;
+                test_image_db_select(&conn);
                 exit(1);
             }
+
             let conn = create_images_db(dbfname.unwrap().to_owned())?;
-            create_images_db_table(&conn)?;
-
-            //conn.backup(dbfname.unwrap(), dbpath, None);
-            //rusqlite::DatabaseName::Main
+            match tab_type.unwrap().as_str() {
+                "imagedb" => {
+                    create_images_db_table(&conn)?;
+                    let fullpath = dbpath.to_path_buf();
+                    //println!("Created database {}", dbpath.canonicalize().unwrap().to_str().unwrap());
+                    //println!("Created database {}", std::fs::canonicalize(&fullpath).unwrap().to_str().unwrap());
+                    println!("Created database {}/{}", std::env::current_dir().unwrap().to_str().unwrap(), dbfname.unwrap());
+                },
+                _ => {}
+            }
             conn.backup(rusqlite::DatabaseName::Main, dbpath, None).unwrap();
-
-            //test_image_db_insert(&conn)?;
-            //test_image_db_select(&conn);
         }
         Some(("populate", sub_matches)) => {
             let dbfname = sub_matches.get_one::<String>("FILENAME");
