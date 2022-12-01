@@ -264,6 +264,38 @@ fn fetch_tags_from_booru(url: &String, id: &String) -> String {
     tags
 }
 
+fn populate_images_db(cwd: &String, conn: &Connection) -> Result<(), rusqlite::Error> {
+    // Walk the directory of files
+    // Get the full file path, and process the filename into tags
+    // Processing:
+    // 1. Add support for booru style file name tags [FEATURE]
+    // 2. If not available from a booru, chop the file path into tags, and format appropriately
+    // 3. Add the file to the database with the given tags
+    let files = WalkDir::new(cwd.as_str());
+    let mut index = 0;
+    for entry in files {
+        let entry = entry.unwrap();
+
+        if entry.path().is_dir() || file_is_empty(entry.path()) {
+            continue; // Ignore directories and empty files
+        }
+
+        // TODO: Check if a file name matches any booru regex pattern
+        // TODO: Prompt booru and retrieve html result for tags
+        let conts = read_file_conts(entry.path());
+        if conts.is_err() {
+            continue; // Ignore unreadable files
+        }
+        let conts = conts.unwrap();
+
+        // Let's just assume that we are only left with tags from the file folder hierarchy
+        let image_file = create_image_entry(&conts, index, entry);
+        insert_into_db(&conn, image_file)?;
+        index += 1;
+    }
+    Ok(())
+}
+
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
 const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
@@ -322,8 +354,6 @@ fn main() -> Result<()> {
                 "imagedb" => {
                     create_images_db_table(&conn)?;
                     let fullpath = dbpath.to_path_buf();
-                    //println!("Created database {}", dbpath.canonicalize().unwrap().to_str().unwrap());
-                    //println!("Created database {}", std::fs::canonicalize(&fullpath).unwrap().to_str().unwrap());
                     println!("Created database {}/{}", std::env::current_dir().unwrap().to_str().unwrap(), dbfname.unwrap());
                 },
                 _ => {}
@@ -334,39 +364,18 @@ fn main() -> Result<()> {
             let dbfname = sub_matches.get_one::<String>("FILENAME");
             let cwd = sub_matches.get_one::<String>("WORKING_DIR");
 
-            // TODO: For the real db we'll replace this with a connect instead
-            let conn = create_images_db(dbfname.unwrap().to_owned())?;
-            create_images_db_table(&conn)?;
-            
-            // Walk the directory of files
-            // Get the full file path, and process the filename into tags
-            // Processing:
-            // 1. Add support for booru style file name tags [FEATURE]
-            // 2. If not available from a booru, chop the file path into tags, and format appropriately
-            // 3. Add the file to the database with the given tags
-            let files = WalkDir::new(cwd.unwrap().as_str());
-            let mut index = 0;
-            for entry in files {
-                let entry = entry.unwrap();
-
-                if entry.path().is_dir() || file_is_empty(entry.path()) {
-                    continue; // Ignore directories and empty files
-                }
-
-                // TODO: Check if a file name matches any booru regex pattern
-                // TODO: Prompt booru and retrieve html result for tags
-                let conts = read_file_conts(entry.path());
-                if conts.is_err() {
-                    continue; // Ignore unreadable files
-                }
-                let conts = conts.unwrap();
-
-                // Let's just assume that we are only left with tags from the file folder hierarchy
-                let image_file = create_image_entry(&conts, index, entry);
-                insert_into_db(&conn, image_file)?;
-                index += 1;
+            let dbpath = Path::new(dbfname.unwrap());
+            if !dbpath.exists() {
+                // Ensure the database exists and the file exists
+                println!("Database does not exist.");
+                exit(1);
             }
-        test_image_db_select(&conn);
+
+            let conn = Connection::open(dbpath)?;
+            populate_images_db(cwd.unwrap(), &conn)?;
+
+            // TODO: Remove this later, or create designated test/peek command
+            test_image_db_select(&conn);
         }
         Some(("fetch", sub_matches)) => {
             let dbfname = sub_matches.get_one::<String>("FILENAME").unwrap();
