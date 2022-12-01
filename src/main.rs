@@ -308,6 +308,11 @@ fn main() -> Result<()> {
         .about(PROGRAM_DESCRIPTION)
         .arg(arg!(-v --verbose "Toggle verbose information").action(ArgAction::SetTrue))
         .subcommand(
+            Command::new("show")
+            .about("Creates the database with the given filename")
+            .arg(arg!([FILENAME]).required(true))
+        )
+        .subcommand(
             Command::new("create")
             .about("Creates the database with the given filename")
             .arg(arg!([FILENAME]).required(true))
@@ -335,6 +340,20 @@ fn main() -> Result<()> {
     }
 
     match matches.subcommand() {
+        Some(("show", sub_matches)) => {
+            // Shows the entries in the database
+            let dbfname = sub_matches.get_one::<String>("FILENAME");
+            let dbpath = Path::new(dbfname.unwrap());
+            if !dbpath.exists() {
+                println!("Database does not exist.");
+                exit(1);
+            }
+            let conn = Connection::open(dbpath)?;
+            let image_iter = select_image(&conn);
+            for image_file in image_iter {
+                println!("Found image {:?}", image_file);
+            }
+        }
         Some(("create", sub_matches)) => {
             // Initializes the database, and the specified table type
             let dbfname = sub_matches.get_one::<String>("FILENAME");
@@ -373,9 +392,7 @@ fn main() -> Result<()> {
 
             let conn = Connection::open(dbpath)?;
             populate_images_db(cwd.unwrap(), &conn)?;
-
-            // TODO: Remove this later, or create designated test/peek command
-            test_image_db_select(&conn);
+            println!("Sucessfully populated database {}", dbfname.unwrap());
         }
         Some(("fetch", sub_matches)) => {
             let dbfname = sub_matches.get_one::<String>("FILENAME").unwrap();

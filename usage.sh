@@ -8,10 +8,12 @@ CWD="."
 
 # Standalone Binary
 treeleaves create $DB_NAME $DB_TYPE
+treeleaves show $DB_NAME
 treeleaves populate $DB_NAME $CWD
 treeleaves fetch $DB_NAME $IMAGE_ID $PBOORU
 
 # Cargo
 # cargo run -- create $DB_NAME
+# cargo run -- show $DB_NAME
 # cargo run -- populate $DB_NAME $CWD
 # cargo run -- $DB_NAME $IMAGE_ID $PBOORU
