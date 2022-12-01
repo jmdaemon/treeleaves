@@ -308,16 +308,16 @@ fn main() -> Result<()> {
         .about(PROGRAM_DESCRIPTION)
         .arg(arg!(-v --verbose "Toggle verbose information").action(ArgAction::SetTrue))
         .subcommand(
-            Command::new("show")
-            .about("Creates the database with the given filename")
-            .arg(arg!([FILENAME]).required(true))
-        )
-        .subcommand(
             Command::new("create")
             .about("Creates the database with the given filename")
             .arg(arg!([FILENAME]).required(true))
             .arg(arg!([TAB_TYPE]).required(true)),
             )
+        .subcommand(
+            Command::new("show")
+            .about("Creates the database with the given filename")
+            .arg(arg!([FILENAME]).required(true))
+        )
         .subcommand(
             Command::new("populate")
             .about("Populates the database")
@@ -340,31 +340,13 @@ fn main() -> Result<()> {
     }
 
     match matches.subcommand() {
-        Some(("show", sub_matches)) => {
-            // Shows the entries in the database
-            let dbfname = sub_matches.get_one::<String>("FILENAME");
-            let dbpath = Path::new(dbfname.unwrap());
-            if !dbpath.exists() {
-                println!("Database does not exist.");
-                exit(1);
-            }
-            let conn = Connection::open(dbpath)?;
-            let image_iter = select_image(&conn);
-            for image_file in image_iter {
-                println!("Found image {:?}", image_file);
-            }
-        }
         Some(("create", sub_matches)) => {
             // Initializes the database, and the specified table type
             let dbfname = sub_matches.get_one::<String>("FILENAME");
             let tab_type = sub_matches.get_one::<String>("TAB_TYPE");
             let dbpath = Path::new(dbfname.unwrap());
             if dbpath.exists() {
-                println!("Database already exists.");
-                // Test the database
-                let conn = create_images_db(dbfname.unwrap().to_owned())?;
-                test_image_db_insert(&conn)?;
-                test_image_db_select(&conn);
+                eprintln!("Database already exists.");
                 exit(1);
             }
 
@@ -378,6 +360,20 @@ fn main() -> Result<()> {
                 _ => {}
             }
             conn.backup(rusqlite::DatabaseName::Main, dbpath, None).unwrap();
+        }
+        Some(("show", sub_matches)) => {
+            // Shows the entries in the database
+            let dbfname = sub_matches.get_one::<String>("FILENAME");
+            let dbpath = Path::new(dbfname.unwrap());
+            if !dbpath.exists() {
+                println!("Database does not exist.");
+                exit(1);
+            }
+            let conn = Connection::open(dbpath)?;
+            let image_iter = select_image(&conn);
+            for image_file in image_iter {
+                println!("Found image {:?}", image_file);
+            }
         }
         Some(("populate", sub_matches)) => {
             let dbfname = sub_matches.get_one::<String>("FILENAME");
