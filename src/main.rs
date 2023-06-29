@@ -296,6 +296,16 @@ fn populate_images_db(cwd: &String, conn: &Connection) -> Result<(), rusqlite::E
     Ok(())
 }
 
+// TODO:
+// Create the actual file browser
+// - Use Winit and GTK
+// - Create widgets
+// - Add features
+// Housekeeping:
+// - Add more boorus
+// - Refine function names, split into modules
+// - Create and expose api for use in the filebrowser
+
 const PROGRAM_NAME: &str        = "treeleaves";
 const VERSION: &str             = "0.1.0";
 const AUTHOR: &str              = "Joseph Diza. <josephm.diza@gmail.com>";
