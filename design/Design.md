@@ -21,12 +21,16 @@ The objective of the database are to:
 <!--- Produce file hash-->
 <!--- Produce interface for users to search files-->
 
-- Maintain some file hash information
-- Maintain complete file name information
-- Maintain some file name variant information
-- Maintain some file source information
-- Maintain complete file tags information
-- Maintain complete file alias information
+- Maintain information on user files
+- Maintain some information on file hash
+- Maintain complete information file name
+- Maintain some information on file name variants
+- Maintain some information on file sources
+- Maintain complete information on file tags
+- Maintain complete information on file alias
+- Maintain complete information on file type
+- Maintain complete information on file mime type
+- Maintain complete information on file size
 
 - Keep track of duplicate files
 - Keep track of current file paths
