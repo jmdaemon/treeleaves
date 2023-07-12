@@ -1,5 +1,12 @@
 # Design
 
+Design document and rationale for the Treeleaves database.
+
+## Table of Contents
+
+- [Mission Statement](#mission-statement)
+- [Mission Objective](#mission-objective)
+
 ## Mission Statement
 
 The purpose of the Treeleaves database is to maintain the data of files of users to
