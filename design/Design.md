@@ -46,7 +46,7 @@ The objectives of the database are to:
 
 ## Database Analysis
 
-## Current Database
+## Current Database State
 
 The database format as it stands currently is essentially a paper-based database consisting mostly
 of some organized sorted files in folders.
@@ -54,12 +54,12 @@ of some organized sorted files in folders.
 The database is also a human-based database as the locations of where specific files are found, is only
 known by the owner of those files.
 
-### Collection
+### Data Collection
 
 - Files collections are aggregated to by way of being saved to various on disk directories.
 - Files with "like" properties are grouped into folders
 
-### Presentation
+### Data Presentation
 
 ### Data Structure
 
@@ -69,6 +69,9 @@ known by the owner of those files.
     - Images
     - Songs
     - Documents/Books
+    - Videos
+    - Comics
+- Folders
 - User
 
 #### Characteristics
