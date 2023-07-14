@@ -96,8 +96,9 @@ Users also are able to buy and/or download books online from a variety of web si
 
 - Files
     - Images
-    - Photo
-    - Audio/Songs
+    - Photos
+    - Audio
+    - Songs
     - Documents/Books
     - Videos
     - Comics
@@ -117,9 +118,16 @@ Users also are able to buy and/or download books online from a variety of web si
 - Creation Date
 - Updated Date
 
+- Artist
+- Album Name
+- Track Title
+- Track Number
+- Genre
+
 - Author
 - Song Title
 - Duration
+- Genre
 
 - Page Count
 
@@ -136,11 +144,18 @@ Users also are able to buy and/or download books online from a variety of web si
 - Local File Tags
 - File Tag Aliases
 
-- Song Author
-- Song Title
+- Song Artist
+- Song Album Name
+- Song Track Title
+- Song Track Number
+- Song Genre
 - Song Lyrics
 
-- Document Author
+- Book Author or Authors
+- Book Genre
+- Book Publisher
+- Book Publish Date (Year)
+- Book Language
 
 ### Calculated Field List
 
