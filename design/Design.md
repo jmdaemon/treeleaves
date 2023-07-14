@@ -67,10 +67,12 @@ known by the owner of those files.
 
 - Files
     - Images
+    - Photo
     - Songs
     - Documents/Books
     - Videos
     - Comics
+- File metadata
 - Folders
 - User
 
@@ -82,6 +84,9 @@ known by the owner of those files.
 - Alias
 - Source
 - Tags
+
+- Creation Date
+- Updated Date
 
 - Author
 - Song Title
@@ -100,6 +105,7 @@ known by the owner of those files.
 - File Alias
 
 - Local File Tags
+- File Tag Aliases
 
 - Song Author
 - Song Title
@@ -118,6 +124,8 @@ known by the owner of those files.
 - Image Pixels
 - Image Width
 - Image Height
+
+- Photo Date
 
 - File Source Site
 - File Source URL
