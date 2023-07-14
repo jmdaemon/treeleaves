@@ -38,10 +38,21 @@ The objectives of the database are to:
 - Subjects: Nouns, specifically nouns that reference a person, place or thing.
 - Characteristics: Adjectives, specifically descriptions of aspects of the subjects.
 
+- Paper-based database: A file system that consists of physical forms of data sorted by some coding scheme.
+- Human-based database: A biological database based on the memory of one or more entities in any given organization.
+
 - Preliminary Field List: A characteristic of a particular subject
 - Calculated Field List: A field that is calculated as a result from the preliminary field list
 
 ## Database Analysis
+
+## Current Database
+
+The database format as it stands currently is essentially a paper-based database consisting mostly
+of some organized sorted files in folders.
+
+The database is also a human-based database as the locations of where specific files are found, is only
+known by the owner of those files.
 
 ### Collection
 
@@ -76,6 +87,10 @@ The objectives of the database are to:
 - Page Count
 
 ### Preliminary Field List
+
+1. Determine and list all the characteristics of your subjects
+2. Refine the field list by specifying more specific names, and pruning duplicates
+3. Ensure the list of characteristics list are characteristics by definition
 
 - File Name Variant
 
