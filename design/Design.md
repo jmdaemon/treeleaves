@@ -310,12 +310,12 @@ The preliminary table list is obtained from grouping the various fields in the p
 
 ## Tables with Associated Fields
 
-| Files     | Sources     | Hashes    | Frequency                | Timestamps         | Images       | Photos         | Videos         | Audio           | Songs             | Books             | Folders                  |
-|-----------|-------------|-----------|--------------------------|--------------------|--------------|----------------|----------------|-----------------|-------------------|-------------------|--------------------------|
-| File Name | Source Name | Hash Type | Number of Accessed Times | Creation Date      | Image Pixels | GPS Location   | Video Duration | Audio Duration  | Song Duration     | Book Authors      | Number of Accessed Times |
-| File Path | Source URL  | File Hash |                          | Last Updated Date  | Image Width  | Date Timestamp | Video Width    | Audio Frequency | Song Artist       | Book Title        | Folder View Type         |
-| MIME Type | Source Tags |           |                          | Last Accessed Date | Image Height |                | Video Height   |                 | Song Album Name   | Book Genre        |                          |
-| File Size |             |           |                          |                    |              |                |                |                 | Song Track Title  | Book Publisher    |                          |
-|           |             |           |                          |                    |              |                |                |                 | Song Track Number | Book Publish Date |                          |
-|           |             |           |                          |                    |              |                |                |                 | Song Genre        | Book Language     |                          |
-|           |             |           |                          |                    |              |                |                |                 | Song Lyrics       | Book Page Count   |                          |
+| Files     | Sources     | Hashes    | Frequency      | Timestamps         | Images       | Photos         | Videos         | Audio           | Songs             | Books             | Folders          |
+|-----------|-------------|-----------|----------------|--------------------|--------------|----------------|----------------|-----------------|-------------------|-------------------|------------------|
+| File Name | Source Name | Hash Type | Times Accessed | Creation Date      | Image Pixels | GPS Location   | Video Duration | Audio Duration  | Song Duration     | Book Authors      | Times Accessed   |
+| File Path | Source URL  | File Hash |                | Last Updated Date  | Image Width  | Date Timestamp | Video Width    | Audio Frequency | Song Artist       | Book Title        | Folder View Type |
+| MIME Type | Source Tags |           |                | Last Accessed Date | Image Height |                | Video Height   |                 | Song Album Name   | Book Genre        |                  |
+| File Size |             |           |                |                    |              |                |                |                 | Song Track Title  | Book Publisher    |                  |
+|           |             |           |                |                    |              |                |                |                 | Song Track Number | Book Publish Date |                  |
+|           |             |           |                |                    |              |                |                |                 | Song Genre        | Book Language     |                  |
+|           |             |           |                |                    |              |                |                |                 | Song Lyrics       | Book Page Count   |                  |
