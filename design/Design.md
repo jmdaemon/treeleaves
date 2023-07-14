@@ -143,6 +143,8 @@ of the same type. Shorthands are useful because one can remember easier to recal
 characteristics of an item. Aliases centralized in a single location allows you to group together like-objects
 together, making them more easily found.
 
+Aliases, emotes and alternative file names are also pretty similar in function and in name.
+
 ### Data Structure
 
 #### Subjects
@@ -157,16 +159,19 @@ together, making them more easily found.
     - Comics
 - File metadata
 - Folders
+- Aliases
 - User
 
 #### Characteristics
 
 - Hash
 - File Name, File Path, File Type File Size
-- Alternate File Names
-- Alias
 - Source
 - Tags
+
+- Alternate File Names
+- Alias
+- Emote
 
 - Creation Date
 - Updated Date
@@ -175,6 +180,7 @@ together, making them more easily found.
 - Times Accessed
 
 - Audio Frequency
+
 - Artist
 - Album Name
 - Track Title
@@ -186,6 +192,9 @@ together, making them more easily found.
 - Duration
 - Genre
 
+- Author
+- Publisher
+- Publish Date
 - Page Count
 
 - File Folder View Type
@@ -261,8 +270,12 @@ The preliminary table list is obtained from grouping the various fields in the p
 - Files
 - Sources
 - Hashes
-
 - Timestamps
+- Frequency
+
+- File Aliases*
+
+- Folders
 
 - Images
 - Photos
@@ -274,8 +287,9 @@ The preliminary table list is obtained from grouping the various fields in the p
 
 - Books
 
-- Frequency
-- Folders
+- \*Aliases could technically be a part of a group of alternative names.
+    As such it is hard to include these into the current table list since there could be many alias groups/tables.
+    For now we will ignore these.
 
 ## Final Table List
 
