@@ -61,6 +61,13 @@ known by the owner of those files.
 
 ### Data Presentation
 
+#### Folders
+
+Folders are just a collection or encoding scheme used to organize and sort files.
+
+Users find folders useful in that some folders/directories are frequently navigated to
+during a session. Folders can also contain thumbnails representative of the contents stored inside.
+
 #### Images
 
 Images are typically looked up with a file manager. It often takes a lot of time to load image thumbnails,
@@ -131,6 +138,9 @@ Users also are able to buy and/or download books online from a variety of web si
 - Creation Date
 - Updated Date
 
+- Times Accessed
+
+- Audio Frequency
 - Artist
 - Album Name
 - Track Title
@@ -180,6 +190,9 @@ Users also are able to buy and/or download books online from a variety of web si
 
 - File Date
 
+- Number of Times Accessed (Frequency)
+- File Folder Directory
+
 - Image Pixels
 - Image Width
 - Image Height
@@ -194,6 +207,7 @@ Users also are able to buy and/or download books online from a variety of web si
 - Video Height
 - Video Duration
 
+- Audio Frequency
 - Song Duration
 
 - Document Page Count
@@ -204,6 +218,7 @@ The preliminary table list is obtained from grouping the various fields in the p
 
 - Files
 - Sources
+- Hashes
 
 - Dates
 
@@ -216,6 +231,9 @@ The preliminary table list is obtained from grouping the various fields in the p
 - Audio
 
 - Books
+
+- Frequency
+- Folders
 
 ## Final Table List
 
