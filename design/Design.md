@@ -61,6 +61,35 @@ known by the owner of those files.
 
 ### Data Presentation
 
+#### Images
+
+Images are typically looked up with a file manager. It often takes a lot of time to load image thumbnails,
+and there are a lot of files to go through before the user finds the desired image.
+
+On some image boorus, it can be a lot quicker to find images due to the images being tagged very well, indexed,
+and easy to search.
+
+#### Audio
+
+Users also often have lots of music they like to listen to.
+
+These songs are made by certain artists, have track titles, are part of an album, are made in a specific year, often as part of
+an associated music genre. Many songs also contain lyrics and track numbers specifying their order. These are typically specified
+as music tags.
+
+An example of an application that manages such metadata is [audacity](https://manual.audacityteam.org/man/metadata_editor.html).
+
+Some users also have general audio sounds or samples. These don't contain any such metadata.
+
+#### Books
+
+On some book searching websites, books can be searched by title, author(s), publisher, year, language or file type.
+
+Users often have lots of books saved to their personal disks, and it can be a hassle to remember where a book is,
+if the user is not constantly trifling through their library.
+
+Users also are able to buy and/or download books online from a variety of web sites and sources.
+
 ### Data Structure
 
 #### Subjects
@@ -68,7 +97,7 @@ known by the owner of those files.
 - Files
     - Images
     - Photo
-    - Songs
+    - Audio/Songs
     - Documents/Books
     - Videos
     - Comics
