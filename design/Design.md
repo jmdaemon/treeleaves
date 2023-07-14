@@ -12,6 +12,8 @@ Design document and rationale for the Treeleaves database.
 
 The purpose of the Treeleaves database is to maintain the data of files of users to
 allow users to both easily and quickly find and access their personal on disk files.
+A secondary objective of Treeleaves is to also make these files easily shareable
+with others.
 
 ## Mission Objective
 
