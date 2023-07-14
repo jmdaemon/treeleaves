@@ -269,6 +269,7 @@ The preliminary table list is obtained from grouping the various fields in the p
 
 - Files
 - Sources
+- Tags
 - Hashes
 - Timestamps
 - Frequency
@@ -310,12 +311,12 @@ The preliminary table list is obtained from grouping the various fields in the p
 
 ## Tables with Associated Fields
 
-| Files     | Sources     | Hashes    | Frequency      | Timestamps         | Images            | Photos         | Videos         | Audio           | Songs             | Books             | Folders          |
-|-----------|-------------|-----------|----------------|--------------------|-------------------|----------------|----------------|-----------------|-------------------|-------------------|------------------|
-| File Name | Source Name | Hash Type | Times Accessed | Creation Date      | Image Pixel Count | GPS Location   | Video Duration | Audio Duration  | Song Duration     | Book Authors      | Times Accessed   |
-| File Path | Source URL  | File Hash |                | Last Updated Date  | Image Width       | Date Timestamp | Video Width    | Audio Frequency | Song Artist       | Book Title        | Folder View Type |
-| MIME Type | Source Tags |           |                | Last Accessed Date | Image Height      |                | Video Height   |                 | Song Album Name   | Book Genre        |                  |
-| File Size |             |           |                |                    |                   |                |                |                 | Song Track Title  | Book Publisher    |                  |
-|           |             |           |                |                    |                   |                |                |                 | Song Track Number | Book Publish Date |                  |
-|           |             |           |                |                    |                   |                |                |                 | Song Genre        | Book Language     |                  |
-|           |             |           |                |                    |                   |                |                |                 | Song Lyrics       | Book Page Count   |                  |
+| Files     | Sources           | Source Tags | Hashes    | Frequency      | Timestamps         | Images            | Photos         | Videos         | Audio           | Songs             | Books             | Folders          |
+|-----------|-------------------|-------------|-----------|----------------|--------------------|-------------------|----------------|----------------|-----------------|-------------------|-------------------|------------------|
+| File Name | Source Name       | File ID     | Hash Type | Times Accessed | Creation Date      | Image Pixel Count | GPS Location   | Video Duration | Audio Duration  | Song Duration     | Book Authors      | Times Accessed   |
+| File Path | Source URL        | Tag Name    | File Hash |                | Last Updated Date  | Image Width       | Date Timestamp | Video Width    | Audio Frequency | Song Artist       | Book Title        | Folder View Type |
+| MIME Type | Source Tag Set ID |             |           |                | Last Accessed Date | Image Height      |                | Video Height   |                 | Song Album Name   | Book Genre        |                  |
+| File Size |                   |             |           |                |                    |                   |                |                |                 | Song Track Title  | Book Publisher    |                  |
+|           |                   |             |           |                |                    |                   |                |                |                 | Song Track Number | Book Publish Date |                  |
+|           |                   |             |           |                |                    |                   |                |                |                 | Song Genre        | Book Language     |                  |
+|           |                   |             |           |                |                    |                   |                |                |                 | Song Lyrics       | Book Page Count   |                  |
