@@ -78,8 +78,16 @@ known by the owner of those files.
 
 Folders are just a collection or encoding scheme used to organize and sort files.
 
+Folders are useful in being able to group like-objects together. Folders often works similar to informal sets
+containing
+
 Users find folders useful in that some folders/directories are frequently navigated to
 during a session. Folders can also contain thumbnails representative of the contents stored inside.
+
+Folders can present files in a variety of views. For example, folders can present files in
+an icon view that shows the files listed side by side with big thumbnails representing the file contents.
+
+Folders can also present files in a table format with specific columns tailored to files.
 
 #### Images
 
@@ -128,6 +136,13 @@ if the user is not constantly trifling through their library.
 
 Users also are able to buy and/or download books online from a variety of web sites and sources.
 
+#### Alias
+
+An alias is a shorthand name for something else. This is typically a reference to another item or thing
+of the same type. Shorthands are useful because one can remember easier to recall names than some specific
+characteristics of an item. Aliases centralized in a single location allows you to group together like-objects
+together, making them more easily found.
+
 ### Data Structure
 
 #### Subjects
@@ -172,6 +187,8 @@ Users also are able to buy and/or download books online from a variety of web si
 - Genre
 
 - Page Count
+
+- File Folder View Type
 
 ### Preliminary Field List
 
@@ -234,6 +251,8 @@ Users also are able to buy and/or download books online from a variety of web si
 - Song Duration
 
 - Document Page Count
+
+- Folder View Type
 
 ## Preliminary Table List
 
