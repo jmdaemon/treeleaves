@@ -69,6 +69,19 @@ and there are a lot of files to go through before the user finds the desired ima
 On some image boorus, it can be a lot quicker to find images due to the images being tagged very well, indexed,
 and easy to search.
 
+#### Photos
+
+Photos are similar to images with a few exceptions. Photos are images taken purely with a camera.
+These photos contain metadata such as
+- GPS Location metadata
+- Camera settings
+- Device & hardware information
+- Lens information
+- Image size
+- Pixel dimensions
+- Date & time
+- The app used to take the picture
+
 #### Audio
 
 Users also often have lots of music they like to listen to.
@@ -165,6 +178,8 @@ Users also are able to buy and/or download books online from a variety of web si
 - File Size
 - File Hash
 
+- File Date
+
 - Image Pixels
 - Image Width
 - Image Height
@@ -190,6 +205,8 @@ The preliminary table list is obtained from grouping the various fields in the p
 - Files
 - Sources
 
+- Dates
+
 - Images
 - Photos
 
@@ -199,3 +216,6 @@ The preliminary table list is obtained from grouping the various fields in the p
 - Audio
 
 - Books
+
+## Final Table List
+
