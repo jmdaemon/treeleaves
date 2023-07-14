@@ -6,6 +6,7 @@ Design document and rationale for the Treeleaves database.
 
 - [Mission Statement](#mission-statement)
 - [Mission Objective](#mission-objective)
+- [Terminology](#terminology)
 
 ## Mission Statement
 
@@ -29,3 +30,68 @@ The objectives of the database are to:
 
 - Keep track of duplicate files
 - Keep track of current file paths
+
+## Terminology
+
+- Data: The values and records present in the database.
+- Information: Data that is processed to be useful or have meaning.
+- Subjects: Nouns, specifically nouns that reference a person, place or thing.
+- Characteristics: Adjectives, specifically descriptions of aspects of the subjects.
+
+## Database Analysis
+
+### Collection
+
+- Files collections are aggregated to by way of being saved to various on disk directories.
+- Files with "like" properties are grouped into folders
+
+### Presentation
+
+### Data Structure
+
+#### Subjects
+
+- Files
+    - Images
+    - Songs
+    - Documents
+- User
+
+#### Characteristics
+
+- Hash
+- File Name, File Path, File Type File Size
+- Alternate File Names
+- Alias
+- Source
+- Tags
+
+- Author
+- Song Title
+- Duration
+
+- Page Count
+
+### Preliminary Field List
+
+- File Hash
+- File Name
+- File Path
+- File MIME Type
+- File Size
+- File Name Variant
+
+- File Alias
+- File Source Site
+- File Source URL
+- File Source Tags
+
+- Song Author
+- Song Title
+- Song Lyrics
+- Song Duration
+
+- Video Duration
+
+- Document Author
+- Document Page Count
