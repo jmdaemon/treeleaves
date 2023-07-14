@@ -91,7 +91,7 @@ These photos contain metadata such as
 - Date & time
 - The app used to take the picture
 
-#### Audio
+#### Songs
 
 Users also often have lots of music they like to listen to.
 
@@ -101,7 +101,12 @@ as music tags.
 
 An example of an application that manages such metadata is [audacity](https://manual.audacityteam.org/man/metadata_editor.html).
 
-Some users also have general audio sounds or samples. These don't contain any such metadata.
+Songs also come in uncompressed formats that capture studio level sound quality. These are bigger than compressed files,
+but offer the best sound.
+
+#### Audio
+
+Some users also have general audio sounds or samples. These don't contain as much metadata, but they do still have an audio frequency and duration.
 
 #### Books
 
@@ -189,9 +194,13 @@ Users also are able to buy and/or download books online from a variety of web si
 - File Path
 - File MIME Type
 - File Size
+
+- File Hash Type
 - File Hash
 
-- File Date
+- File Creation Date
+- File Last Updated Date
+- File Last Accessed Date
 
 - Number of Times Accessed (Frequency)
 - File Folder Directory
