@@ -187,15 +187,15 @@ Users also are able to buy and/or download books online from a variety of web si
 
 The preliminary table list is obtained from grouping the various fields in the preliminary field list.
 
-- File
-- Source
+- Files
+- Sources
 
-- Image
-- Photo
+- Images
+- Photos
 
-- Video
+- Videos
 
-- Song
+- Songs
 - Audio
 
-- Book
+- Books
