@@ -182,3 +182,20 @@ Users also are able to buy and/or download books online from a variety of web si
 - Song Duration
 
 - Document Page Count
+
+## Preliminary Table List
+
+The preliminary table list is obtained from grouping the various fields in the preliminary field list.
+
+- File
+- Source
+
+- Image
+- Photo
+
+- Video
+
+- Song
+- Audio
+
+- Book
