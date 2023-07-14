@@ -68,7 +68,7 @@ known by the owner of those files.
 - Files
     - Images
     - Songs
-    - Documents
+    - Documents/Books
 - User
 
 #### Characteristics
@@ -112,10 +112,16 @@ known by the owner of those files.
 - File Size
 - File Hash
 
+- Image Pixels
+- Image Width
+- Image Height
+
 - File Source Site
 - File Source URL
 - File Source Tags
 
+- Video Width
+- Video Height
 - Video Duration
 
 - Song Duration
