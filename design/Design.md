@@ -38,6 +38,9 @@ The objectives of the database are to:
 - Subjects: Nouns, specifically nouns that reference a person, place or thing.
 - Characteristics: Adjectives, specifically descriptions of aspects of the subjects.
 
+- Preliminary Field List: A characteristic of a particular subject
+- Calculated Field List: A field that is calculated as a result from the preliminary field list
+
 ## Database Analysis
 
 ### Collection
@@ -74,24 +77,32 @@ The objectives of the database are to:
 
 ### Preliminary Field List
 
-- File Hash
-- File Name
-- File Path
-- File MIME Type
-- File Size
 - File Name Variant
 
 - File Alias
-- File Source Site
-- File Source URL
-- File Source Tags
+
+- Local File Tags
 
 - Song Author
 - Song Title
 - Song Lyrics
-- Song Duration
+
+- Document Author
+
+### Calculated Field List
+
+- File Name
+- File Path
+- File MIME Type
+- File Size
+- File Hash
+
+- File Source Site
+- File Source URL
+- File Source Tags
 
 - Video Duration
 
-- Document Author
+- Song Duration
+
 - Document Page Count
