@@ -7,6 +7,17 @@ Design document and rationale for the Treeleaves database.
 - [Mission Statement](#mission-statement)
 - [Mission Objective](#mission-objective)
 - [Terminology](#terminology)
+- [Database Analysis](#database-analysis)
+    - [Current Database State](#current-database-state)
+    - [Data Collection](#data-collection)
+    - [Data Presentation](#data-presentation)
+- [Data Structure](#data-structure)
+    - [Subjects](#subjects)
+    - [Characteristics](#characteristics)
+    - [Preliminary Field List](#preliminary-field-list)
+    - [Calculated Field List](#calculated-field-list)
+    - [Preliminary Table List](#preliminary-table-list)
+    - [Final Table List](#final-table-list)
 
 ## Mission Statement
 
