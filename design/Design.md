@@ -18,6 +18,8 @@ Design document and rationale for the Treeleaves database.
     - [Calculated Field List](#calculated-field-list)
     - [Preliminary Table List](#preliminary-table-list)
     - [Final Table List](#final-table-list)
+    - [Tables with Associated Fields](#tables-with-associated-fields)
+- [Table Level Integrity](#table-level-integrity)
 
 ## Mission Statement
 
@@ -263,7 +265,7 @@ Aliases, emotes and alternative file names are also pretty similar in function a
 
 - Folder View Type
 
-## Preliminary Table List
+### Preliminary Table List
 
 The preliminary table list is obtained from grouping the various fields in the preliminary field list.
 
@@ -292,7 +294,7 @@ The preliminary table list is obtained from grouping the various fields in the p
     As such it is hard to include these into the current table list since there could be many alias groups/tables.
     For now we will ignore these.
 
-## Final Table List
+### Final Table List
 
 | Name       | Type | Description                                                                                                                                                                                                                                                                                                                                                                                                         |
 |------------|------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -309,7 +311,7 @@ The preliminary table list is obtained from grouping the various fields in the p
 | Books      | Data | A digital document. Books are archives of information, written for a variety of subjects, and by many different people of different times and publishers. Unlike a library however, this information can get lost in a sea of folders. Users will always have digital books to maintain. Knowing where to find a book is key to maintaining a well organized library, allowing users more time to focus on reading. |
 | Folders    | Data | A directory or collection containing various files and/or folders. Folders are used by users to group together like-things. Directories often consolidate a lot of information in a central place. Repeatedly accessing the same folders can be cached and used as a tool by the user to quickly navigate his or her file system at ease.                                                                           |
 
-## Tables with Associated Fields
+### Tables with Associated Fields
 
 | Files     | Sources     | File Sources    | Source Tag Types   | Tag Type Template           | File Source Tags | Hash Types     | File Hashes  | Frequency      | Timestamps         | Images             | Photos   | Photo Metadata    | Location Metadata    | Videos             | Audio           | Songs      | Song Bands | Bands     | Song Artists | Artists            | Song Track        | Song Lyrics | Song Genres    | Music Genres     | Albums     | Books           | Book Languages   | Languages     | Book Publishers       | Literary Publishers     | Book Genres       | Literary Genres     | Book Authors   | Authors            | Folders          |
 |-----------|-------------|-----------------|--------------------|-----------------------------|------------------|----------------|--------------|----------------|--------------------|--------------------|----------|-------------------|----------------------|--------------------|-----------------|------------|------------|-----------|--------------|--------------------|-------------------|-------------|----------------|------------------|------------|-----------------|------------------|---------------|-----------------------|-------------------------|-------------------|---------------------|----------------|--------------------|------------------|
@@ -327,6 +329,31 @@ Each table is associated with a particular primary key.
 
 This primary key is always unique. For tables without an artificial candidate key, they are
 considered to be subset tables.
+
+### Source Tags
+
+A file can have many sources. And each source can have its own defined tag types.
+
+For this we define a table "File Sources". The File Sources table contains fields:
+- File Source ID
+- Source ID
+- File ID
+- File Source URL
+
+Every file source can contain any number of tag types.
+
+We define a table "Source Tag Types" to represent any general tag type for any source. This table contains:
+- Source Tag Type ID
+
+The "Source Tag Type ID" for any source tag represents any table that we use to represent any arbitrary tag defined by the source.
+
+We're going to have any arbitrary number of tables that correspond to any number of tag definitions.
+
+As such we define a generate template "Tag Types Template" that represents the generic tag definition.
+
+Lastly we define a "File Source Tags" table that aggregates all these tag types together. The table contains fields:
+- File Source ID
+- Tag Type ID
 
 ### Primary Keys
 
