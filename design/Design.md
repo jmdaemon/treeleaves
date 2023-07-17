@@ -323,6 +323,11 @@ The preliminary table list is obtained from grouping the various fields in the p
 
 ## Table Level Integrity
 
+Each table is associated with a particular primary key.
+
+This primary key is always unique. For tables without an artificial candidate key, they are
+considered to be subset tables.
+
 ### Primary Keys
 
 The first ID of every row is the designated primary key
