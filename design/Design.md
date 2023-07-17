@@ -330,9 +330,28 @@ Each table is associated with a particular primary key.
 This primary key is always unique. For tables without an artificial candidate key, they are
 considered to be subset tables.
 
+### Sources
+
+A file can have many sources. These sources will always have a url, and are identified by their source name.
+
+Since there can be many sources, we create a table "Sources" that lists out all the possible sources available for our data.
+This table contains:
+- Source ID
+- Source Name
+
+Then we create our "File Sources":
+- File Source ID
+- Source ID
+- File ID
+- File Source URL
+
+There can be multiple sources for a single file, so we must create a new artificial candidate key "File Source ID", to ensure every entry is unique.
+
+The "File Source URL" must always be filled, or else there is no "File Source" entry.
+
 ### Source Tags
 
-A file can have many sources. And each source can have its own defined tag types.
+Since a file can have many sources. And each source can have its own defined tag types.
 
 For this we define a table "File Sources". The File Sources table contains fields:
 - File Source ID
