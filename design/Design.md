@@ -374,6 +374,21 @@ Lastly we define a "File Source Tags" table that aggregates all these tag types 
 - File Source ID
 - Tag Type ID
 
+## File Hashes
+
+Every file can have a number of file hashes. Similarly to our "Sources" table, we define and aggregate all our possible
+Hash types in a table "Hash Types" containing:
+- Hash Type ID
+- Hash Type Name
+
+Next, we define table "File Hashes" that contains:
+- File Hash ID
+- Hash Type ID
+- File ID
+- File Hash
+
+Since there could be multiple hashes for a single file, we define artificial candidate key "File Hash ID".
+
 ### Primary Keys
 
 The first ID of every row is the designated primary key
