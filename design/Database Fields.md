@@ -13,17 +13,17 @@ Parent Table        : [parent]
 Label               : [label]
 Shared By           : [shared_by]
 Alias(es)           :
-Specification Type  : [x] Unique [Generic] [Replica]
+Specification Type  : [x] Unique [] Generic [] Replica
 Source Specification:
 Description         : [description]
 
 **Physical Elements:**
 
-Data Type: Numeric
-Length: 6
-Decimal Places: 0
-Input Mask: ######
-Display Format: 000000
+Data Type           : Numeric
+Length              : 6
+Decimal Places      : 0
+Input Mask          : ######
+Display Format      : 000000
 
 Character Support:
     [] Letters (A-Z)    [] Keyboard (. , / $ # %)
@@ -35,7 +35,7 @@ Key Type:
     [] Non      [x] Primary
     [] Foreign  [] Alternate
 
-Key Structure       : [x] Simple         [] Composite
+Key Structure       : [x] Simple        [] Composite
 Uniqueness          : [] Non-unique     [x] Unique
 Null Support        : [] Nulls Allowed  [x] No Nulls
 Values Entered By   : [] User           [x] System
@@ -52,7 +52,7 @@ Edit Rule:
 
 Comparisons Allowed:
     [x] Same Field       [] All [x] eq    [] gt [] geq    [] neq    [] lt [] leq
-    [] Other Fields      [] All  [] eq    [] gt [] geq    [] neq    [] lt [] leq
+    [] Other Fields      [] All [] eq    [] gt [] geq    [] neq    [] lt [] leq
     [x] Value Expression [] All [x] eq    [] gt [] geq    [] neq    [] lt [] leq
 
 Operations Allowed:
