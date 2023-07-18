@@ -99,3 +99,53 @@ The primary key must conform to all the elements of a candidate key.
 - Does not contain a calculated/concatenated field
 - Is unique within the entire database structure
 - Retains majority of its characteristics when referenced in more than one table
+
+### Field Level Integrity
+
+#### Requirements
+- The identity and purpose of a field is clear, and all of the tables referencing the field are properly identified
+- Field definitions are consistent throughout the database
+- The values of a field are consistent and valid
+- The usage (i.e modifications, comparisons, operations) of the values in the field are clearly identified
+
+### Field Specification Types
+
+The main field specification types are:
+- General Elements:
+    - Field Name
+    - Parent Table
+    - Label
+    - Specification Type
+    - Source Specification
+    - Shared By
+    - Alias(es)
+    - Description
+- Physical Elements
+    - Data Type
+    - Length
+    - Decimal Places
+    - Character Support
+    - Input Mask
+    - Display Format
+- Logical Elements
+    - Key Type
+    - Key Structure
+    - Uniqueness
+    - Null Support
+    - Values Entered By
+    - Required Value
+    - Default Value
+    - Range of Values
+    - Edit Rule
+    - Comparisons Allowed
+    - Operations Allowed
+
+### Guidelines for Composing Field Descriptions
+
+- Use a statement that accurately identifies and clearly states its intended purpose
+- Write a clear and succinct statement
+- Refrain from restating/rephrasing the field name
+- Refrain from using technical jargon, acronyms, or abbreviations
+- Refrain from including implementation-specific information
+- Do not make the description dependent on another field's description
+- Do not use examples
