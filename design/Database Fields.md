@@ -1,10 +1,10 @@
 # Database Fields
 
-## Field Types
+## Field Specification Types
 
 The field specifications for a general class of field.
 
-### Field Type: Primary Key
+### Field Specification Type: Primary Key Spec Field
 
 **General Elements:**
 
