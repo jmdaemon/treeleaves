@@ -20,6 +20,7 @@ Design document and rationale for the Treeleaves database.
     - [Final Table List](#final-table-list)
     - [Tables with Associated Fields](#tables-with-associated-fields)
 - [Table Level Integrity](#table-level-integrity)
+- [Field Level Integrity](#field-level-integrity)
 
 ## Mission Statement
 
@@ -392,3 +393,5 @@ Since there could be multiple hashes for a single file, we define artificial can
 ### Primary Keys
 
 The first ID of every row is the designated primary key
+
+## Field Level Integrity
