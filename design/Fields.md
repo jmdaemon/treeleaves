@@ -1,6 +1,6 @@
 # Database Field Specifications
 
-## Files
+## Primary Keys
 
 ### File ID
 **General Elements:**
@@ -82,3 +82,49 @@ Operations Allowed:
     [] Same Field       [] All [] add    [] sub [] mult    [] div    [] concat
     [] Other Fields     [] All [] add    [] sub [] mult    [] div    [] concat
     [] Value Expression [] All [] add    [] sub [] mult    [] div    [] concat
+
+### Source ID
+
+**General Elements:**
+
+Field Name          : Source ID
+Parent Table        : Sources
+Label               : Source ID
+Shared By           :   File Sources,
+                        File Source Tags,
+
+Alias(es)           :
+Specification Type  : [x] Unique [] Generic [] Replica
+Source Specification:
+Description         :
+    A unique whole number used to identify sources of file origins. It is
+    assigned to a source when it is first added to the database, and remains
+    throughout the lifetime of the program. It is rarely changed or removed.
+
+**Physical Elements:**
+
+Data Type           : Numeric
+Length              : 5
+Decimal Places      : 0
+Input Mask          : ##_###
+Display Format      : ##,###
+
+Character Support:
+    [] Letters (A-Z)   [] Keyboard (. , / $ # %)
+    [x] Numbers (0-9)   [] Special (© ® ™ Σ π)
+
+**Logical Elements:**
+
+Key Type:
+    [] Non      [x] Primary
+    [] Foreign  [] Alternate
+
+Key Structure       : [x] Simple         [] Composite
+Uniqueness          : [] Non-unique     [x] Unique
+Null Support        : [] Nulls Allowed  [x] No Nulls
+Values Entered By   : [] User           [x] System
+Required Value      : [] No             [x] Yes
+Default Value       :
+Range of Values     : 1-10,000
+
+inherit * from File ID
