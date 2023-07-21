@@ -73,16 +73,16 @@ inherit * from Primary Key
 **Physical Elements:**
 
 Data Type           : Numeric
-Length              : 5
+Length              : 4
 Decimal Places      : 0
-Input Mask          : ##_###
-Display Format      : ##,###
+Input Mask          : ####
+Display Format      : ####
 
 inherit * from Primary Key
 
 **Logical Elements:**
 
-Range of Values     : 1-10,000
+Range of Values     : 1-9999
 
 inherit * from Primary Key
 
