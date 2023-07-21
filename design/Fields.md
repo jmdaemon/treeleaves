@@ -64,8 +64,8 @@ Label               : Source ID
 Shared By           :   File Sources,
                         File Source Tags,
 Description         :
-    A unique whole number used to identify sources of file origins. It is
-    assigned to a source when it is first added to the database, and remains
+    A unique whole number used to identify various sources from where files can originate from.
+    It is assigned to a source when it is first added to the database, and remains the same
     throughout the lifetime of the program. It is rarely changed or removed.
 
 inherit * from Primary Key
