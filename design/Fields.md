@@ -143,3 +143,30 @@ inherit * from Primary Key
 Range of Values     : 1-9999
 
 inherit * from Primary Key
+
+### Band ID
+
+Field Name          : Band ID
+Parent Table        : Bands
+Label               : Bands
+Description         :
+    A unique whole number used to identify different band types. These
+    correspond to the bands of a user's song collection.
+
+inherit * from Primary Key
+
+**Physical Elements:**
+
+Data Type           : Numeric
+Length              : 3
+Decimal Places      : 0
+Input Mask          : ####
+Display Format      : ####
+
+inherit * from Primary Key
+
+**Logical Elements:**
+
+Range of Values     : 1-999
+
+inherit * from Primary Key
