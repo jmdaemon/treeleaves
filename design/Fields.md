@@ -72,9 +72,7 @@ inherit * from Primary Key
 
 **Physical Elements:**
 
-Data Type           : Numeric
 Length              : 4
-Decimal Places      : 0
 Input Mask          : ####
 Display Format      : ####
 
@@ -104,9 +102,7 @@ inherit * from Primary Key
 
 **Physical Elements:**
 
-Data Type           : Numeric
 Length              : 6
-Decimal Places      : 0
 Input Mask          : #,###,###
 Display Format      : #,###,###
 
@@ -130,9 +126,7 @@ inherit * from Primary Key
 
 **Physical Elements:**
 
-Data Type           : Numeric
 Length              : 4
-Decimal Places      : 0
 Input Mask          : ####
 Display Format      : ####
 
@@ -157,9 +151,7 @@ inherit * from Primary Key
 
 **Physical Elements:**
 
-Data Type           : Numeric
 Length              : 3
-Decimal Places      : 0
 Input Mask          : ####
 Display Format      : ####
 
