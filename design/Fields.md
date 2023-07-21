@@ -86,3 +86,34 @@ Range of Values     : 1-9999
 
 inherit * from Primary Key
 
+### Source Tag Type ID
+
+Field Name          : Source Tag Type ID
+Parent Table        : Source Tag Types
+Label               : Tag Type ID
+Shared By           :   Tag Type Template
+                        File Source Tags,
+Description         :
+    A unique whole number used to identify the kinds of tags present in a source.
+    For sources that aren't local, these ids are machine generated, and not intended to be changed or modified.
+    The Source Tag Type ID determines what type of tag it is, so appropriate action can be taken to
+    query more tables and determine all the source metadata for a file. The intent is to create
+    a general system that can be used to model the tag systems in use by various websites and other sources.
+
+inherit * from Primary Key
+
+**Physical Elements:**
+
+Data Type           : Numeric
+Length              : 6
+Decimal Places      : 0
+Input Mask          : #,###,###
+Display Format      : #,###,###
+
+inherit * from Primary Key
+
+**Logical Elements:**
+
+Range of Values     : 1-999,999
+
+inherit * from Primary Key
