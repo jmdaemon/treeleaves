@@ -162,3 +162,149 @@ inherit * from Primary Key
 Range of Values     : 1-999
 
 inherit * from Primary Key
+
+## Artist ID
+
+Field Name          : Artist ID
+Parent Table        : Song Artists
+Label               : Song Artists
+Description         :
+    A unique whole number to identify different song artists/singers.
+
+inherit * from Primary Key
+
+**Physical Elements:**
+
+Length              : 4
+Input Mask          : #,####
+Display Format      : #,####
+
+inherit * from Primary Key
+
+**Logical Elements:**
+
+Range of Values     : 1-9999
+
+inherit * from Primary Key
+
+## Book Language ID
+
+Field Name          : Book Language ID
+Parent Table        : Book Languages
+Label               : Book Language ID
+Description         :
+    A unique whole number to identify different languages for a book.
+    Most books will only be written in one language, with some being written for two or more.
+
+inherit * from Primary Key
+
+**Physical Elements:**
+
+Length              : 4
+Input Mask          : #,####
+Display Format      : #,####
+
+inherit * from Primary Key
+
+**Logical Elements:**
+
+Range of Values     : 1-9999
+
+inherit * from Primary Key
+
+## Language ID
+
+Field Name          : Language ID
+Parent Table        : Languages
+Label               : Language ID
+Description         :
+    A unique whole number to identify different languages.
+    The MAX_ID number chosen is based on the ISO-639-1 standard for language codes.
+
+inherit * from Primary Key
+
+**Physical Elements:**
+
+Length              : 3
+Input Mask          : ####
+Display Format      : ####
+
+inherit * from Primary Key
+
+**Logical Elements:**
+
+Range of Values     : 1-999
+
+inherit * from Primary Key
+
+## Literary Publishers ID
+
+Field Name          : Literary Publishers ID
+Parent Table        : Literary Publishers
+Label               : Literary Publishers ID
+Description         :
+    A unique whole number that identifies different Book Publishers.
+
+inherit * from Primary Key
+
+**Physical Elements:**
+
+Length              : 4
+Input Mask          : #,####
+Display Format      : #,####
+
+inherit * from Primary Key
+
+**Logical Elements:**
+
+Range of Values     : 1-9999
+
+inherit * from Primary Key
+
+## Literary Genres ID
+
+Field Name          : Literary Genres ID
+Parent Table        : Literary Genres
+Label               : Literary Genres ID
+Description         :
+    A unique whole number that identifies different Book Genre types.
+
+inherit * from Primary Key
+
+**Physical Elements:**
+
+Length              : 4
+Input Mask          : #,####
+Display Format      : #,####
+
+inherit * from Primary Key
+
+**Logical Elements:**
+
+Range of Values     : 1-9999
+
+inherit * from Primary Key
+
+## Author Names ID
+
+Field Name          : Author Names ID
+Parent Table        : Author Names
+Label               : Author Names ID
+Description         :
+    A unique whole number that identifies different book Authors.
+
+inherit * from Primary Key
+
+**Physical Elements:**
+
+Length              : 4
+Input Mask          : #,####
+Display Format      : #,####
+
+inherit * from Primary Key
+
+**Logical Elements:**
+
+Range of Values     : 1-9,999
+
+inherit * from Primary Key
