@@ -1,11 +1,16 @@
 # Database Field Specifications
 
+## Terminology
+
+- `inherit * from [class]` Means that the field inherits the rest of all its missing fields specifications from some class.
+
 ## Primary Keys
 
 For primary keys:
 - If `Label` is not given, it is the same as the field name.
 - There are commas in-between every set of 3 digits for the Input Mask & Display Format.
 - Size # refers to how many digits the primary key ID will hold
+- All IDs inherit from `Primary Key`
 
 Size # also expands to the following. Given Size(8):
 
@@ -16,7 +21,15 @@ Input Mask          : ##_###_###
 Display Format      : ##,###,###
 ```
 
-The Input Mask & Display Format will be as long as whatever the length is.
+<!--Size # also expands the Logical Element Specifications. Given Size(8):-->
+
+<!--```-->
+<!--Range of Values     : 1-99,999,999-->
+<!--```-->
+
+<!--The `Range of Values` will always be the biggest value possible for the given the digit sizes.-->
+
+<!--The Input Mask & Display Format will be as long as whatever the length is.-->
 
 ### File ID
 **General Elements:**
@@ -60,8 +73,6 @@ Size(8);
 
 Range of Values     : 1-99,999,999
 
-inherit * from Primary Key
-
 ### Source ID
 
 **General Elements:**
@@ -82,8 +93,6 @@ Size(4);
 **Logical Elements:**
 
 Range of Values     : 1-9999
-
-inherit * from Primary Key
 
 ### Source Tag Type ID
 
@@ -106,8 +115,6 @@ Size(6);
 
 Range of Values     : 1-999,999
 
-inherit * from Primary Key
-
 ### Hash Type ID
 
 Field Name          : Hash Type ID
@@ -123,8 +130,6 @@ Size(4);
 **Logical Elements:**
 
 Range of Values     : 1-9999
-
-inherit * from Primary Key
 
 ### Band ID
 
@@ -142,8 +147,6 @@ Size(3);
 
 Range of Values     : 1-999
 
-inherit * from Primary Key
-
 ## Artist ID
 
 Field Name          : Artist ID
@@ -158,8 +161,6 @@ Size(4);
 **Logical Elements:**
 
 Range of Values     : 1-9999
-
-inherit * from Primary Key
 
 ## Book Language ID
 
@@ -177,8 +178,6 @@ Size(4);
 
 Range of Values     : 1-9999
 
-inherit * from Primary Key
-
 ## Language ID
 
 Field Name          : Language ID
@@ -195,8 +194,6 @@ Size(3);
 
 Range of Values     : 1-999
 
-inherit * from Primary Key
-
 ## Literary Publishers ID
 
 Field Name          : Literary Publishers ID
@@ -211,8 +208,6 @@ Size(4);
 **Logical Elements:**
 
 Range of Values     : 1-9999
-
-inherit * from Primary Key
 
 ## Literary Genres ID
 
@@ -229,8 +224,6 @@ Size(4);
 
 Range of Values     : 1-9999
 
-inherit * from Primary Key
-
 ## Author Names ID
 
 Field Name          : Author Names ID
@@ -245,5 +238,3 @@ Size(4);
 **Logical Elements:**
 
 Range of Values     : 1-9,999
-
-inherit * from Primary Key
