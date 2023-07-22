@@ -2,12 +2,27 @@
 
 ## Primary Keys
 
+For primary keys:
+- If `Label` is not given, it is the same as the field name.
+- There are commas in-between every set of 3 digits for the Input Mask & Display Format.
+- Size # refers to how many digits the primary key ID will hold
+
+Size # also expands to the following. Given Size(8):
+
+```
+Data Type           : Numeric
+Length              : 8
+Input Mask          : ##_###_###
+Display Format      : ##,###,###
+```
+
+The Input Mask & Display Format will be as long as whatever the length is.
+
 ### File ID
 **General Elements:**
 
 Field Name          : File ID
 Parent Table        : Files
-Label               : File ID
 Shared By           :   File Sources,
                         File Source Tags,
                         File Hashes,
@@ -37,16 +52,9 @@ Description         :
     It is assigned to the file when it is first added to the database and remains
     throughout the lifetime of the file in the file system.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Data Type           : Numeric
-Length              : 8
-Input Mask          : ##_###_###
-Display Format      : ##,###,###
-
-inherit * from Primary Key
+Size(8);
 
 **Logical Elements:**
 
@@ -60,7 +68,6 @@ inherit * from Primary Key
 
 Field Name          : Source ID
 Parent Table        : Sources
-Label               : Source ID
 Shared By           :   File Sources,
                         File Source Tags,
 Description         :
@@ -68,15 +75,9 @@ Description         :
     It is assigned to a source when it is first added to the database, and remains the same
     throughout the lifetime of the program. It is rarely changed or removed.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 4
-Input Mask          : ####
-Display Format      : ####
-
-inherit * from Primary Key
+Size(4);
 
 **Logical Elements:**
 
@@ -88,7 +89,6 @@ inherit * from Primary Key
 
 Field Name          : Source Tag Type ID
 Parent Table        : Source Tag Types
-Label               : Tag Type ID
 Shared By           :   Tag Type Template
                         File Source Tags,
 Description         :
@@ -98,15 +98,9 @@ Description         :
     query more tables and determine all the source metadata for a file. The intent is to create
     a general system that can be used to model the tag systems in use by various websites and other sources.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 6
-Input Mask          : #,###,###
-Display Format      : #,###,###
-
-inherit * from Primary Key
+Size(6);
 
 **Logical Elements:**
 
@@ -118,19 +112,13 @@ inherit * from Primary Key
 
 Field Name          : Hash Type ID
 Parent Table        : Hash Types
-Label               : Hash Type ID
+Shared By           :
 Description         :
     A unique whole number used to identify types of file hashing algorithms.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 4
-Input Mask          : ####
-Display Format      : ####
-
-inherit * from Primary Key
+Size(4);
 
 **Logical Elements:**
 
@@ -142,20 +130,13 @@ inherit * from Primary Key
 
 Field Name          : Band ID
 Parent Table        : Bands
-Label               : Bands
 Description         :
     A unique whole number used to identify different band types. These
     correspond to the bands of a user's song collection.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 3
-Input Mask          : ####
-Display Format      : ####
-
-inherit * from Primary Key
+Size(3);
 
 **Logical Elements:**
 
@@ -167,19 +148,12 @@ inherit * from Primary Key
 
 Field Name          : Artist ID
 Parent Table        : Song Artists
-Label               : Song Artists
 Description         :
     A unique whole number to identify different song artists/singers.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 4
-Input Mask          : #,####
-Display Format      : #,####
-
-inherit * from Primary Key
+Size(4);
 
 **Logical Elements:**
 
@@ -191,20 +165,13 @@ inherit * from Primary Key
 
 Field Name          : Book Language ID
 Parent Table        : Book Languages
-Label               : Book Language ID
 Description         :
     A unique whole number to identify different languages for a book.
     Most books will only be written in one language, with some being written for two or more.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 4
-Input Mask          : #,####
-Display Format      : #,####
-
-inherit * from Primary Key
+Size(4);
 
 **Logical Elements:**
 
@@ -216,20 +183,13 @@ inherit * from Primary Key
 
 Field Name          : Language ID
 Parent Table        : Languages
-Label               : Language ID
 Description         :
     A unique whole number to identify different languages.
     The MAX_ID number chosen is based on the ISO-639-1 standard for language codes.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 3
-Input Mask          : ####
-Display Format      : ####
-
-inherit * from Primary Key
+Size(3);
 
 **Logical Elements:**
 
@@ -241,19 +201,12 @@ inherit * from Primary Key
 
 Field Name          : Literary Publishers ID
 Parent Table        : Literary Publishers
-Label               : Literary Publishers ID
 Description         :
     A unique whole number that identifies different Book Publishers.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 4
-Input Mask          : #,####
-Display Format      : #,####
-
-inherit * from Primary Key
+Size(4);
 
 **Logical Elements:**
 
@@ -265,19 +218,12 @@ inherit * from Primary Key
 
 Field Name          : Literary Genres ID
 Parent Table        : Literary Genres
-Label               : Literary Genres ID
 Description         :
     A unique whole number that identifies different Book Genre types.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 4
-Input Mask          : #,####
-Display Format      : #,####
-
-inherit * from Primary Key
+Size(4);
 
 **Logical Elements:**
 
@@ -289,19 +235,12 @@ inherit * from Primary Key
 
 Field Name          : Author Names ID
 Parent Table        : Author Names
-Label               : Author Names ID
 Description         :
     A unique whole number that identifies different book Authors.
 
-inherit * from Primary Key
-
 **Physical Elements:**
 
-Length              : 4
-Input Mask          : #,####
-Display Format      : #,####
-
-inherit * from Primary Key
+Size(4);
 
 **Logical Elements:**
 
