@@ -21,16 +21,6 @@ Input Mask          : ##_###_###
 Display Format      : ##,###,###
 ```
 
-<!--Size # also expands the Logical Element Specifications. Given Size(8):-->
-
-<!--```-->
-<!--Range of Values     : 1-99,999,999-->
-<!--```-->
-
-<!--The `Range of Values` will always be the biggest value possible for the given the digit sizes.-->
-
-<!--The Input Mask & Display Format will be as long as whatever the length is.-->
-
 ### File ID
 **General Elements:**
 
