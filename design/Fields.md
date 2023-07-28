@@ -1,10 +1,24 @@
 # Database Field Specifications
 
+For the database field specifications, we will ignore the other tables other than the main one for now.
+
+## Table of Contents
+
+- [Field Classes](#field-classes)
+    - [Primary Keys](#primary-keys)
+    - [Date Timestamps](#date-timestamps)
+    - [Dimensions](#dimensions)
+    - [Titles](#titles)
+    - [Names](#names)
+- [Field Specifications](#field-specifications)
+
 ## Terminology
 
 - `inherit * from [class]` Means that the field inherits the rest of all its missing fields specifications from some class.
 
-## Primary Keys
+## Field Classes
+
+### Primary Keys
 
 For primary keys:
 - If `Label` is not given, it is the same as the field name.
@@ -20,6 +34,16 @@ Length              : 8
 Input Mask          : ##_###_###
 Display Format      : ##,###,###
 ```
+
+### Date Timestamps
+
+### Dimensions
+
+### Titles
+
+### Names
+
+## Field Specifications
 
 ### File ID
 **General Elements:**
@@ -227,4 +251,4 @@ Size(4);
 
 **Logical Elements:**
 
-Range of Values     : 1-9,999
+Range of Values     : 1-9999
