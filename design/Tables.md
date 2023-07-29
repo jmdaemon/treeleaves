@@ -2,6 +2,10 @@
 
 All the table relationships for our database.
 
+The table relationships are modeled via Entity-Relationship models
+
+The tables are read left-to-right and top-to-bottom.
+
 ## Table of Contents
 
 ## Terminology
@@ -21,6 +25,51 @@ A pair of tables bears the following relationship if the two have the following 
 
 Our main table is the `Files` table. This table will contain all the
 main central data that we will base all other table relationships from.
+
+We will tackle the relationships of these types of tables in isolation both to make it
+easier to reason about certain properties of these tables, as well as being easier to manage.
+
+### Main Tables
+
+More specifically, our main database tables are:
+- Files
+- Folders
+- Timestamps
+
+#### Relationships
+
+| Table      | Files | Folders | Timestamps |
+|------------|-------|---------|------------|
+| Files      |       | 1:1     | 1:1        |
+| Folders    | 1:N   |         | 1:1        |
+| Timestamps | 1:1   | 1:1     |            |
+
+### Main Subset Tables
+
+We also have a set of subset tables that are also important to our main tables.
+
+These tables are:
+
+- Hashes
+- Frequency
+- Images
+- Audio
+- Video
+
+### Feature Tables
+
+Feature tables are add-on tables/standalone databases that add more enhanced or specific
+metadata to our main tables and our main subset tables.
+
+Our feature tables for the database are:
+
+- Sources
+- Photos
+- Songs
+- Books
+
+These feature tables will be designed and addressed separately from the concerns of our main database tables
+
 
 ### Standalone Tables
 
@@ -71,20 +120,25 @@ Song Genre Template     | Files         | 1:N
 Table Name | Files 
 |----------|
 Files
+
 Sources
 File Sources
 Source Tag Types
 Tag Type Template
 File Source Tags
+
 Hash Types
 File Hashes
+
 Frequency
 Timestamps
 Images
-Photo Metadata
-Location Metadata
 Videos
 Audio
+
+Photo Metadata
+Location Metadata
+
 Songs
 Song Bands
 Bands
@@ -92,9 +146,12 @@ Song Artists
 Song Artist Names
 Song Lyrics
 Song `Genre` Template
+
 Music Genres
+
 Albums
 Track `Name` Set Template
+
 Books
 Book Languages
 Languages
@@ -103,4 +160,5 @@ Literary Publishers
 Book Genres Literary Genres
 Book Authors
 Author Names
+
 Folders
