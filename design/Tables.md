@@ -8,6 +8,13 @@ The tables are read left-to-right and top-to-bottom.
 
 ## Table of Contents
 
+- [Terminology](#terminology)
+- [Tables](#tables)
+    - [Main Tables](#main-tables)
+    - [Subset Tables](#subset-tables)
+    - [Simple Feature Tables](#simple-feature-tables)
+    - [Advanced Feature Tables](#advanced-feature-tables)
+
 ## Terminology
 
 - `None`: Denotes no table relationship
@@ -171,6 +178,12 @@ A file can be an audio file. An audio file can be a song.
 Songs can be made by either artists or bands.
 
 ##### Song Artists
+
+A song can be made by a song artist.
+
+Relationship:
+
+
 
 ##### Song Bands
 
