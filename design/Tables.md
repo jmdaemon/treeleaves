@@ -179,16 +179,42 @@ Songs can be made by either artists or bands.
 
 ##### Song Artists
 
-A song can be made by a song artist.
+A song can be made by a number of song artists. A song artist has a full name.
 
-Relationship:
+Relationships:
 
-
+| Table              | Files | Songs | Song Artists | Song Artists Names |
+|--------------------|-------|-------|--------------|--------------------|
+| Files              |       | 1:1   | 1:N          |                    |
+| Songs              | 1:1   |       |              |                    |
+| Song Artists       | 1:1   | 1:1   |              | 1:N                |
+| Song Artists Names | 1:1   | 1:1   | 1:1          |                    |
 
 ##### Song Bands
 
+A song can be made by a number of song bands. A band has a name.
+
+Relationships:
+
+| Table      | Files | Songs | Song Bands | Bands |
+|------------|-------|-------|------------|-------|
+| Files      |       | 1:1   | 1:N        |       |
+| Songs      | 1:1   |       |            |       |
+| Song Bands | 1:1   | 1:1   |            | 1:N   |
+| Bands      | 1:1   | 1:1   | 1:1        |       |
+
 ##### Music Genres
 
+A song can have a number of music genres.
+
+Relationships:
+
+| Table        | Files | Songs | Song Genres | Music Genres |
+|--------------|-------|-------|-------------|--------------|
+| Files        |       | 1:1   | 1:N         |              |
+| Songs        | 1:1   |       | 1:N         |              |
+| Song Genres  | 1:1   | 1:1   |             | 1:N          |
+| Music Genres |       |       | 1:1         |              |
 
 
 ### Standalone Tables
