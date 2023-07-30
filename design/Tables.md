@@ -112,13 +112,45 @@ Our source tables are:
     - Tag Type Template
     - File Source Tags
 
-Note that these tables aren't necessarily normal.
-Some aren't directly related to `Files`.
+Note that these tables aren't necessarily normal. Some aren't directly related to `Files`.
 
 ##### File Sources
 
+`Sources` is a standalone defined table.
 
-##### File Tags
+Relationships:
+
+| Table        | Files | Sources | File Sources |
+|--------------|-------|---------|--------------|
+| Files        |       |         | 1:N          |
+| Sources      |       |         | 1:N          |
+| File Sources | 1:1   | 1:1     |              |
+
+##### File Source Tags
+
+A source can have a number of tag types. A tag type is a table.
+
+A file source can have a number of tags.
+
+Relationships:
+
+For the source tag types:
+
+| Table             | Sources | Source Tag Types | Tag Type Template |
+|-------------------|---------|------------------|-------------------|
+| Sources           |         | 1:N              |                   |
+| Source Tag Types  | 1:1     |                  | 1:N               |
+| Tag Type Template | 1:1     | 1:1              |                   |
+
+And for how these source tags relate to files:
+
+| Table            | File Sources | File Source Tags |
+|------------------|--------------|------------------|
+| File Sources     |              | 1:N              |
+| File Source Tags | 1:1          |                  |
+
+
+
 
 
 
