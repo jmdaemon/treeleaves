@@ -250,6 +250,7 @@ A file can be a book. A book:
 - Can be written by a number of authors
 
 Relationships:
+<!-- TODO: Create table -->
 
 ##### Book Publishers
 
