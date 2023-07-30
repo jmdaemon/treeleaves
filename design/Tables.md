@@ -216,97 +216,56 @@ Relationships:
 | Song Genres  | 1:1   | 1:1   |             | 1:N          |
 | Music Genres |       |       | 1:1         |              |
 
+#### Books
 
-### Standalone Tables
+A file can be a book. A book:
+- Can have a number of literary publishers
+- Can be written in a number of languages
+- Can be classified by a number of genres
+- Can be written by a number of authors
 
-These are tables that are completely independent from other tables.
-They do not rely on data from any other table for any of their fields.
+Relationships:
 
-Table Name          |
---------------------|
-Files               |
-Sources             |
-Hash Types          |
-Bands               |
-Music Genres        |
-Albums              |
-Languages           |
-Literary Publishers |
-Literary Genres     |
-Author Names        |
+##### Book Publishers
 
-## Subset Tables
+| Table               | Files | Books | Book Publishers | Literary Publishers |
+|---------------------|-------|-------|-----------------|---------------------|
+| Files               |       | 1:1   | 1:N             |                     |
+| Books               | 1:1   |       | 1:N             |                     |
+| Book Publishers     | 1:1   | 1:1   |                 | 1:N                 |
+| Literary Publishers |       |       | 1:1             |                     |
 
-These are tables that are subset tables of the `Standalone` table types.
+##### Book Languages
 
-Table Name              | Files |
+| Table          | Files | Books | Book Languages | Languages |
+|----------------|-------|-------|----------------|-----------|
+| Files          |       | 1:1   | 1:N            |           |
+| Books          | 1:1   |       | 1:N            |           |
+| Book Languages | 1:1   | 1:1   |                | 1:N       |
+| Languages      |       |       | 1:1            |           |
 
-- File Sources          | 1:N   |
-- File Source Tags      | 1:N   |
-- Frequency             | 1:1   |
-- Timestamps            | 1:1   |
+##### Book Genres
 
-- Images                | 1:1   |
-- Photo Metadata        | 1:1   |
-- Location Metadata     | 1:1   |
-- Videos                | 1:1   |
+| Table           | Files | Books | Book Genres | Literary Genres |
+|-----------------|-------|-------|-------------|-----------------|
+| Files           |       | 1:1   | 1:N         |                 |
+| Books           | 1:1   |       | 1:N         |                 |
+| Book Genres     | 1:1   | 1:1   |             | 1:N             |
+| Literary Genres |       |       | 1:1         |                 |
 
-- Audio                 | 1:1   |
-- Songs                 | 1:1   |
-- Songs Bands           | 1:N   |
-- Songs Artists         | 1:N   |
+##### Book Authors
 
-- Song Artist Names     | None  |
+| Table                 | Files | Books | Book Authors | Literary Author Names |
+|-----------------------|-------|-------|--------------|-----------------------|
+| Files                 |       | 1:1   | 1:N          |                       |
+| Books                 | 1:1   |       | 1:N          |                       |
+| Book Authors          | 1:1   | 1:1   |              | 1:N                   |
+| Literary Author Names |       |       | 1:1          |                       |
 
-Generated Subset Table  | Parent Table  | Relationship
-Song Genre Template     | Files         | 1:N
-
-## Relationships
-
-Table Name | Files 
-|----------|
-Files
-
-Sources
-File Sources
-Source Tag Types
-Tag Type Template
-File Source Tags
-
-Hash Types
-File Hashes
-
-Frequency
-Timestamps
-Images
-Videos
-Audio
-
-Photo Metadata
-Location Metadata
-
-Songs
-Song Bands
-Bands
-
-Song Artists
-Song Artist Names
+- **Note:** The above tables for books all have the same table relationship structure between them.
+    - Other tables also share this same structure, so we will give a name for it
 
 Song Lyrics
-Song `Genre` Template
-
-Music Genres
 
 Albums
 Track `Name` Set Template
-
-Books
-Book Languages
-Languages
-Book Publishers
-Literary Publishers
-Book Genres Literary Genres
-Book Authors
-Author Names
-
-Folders
