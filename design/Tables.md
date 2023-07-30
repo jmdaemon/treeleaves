@@ -23,11 +23,18 @@ A pair of tables bears the following relationship if the two have the following 
 
 ## Tables
 
-Our main table is the `Files` table. This table will contain all the
-main central data that we will base all other table relationships from.
+The main table of interest is the `Files` table.
 
-We will tackle the relationships of these types of tables in isolation both to make it
-easier to reason about certain properties of these tables, as well as being easier to manage.
+This table will contain all the main central data that we will base all other table relationships from.
+
+We will separate our main tables of interest and additional tables to make it easier to reason about their relationships,
+as well as being easier to manage.
+
+We will split our tables into the following types:
+- Main Tables
+- Subset Tables
+- Simple Feature Tables
+- Advanced Feature Tables
 
 ### Main Tables
 
@@ -36,7 +43,7 @@ More specifically, our main database tables are:
 - Folders
 - Timestamps
 
-#### Relationships
+Relationships:
 
 | Table      | Files | Folders | Timestamps |
 |------------|-------|---------|------------|
@@ -44,17 +51,87 @@ More specifically, our main database tables are:
 | Folders    | 1:N   |         | 1:1        |
 | Timestamps | 1:1   | 1:1     |            |
 
-### Main Subset Tables
+### Subset Tables
 
-We also have a set of subset tables that are also important to our main tables.
-
-These tables are:
-
-- Hashes
-- Frequency
+Our subset table are:
 - Images
 - Audio
 - Video
+
+Relationships:
+
+| Table  | Files | Images | Audio | Video |
+|--------|-------|--------|-------|-------|
+| Files  |       | 1:1    | 1:1   | 1:1   |
+| Images | 1:1   |        |       |       |
+| Audio  | 1:1   |        |       |       |
+| Video  | 1:1   |        |       |       |
+
+### Simple Feature Tables
+
+Simple feature tables are like subset tables except they are not concerned
+with the type of subject file, but are general features that apply to all files.
+
+These simple feature tables may also employ the use of one or more additional tables that
+reduce data duplication between records.
+
+Our simple feature tables are:
+- Hashes:
+    - Hash Types
+    - File Hashes
+- Frequency
+
+Relationships:
+
+| Table       | Files | Hash Types | File Hashes | Frequency |
+|-------------|-------|------------|-------------|-----------|
+| Files       |       | 1:1        | 1:N         | 1:1       |
+| Hash Types  | 1:N   |            | 1:N         |           |
+| File Hashes | 1:1   |            |             |           |
+| Frequency   | 1:1   |            |             |           |
+
+### Advanced Feature Tables
+
+Advanced feature tables are subset tables that require significantly more
+tables or require table generation to be employed.
+
+These tables may be resource intensive, are optional, and often highly
+specific or tailored to a single task. For that reason these table relationships are looked
+at more closely.
+
+For this reason, we split them up into different sets of features
+
+#### Sources
+
+Our source tables are:
+- Sources:
+    - Sources
+    - File Sources
+- Source Tags:
+    - Source Tag Types
+    - Tag Type Template
+    - File Source Tags
+
+Note that these tables aren't necessarily normal.
+Some aren't directly related to `Files`.
+
+##### File Sources
+
+
+##### File Tags
+
+
+
+<!--We also have a set of subset tables that are also important to our main tables.-->
+
+<!--These tables are:-->
+
+<!--- Hashes-->
+<!--- Frequency-->
+
+<!--- Images-->
+<!--- Audio-->
+<!--- Video-->
 
 ### Feature Tables
 
