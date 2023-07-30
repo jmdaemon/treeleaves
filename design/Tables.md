@@ -203,6 +203,31 @@ Relationships:
 | Song Bands | 1:1   | 1:1   |            | 1:N   |
 | Bands      | 1:1   | 1:1   | 1:1        |       |
 
+##### Song Albums
+
+A song album can contain many songs. A song has a track order.
+
+Relationships:
+
+| Table          | Files | Songs | Albums | Track Name Set  |
+|----------------|-------|-------|--------|-----------------|
+| Files          |       | 1:1   |        |                 |
+| Songs          | 1:1   |       |        | 1:1             |
+| Albums         | 1:N   | 1:N   |        | 1:N             |
+| Track Name Set | 1:1   | 1:1   | 1:1    |                 |
+
+##### Song Lyrics
+
+A song can have one set of song lyrics.
+
+Relationships:
+
+| Table       | Files | Songs | Song Lyrics |
+|-------------|-------|-------|-------------|
+| Files       |       | 1:1   |             |
+| Songs       | 1:1   |       | 1:1         |
+| Song Lyrics | 1:1   | 1:1   |             |
+
 ##### Music Genres
 
 A song can have a number of music genres.
@@ -264,8 +289,3 @@ Relationships:
 
 - **Note:** The above tables for books all have the same table relationship structure between them.
     - Other tables also share this same structure, so we will give a name for it
-
-Song Lyrics
-
-Albums
-Track `Name` Set Template
