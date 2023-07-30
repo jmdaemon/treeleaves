@@ -149,35 +149,33 @@ And for how these source tags relate to files:
 | File Sources     |              | 1:N              |
 | File Source Tags | 1:1          |                  |
 
+#### Photos
 
+A file can be an image. An image can be a photo.
+We have the following tables for Photos:
+- Photo Metadata
+- Location Metadata
 
+Relationships:
 
+| Tables            | Files | Photo Metadata | Location Metadata |
+|-------------------|-------|----------------|-------------------|
+| Files             |       | 1:1            | 1:1               |
+| Photo Metadata    | 1:1   |                |                   |
+| Location Metadata | 1:1   |                |                   |
 
+#### Songs
 
-<!--We also have a set of subset tables that are also important to our main tables.-->
+A file can be an audio file. An audio file can be a song.
 
-<!--These tables are:-->
+Songs can be made by either artists or bands.
 
-<!--- Hashes-->
-<!--- Frequency-->
+##### Song Artists
 
-<!--- Images-->
-<!--- Audio-->
-<!--- Video-->
+##### Song Bands
 
-### Feature Tables
+##### Music Genres
 
-Feature tables are add-on tables/standalone databases that add more enhanced or specific
-metadata to our main tables and our main subset tables.
-
-Our feature tables for the database are:
-
-- Sources
-- Photos
-- Songs
-- Books
-
-These feature tables will be designed and addressed separately from the concerns of our main database tables
 
 
 ### Standalone Tables
@@ -251,8 +249,10 @@ Location Metadata
 Songs
 Song Bands
 Bands
+
 Song Artists
 Song Artist Names
+
 Song Lyrics
 Song `Genre` Template
 
