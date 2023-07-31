@@ -314,15 +314,142 @@ The preliminary table list is obtained from grouping the various fields in the p
 
 ### Tables with Associated Fields
 
-| Files     | Sources     | File Sources    | Source Tag Types   | Tag Type Template           | File Source Tags | Hash Types     | File Hashes | Frequency      | Timestamps         | Images             | Photo Metadata | Location Metadata | Videos             | Audio           | Songs      | Song Bands | Bands     | Song Artists | Song Artist Names  | Song Lyrics | Song `Genre` Template | Music Genres     | Albums     | Track `Name` Set Template | Books           | Book Languages   | Languages     | Book Publishers       | Literary Publishers     | Book Genres       | Literary Genres     | Book Authors   | Author Names       | Folders          |
-|-----------|-------------|-----------------|--------------------|-----------------------------|------------------|----------------|-------------|----------------|--------------------|--------------------|----------------|-------------------|--------------------|-----------------|------------|------------|-----------|--------------|--------------------|-------------|-----------------------|------------------|------------|---------------------------|-----------------|------------------|---------------|-----------------------|-------------------------|-------------------|---------------------|----------------|--------------------|------------------|
-| File ID   | Source ID   | File ID         | Source Tag Type ID | `Tag Type Table Definition` | File ID          | Hash Type ID   | File ID     | File ID        | File ID            | File ID            | File ID        | File ID           | File ID            | File ID         | File ID    | File ID    | Band ID   | File ID      | Artist ID          | File ID     | File ID               | Music Genre ID   | Album ID   | File ID                   | File ID         | Book Language ID | Language ID   | File ID               | Literary Publisher ID   | File ID           | Literary Genre ID   | File ID        | Author ID          | File ID          |
-| File Name | Source Name | File Source URL |                    |                             | Tag Type ID      | Hash Type Name | File Hash   | Times Accessed | Creation Date      | Image Pixel Count  | Date Taken     | Latitude          | Video Duration     | Audio Duration  | Song Title | Band ID    | Band Name | Artist ID    | Artist First Name  | Song Lyrics | Music Genre ID        | Music Genre Name | Album Name | Track Order               | Book Title      | File ID          | Language Code | Literary Publisher ID | Literary Publisher Name | Literary Genre ID | Literary Genre Name | Author Name ID | Author First Name  | Folder View Type |
-| File Path |             |                 |                    |                             |                  |                |             |                | Last Updated Date  | Image Width        | Time Taken     | Longitude         | Video Width        | Audio Frequency |            |            |           |              | Artist Middle Name |             |                       |                  |            |                           | Book Page Count | Language ID      | Language Name | Book Publish Date     |                         |                   |                     |                | Author Middle Name |                  |
-| MIME Type |             |                 |                    |                             |                  |                |             |                | Last Accessed Date | Image Height       |                |                   | Video Height       |                 |            |            |           |              | Artist Last Name   |             |                       |                  |            |                           |                 |                  |               |                       |                         |                   |                     |                | Author Last Name   |                  |
-| File Size |             |                 |                    |                             |                  |                |             |                |                    | Image Aspect Ratio |                |                   | Video Aspect Ratio |                 |            |            |           |              |                    |             |                       |                  |            |                           |                 |                  |               |                       |                         |                   |                     |                |                    |                  |
-|           |             |                 |                    |                             |                  |                |             |                |                    |                    |                |                   |                    |                 |            |            |           |              |                    |             |                       |                  |            |                           |                 |                  |               |                       |                         |                   |                     |                |                    |                  |
-|           |             |                 |                    |                             |                  |                |             |                |                    |                    |                |                   |                    |                 |            |            |           |              |                    |             |                       |                  |            |                           |                 |                  |               |                       |                         |                   |                     |                |                    |                  |
+The tables have been split up and listed below to make them easier to view.
+
+#### Main Tables
+
+| Files     | Folders          | Timestamps         |
+|-----------|------------------|--------------------|
+| File ID   | File ID          | File ID            |
+| File Name | Folder View Type | Creation Date      |
+| File Path |                  | Last Updated Date  |
+| MIME Type |                  | Last Accessed Date |
+| File Size |                  |                    |
+
+#### Subset Tables
+
+| Images             | Videos             | Audio           |
+|--------------------|--------------------|-----------------|
+| File ID            | File ID            | File ID         |
+| Image Pixel Count  | Video Duration     | Audio Duration  |
+| Image Width        | Video Width        | Audio Frequency |
+| Image Height       | Video Height       |                 |
+| Image Aspect Ratio | Video Aspect Ratio |                 |
+
+#### Simple Feature Tables
+
+| Hash Types     | File Hashes | Frequency      |
+|----------------|-------------|----------------|
+| Hash Type ID   | File ID     | File ID        |
+| Hash Type Name | File Hash   | Times Accessed |
+
+#### Advanced Feature Tables
+
+##### Feature: Sources
+
+| Sources     | File Sources    |
+|-------------|-----------------|
+| Source ID   | File ID         |
+| Source Name | File Source URL |
+
+##### Feature: Sources Tags
+
+| Source Tag Types   | Tag Type Template           | File Source Tags |
+|--------------------|-----------------------------|------------------|
+| Source Tag Type ID | `Tag Type Table Definition` | File ID          |
+|                    |                             | Tag Type ID      |
+
+##### Feature: Photos
+
+| Photo Metadata | Location Metadata |
+|----------------|-------------------|
+| File ID        | File ID           |
+| Date Taken     | Latitude          |
+| Time Taken     | Longitude         |
+
+##### Feature: Songs
+
+| Songs      |
+|------------|
+| File ID    |
+| Song Title |
+
+###### Feature: Songs Artists
+
+| Song Artists | Song Artist Names  |
+|--------------|--------------------|
+| File ID      | Artist ID          |
+| Artist ID    | Artist First Name  |
+|              | Artist Middle Name |
+|              | Artist Last Name   |
+
+###### Feature: Songs Bands
+
+| Song Bands | Bands     |
+|------------|-----------|
+| File ID    | Band ID   |
+| Band ID    | Band Name |
+
+###### Feature: Songs Lyrics
+
+| Song Lyrics |
+|-------------|
+| File ID     |
+| Song Lyrics |
+
+###### Feature: Songs Genres
+
+| Song `Genre` Template | Music Genres     |
+|-----------------------|------------------|
+| File ID               | Music Genre ID   |
+| Music Genre ID        | Music Genre Name |
+
+###### Feature: Song Albums
+
+| Albums     | Track `Name` Set Template |
+|------------|---------------------------|
+| Album ID   | File ID                   |
+| Album Name | Track Order               |
+
+##### Feature: Books
+
+| Books           |
+|-----------------|
+| File ID         |
+| Book Title      |
+| Book Page Count |
+
+###### Feature: Book Publishers
+
+| Book Publishers       | Literary Publishers     |
+|-----------------------|-------------------------|
+| File ID               | Literary Publisher ID   |
+| Literary Publisher ID | Literary Publisher Name |
+| Book Publish Date     |                         |
+
+###### Feature: Book Languages
+
+| Book Languages   | Languages     |
+|------------------|---------------|
+| Book Language ID | Language ID   |
+| File ID          | Language Code |
+| Language ID      | Language Name |
+
+###### Feature: Book Genres
+
+| Book Genres       | Literary Genres     |
+|-------------------|---------------------|
+| File ID           | Literary Genre ID   |
+| Literary Genre ID | Literary Genre Name |
+
+###### Feature: Book Authors
+
+| Book Authors   | Author Names       |
+|----------------|--------------------|
+| File ID        | Author ID          |
+| Author Name ID | Author First Name  |
+|                | Author Middle Name |
+|                | Author Last Name   |
 
 ## Table Level Integrity
 
