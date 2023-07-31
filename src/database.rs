@@ -5,7 +5,9 @@ use chrono::{DateTime, Utc, NaiveDate, NaiveTime};
 pub type FileID = u64;
 pub type DateTimestamp = DateTime<Utc>;
 
+//
 // Main Tables
+//
 pub struct File {
     pub id: FileID,
     pub name: String,
@@ -31,7 +33,9 @@ pub struct Timestamp {
     pub accessed_at: DateTimestamp,
 }
 
+//
 // Subset Tables
+//
 pub struct Image {
     pub file_id: FileID,
     pub pixel_count: u16,
@@ -48,27 +52,30 @@ pub struct Video {
     pub aspect_ratio: String,
 }
 
-
 pub struct Audio {
     pub file_id: FileID,
     pub duration: Duration,
     pub frequency: f32,
 }
 
+//
 // Simple Feature Tables
-/*
-pub enum HashType {
-    SHA1,
-    SHA256,
-    MD5,
-}
-*/
+//
 
 pub struct HashType {
     pub id: u16,
     pub name: String,
 }
 
+/// The file hash data repesentation for ar given hash algorithm
+/// NOTE: `File Hashes` is individually defined according to the following structure:
+/// Structure:
+/// - `hashes`
+///     - `sha1.db`
+///     - `sha256.db`
+///     - `md5.db`
+/// In every database, there will be a `File Hashes` table
+/// So we don't need HashTypeID
 pub struct FileHash {
     pub file_id: FileID,
     pub hash: String,
@@ -79,7 +86,15 @@ pub struct Frequency {
     pub times_accessed: u32,
 }
 
+//
 // Advanced Feature Tables
+//
+
+// Aliases
+pub struct Aliases {
+    pub file_id: FileID,
+    pub alias: String,
+}
 
 // Feature: Sources
 // Sources
@@ -97,7 +112,7 @@ pub struct FileSource {
 pub type SourceTagType = u64;
 
 // Generic tag type table definition
-pub struct TagType<T> {
+pub struct TagType {
     pub id: u64,
 }
 
@@ -109,15 +124,27 @@ pub struct FileSourceTags {
 // Feature: Photos
 pub struct PhotoMetadata {
     pub file_id: FileID,
-    //pub taken_at: DateTimestamp,
     pub date_taken: NaiveDate,
     pub time_taken: NaiveTime,
 }
 
-pub struct  LocationMetadata {
+pub struct LocationMetadata {
     pub file_id: FileID,
     pub lattitude: f64,
     pub longitude: f64,
+}
+
+// Feature: Photo Albums
+pub type PhotoAlbumID = u64;
+
+pub struct PhotoAlbum {
+    pub id: PhotoAlbumID,
+    pub name: String,
+}
+
+pub struct AlbumPhoto {
+    pub file_id: FileID,
+    pub order: u8,
 }
 
 // Feature: Songs
@@ -151,22 +178,24 @@ pub struct SongBand {
 }
 
 // Song Albums
-pub type AlbumID = u64;
+pub type MusicAlbumID = u64;
 
-// TODO: This relationship needs work
-// Is the relationship a many-to-many relationship?
-
-// An album
-pub struct Album {
-    pub id: AlbumID,
+pub struct MusicAlbum {
+    pub id: MusicAlbumID,
     pub name: String,
 }
 
-// We want to have an album available without having to encode the album id
-// So instead we generate a database of Albums with the Album Name, and link
-// back to the files
-
-// A song can be a track
+/// An album has a number of tracks
+/// NOTE:
+/// There are two ways to model this relation:
+/// 1. Standard Method: Create a linking table "Song Tracks" that contains fields:
+///     - file_id
+///     - album_id
+///     - order
+/// 2. Table Generation: Generate a table "Track: `name`" that contains fields:
+///     - file_id
+///     - order
+/// NOTE: We'll have to do table generation anyways, so we'll stick with #2 for now
 pub struct Track {
     pub file_id: FileID,
     pub order: u8,
@@ -178,7 +207,6 @@ pub struct SongLyric {
     pub lyric: String,
 }
 
-
 // Song Genres
 pub type MusicGenreID = u16;
 pub struct MusicGenre {
@@ -189,13 +217,17 @@ pub struct MusicGenre {
 // We generate a table for every file with the song genre.
 //
 
-// Song albums are an add-on feature.
-// An album can contain many songs.
-// There are a few ways to model this relationship:
-// 1. Create a linking table SongGenres with:
-//      - file_id
-//      - music_genre_id
-
+/// Song albums are an add-on feature.
+/// An album can contain many songs.
+/// There are a few ways to model this relationship:
+/// 1. Standard Method: Create a linking table `Song Genres` with fields:
+///      - file_id
+///      - music_genre_id
+/// 2. Table Generation: Generate a table "Music Genre: `name`" with fields:
+///      - file_id
+/// NOTE: We will have a lot of duplicate data if we generate a table
+///     since having two file_ids is bigger than two music_genre_ids
+/// So we will stick with method #1
 pub struct SongGenre {
     pub music_genre_id: MusicGenreID,
     pub file_id: FileID,
@@ -208,6 +240,12 @@ pub struct Book {
     pub pages: u16,
 }
 
+// Book Publications
+pub struct BookPublication {
+    pub file_id: FileID,
+    pub publication_date: NaiveDate,
+}
+
 // Book Publishers
 pub type PublisherID = u64;
 pub struct LiteraryPublisher {
@@ -215,29 +253,21 @@ pub struct LiteraryPublisher {
     pub name: String,
 }
 
-//pub struct BookPublications {
-    //pub file_id: FileID,
-    //pub publication_date: NaiveDate,
-//}
-
-// TODO: This will cause an issue if there are multiple publishers
 pub struct BookPublisher {
     pub file_id: FileID,
     pub publishers_id: PublisherID,
-    pub publication_date: NaiveDate,
 }
 
 // Book Languages
 pub type LanguageID = u16;
+
 pub struct Language {
     pub id: LanguageID,
     pub code: String,
     pub name: String,
 }
 
-// TODO: It's probably redundant to include an identifier for BookLanguage
 pub struct BookLanguage {
-    pub id: u64,
     pub file_id: FileID, 
     pub language_id: LanguageID,
 }
