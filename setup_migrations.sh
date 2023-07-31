@@ -1,26 +1,24 @@
 #!/bin/bash
 
-# Setup the initial database migrations
+# Setup the initial databases migrations
 
-# Make the migrations directories
-MIGRATIONS_ROOT_DIR="migrations"
-DATABASE_TYPE="sqlite3"
-
-migrations=(
-    "create_mime_types"
-    "create_files"
-    "create_main"
-    "create_images"
-    "create_audio"
-    "create_videos"
-    )
-
-# Create the migrations root directory
-MIGRATIONS_DIR="$MIGRATIONS_ROOT_DIR/$DATABASE_TYPE"
+# Setup the migrations directory if it doesn't exist
 if [[ ! -d "$MIGRATIONS_DIR" ]]; then 
     mkdir -p "$MIGRATIONS_DIR"
 fi
 
-for migration in ${migrations[@]}; do
-    diesel migration generate --migration-dir "$MIGRATIONS_DIR" "$migration"
+# Populate migrations
+MIGRATIONS=()
+
+for url in ${DATABASE_URLS[@]}; do
+    base=$(basename "$url" ".db")
+    migration="create_${base}"
+    MIGRATIONS+=("$migration")
+done
+
+# Create the migrations
+for migration in ${MIGRATIONS[@]}; do
+    diesel  migration \
+            --migration-dir "$MIGRATIONS_DIR" \
+            generate  "$migration"
 done
