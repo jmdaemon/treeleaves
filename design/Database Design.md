@@ -88,6 +88,13 @@ The tables have been split up and listed below to make them easier to view.
 | Date Taken     | Latitude          |
 | Time Taken     | Longitude         |
 
+###### Feature: Photo Albums
+
+| Photo Albums |
+|--------------|
+| File ID      |
+| Photo Order  |
+
 ##### Feature: Songs
 
 | Songs      |
