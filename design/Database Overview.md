@@ -13,6 +13,7 @@ This document also provides an overview of the files to be found in the database
 - [File Type Metadata](#file-type-metadata)
 - [Advanced File Type Metadata](#advanced-file-type-metadata)
 
+
 ## Features
 
 - Aliases
@@ -108,3 +109,61 @@ These are created as `addons` which offer more specific information for our data
     - `songs`
     - `albums`
     - `books`
+
+## Databases
+
+We're going to have the following databases in our metadata folder hierarchy.
+
+- .treeleaves
+    - main
+        - files.db
+        - main.db
+    - types
+        - images.db
+        - videos.db
+        - audio.db
+    - features
+        - hashes
+            - sha1.db
+            - sha256.db
+            - md5.db
+        - frequency
+            - frequency.db
+    - addons
+        - aliases
+            - aliases1.db
+            - aliases2.db
+            - aliases3.db
+        - sources
+            - src1
+                - sources.db
+                - tags.db
+            - src2
+                - sources.db
+                - tags.db
+        - songs
+            - data
+                - artists.db
+                - bands.db
+                - albums.db
+                - lyrics.db
+                - genres.db
+            - songs.db
+        - photos
+            - data
+                - datetime.db
+                - location.db
+                - album.db
+            - photos.db
+        - books
+            - data
+                - authors.db
+                - publishers.db
+                - languages.db
+                - genres.db
+            - books.db
+<!--- songs-artists.db-->
+<!--- songs-bands.db-->
+<!--- songs-albums.db-->
+<!--- songs-lyrics.db-->
+<!--- songs-genres.db-->
