@@ -1,4 +1,4 @@
-# Design
+# Database Design
 
 Final revised design document for the Treeleaves database.
 
