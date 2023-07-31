@@ -1,6 +1,7 @@
 use std::{path::PathBuf, time::Duration};
 
 use chrono::{DateTime, Utc, NaiveDate, NaiveTime};
+use url::Url;
 
 pub type FileID = u64;
 pub type DateTimestamp = DateTime<Utc>;
