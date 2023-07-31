@@ -5,6 +5,7 @@ MIGRATIONS_ROOT_DIR="migrations"
 DATABASE_TYPE="sqlite3"
 
 migrations=(
+    "create_mime_types"
     "create_files"
     "create_main"
     "create_images"
