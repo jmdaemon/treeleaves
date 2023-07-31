@@ -21,3 +21,5 @@ sha1 = "0.10.5"
 #tokio = { version = "1", features = ["full"] }
 walkdir = "2.3.2"
 tl = "0.7.7"
+diesel = { version = "2.1.0", features = ["sqlite", "64-column-tables", "url"] }
+url = { version = "2.4.0", features = }

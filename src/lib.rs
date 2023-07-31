@@ -1,3 +1,7 @@
+pub mod database;
+
+/*
+
 use rusqlite::Connection;
 
 // Structure:
@@ -70,3 +74,4 @@ pub struct Emote {
 fn create_sql_table(query: &str, conn: &Connection) -> Result<usize, rusqlite::Error> {
     conn.execute(query, (),)
 }
+*/
