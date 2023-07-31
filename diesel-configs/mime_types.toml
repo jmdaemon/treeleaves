@@ -1,3 +1,3 @@
 [print_schema]
-file = "../src/schema/main.rs"
+file = "../src/schema/mime_types.rs"
 custom_type_derives = ["diesel::query_builder::QueryId"]
