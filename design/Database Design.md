@@ -59,6 +59,13 @@ The tables have been split up and listed below to make them easier to view.
 
 #### Advanced Feature Tables
 
+##### Feature: Aliases
+
+| Aliases    |
+|------------|
+| File ID    |
+| Alias Name |
+
 ##### Feature: Sources
 
 | Sources     | File Sources    |

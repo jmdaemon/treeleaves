@@ -15,6 +15,7 @@ This document also provides an overview of the files to be found in the database
 
 ## Features
 
+- Aliases
 - Hashes
 - Timestamps
 - Frequency
@@ -28,6 +29,18 @@ This document also provides an overview of the files to be found in the database
     - Photos
     - Songs
     - Books
+
+## Aliases
+
+Each file can have a number of aliases. There are many aliases
+
+This will be defined in the structure:
+- `aliases`
+    - `aliases1.db`
+    - `aliases2.db`
+    - `aliases3.db`
+
+Each of these databases contains a table of user-defined file aliases.
 
 ## Hashes
 
