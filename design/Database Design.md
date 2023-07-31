@@ -147,13 +147,19 @@ The tables have been split up and listed below to make them easier to view.
 | Book Title      |
 | Book Page Count |
 
+###### Feature: Book Publications
+
+| Book Publications |
+|-------------------|
+| File ID           |
+| Publication Date  |
+
 ###### Feature: Book Publishers
 
 | Book Publishers       | Literary Publishers     |
 |-----------------------|-------------------------|
 | File ID               | Literary Publisher ID   |
 | Literary Publisher ID | Literary Publisher Name |
-| Book Publish Date     |                         |
 
 ###### Feature: Book Languages
 
