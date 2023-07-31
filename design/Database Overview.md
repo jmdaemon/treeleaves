@@ -162,8 +162,3 @@ We're going to have the following databases in our metadata folder hierarchy.
                 - languages.db
                 - genres.db
             - books.db
-<!--- songs-artists.db-->
-<!--- songs-bands.db-->
-<!--- songs-albums.db-->
-<!--- songs-lyrics.db-->
-<!--- songs-genres.db-->
