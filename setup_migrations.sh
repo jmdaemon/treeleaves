@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Setup the initial database migrations
+
 # Make the migrations directories
 MIGRATIONS_ROOT_DIR="migrations"
 DATABASE_TYPE="sqlite3"

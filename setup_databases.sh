@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Setup the necessary database hierarchy
+
 # Make the necessary database directory structure
 DATABASE_ROOT_DIR=".treeleaves"
 hierarchy=(main types features addons)
@@ -12,6 +14,7 @@ done
 ENV_DIR=".env"
 
 databases=(
+    "mime_types"
     "files"
     "main"
     "images"
@@ -20,8 +23,11 @@ databases=(
 )
 
 for database in ${databases[@]}; do
-    dir="$ENV_DIR/$database"
-    if [[ -f "$dir" ]]; then
-        diesel --database-url $(cat "$dir") setup
+    db_url_file="$ENV_DIR/$database"
+    if [[ -f "$db_url_file" ]]; then
+        db=$(cat "$db_url_file")
+        if [[ ! -f "$db" ]]; then
+            diesel --database-url "$db" setup
+        fi
     fi
 done
