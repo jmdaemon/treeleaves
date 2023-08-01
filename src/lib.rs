@@ -1,4 +1,39 @@
-pub mod database;
+//#![feature(trivial_bounds)]
+
+// Declare modules
+pub mod models;
+pub mod schema;
+
+// Re-export schemas
+pub mod schemas {
+    pub use super::schema::audio::*;
+    pub use super::schema::files::*;
+    pub use super::schema::images::*;
+    pub use super::schema::main::*;
+    pub use super::schema::mime_types::*;
+    pub use super::schema::videos::*;
+}
+
+use diesel::prelude::*;
+use models::MIMEType;
+
+pub fn create_mime_type(conn: &mut SqliteConnection, mime_type: &str) -> MIMEType {
+    MIMEType { id: 0, mime_type: "".to_owned()}
+}
+
+/*
+pub fn create_post(conn: &mut SqliteConnection, title: &str, body: &str) -> Post {
+    use crate::schema::posts;
+
+    let new_post = NewPost { title, body };
+
+    diesel::insert_into(posts::table)
+        .values(&new_post)
+        .returning(Post::as_returning())
+        .get_result(conn)
+        .expect("Error saving new post")
+}
+*/
 
 /*
 

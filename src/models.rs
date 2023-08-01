@@ -1,7 +1,9 @@
-use std::{path::PathBuf, time::Duration};
-
+use super::schemas::*;
+use diesel::prelude::*;
 use chrono::{DateTime, Utc, NaiveDate, NaiveTime};
 use url::Url;
+
+use std::{path::PathBuf, time::Duration};
 
 pub type FileID = u64;
 pub type DateTimestamp = DateTime<Utc>;
@@ -9,6 +11,15 @@ pub type DateTimestamp = DateTime<Utc>;
 //
 // Main Tables
 //
+
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = mime_types)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+pub struct MIMEType {
+    pub id: i32,
+    pub mime_type: String,
+}
+
 pub struct File {
     pub id: FileID,
     pub name: String,

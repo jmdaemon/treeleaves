@@ -2,8 +2,7 @@
 
 diesel::table! {
     mime_types (id) {
-        id -> Nullable<Integer>,
-        #[sql_name = "type"]
-        type_ -> Text,
+        id -> Integer,
+        mime_type -> Text,
     }
 }

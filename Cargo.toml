@@ -26,3 +26,5 @@ url = "2.4.0"
 serde = { version = "1.0.180", features = ["derive"] }
 serde_json = { version = "1.0.104", features = ["preserve_order"] }
 indexmap = { version = "2.0.0", features = ["serde"] }
+num-integer = "0.1.45"
+num-traits = "0.2.16"
