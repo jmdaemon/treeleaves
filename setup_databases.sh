@@ -13,6 +13,8 @@ done
 # Setup the databases with diesel-cli
 for url in ${DATABASE_URLS[@]}; do
     if [[ ! -f "$url" ]]; then
-        diesel --database-url "$url" setup
+        diesel --database-url "$url" \
+               setup \
+               --migration-dir "$MIGRATIONS_DIR"
     fi
 done

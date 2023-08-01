@@ -12,22 +12,36 @@ for url in ${DATABASE_URLS[@]}; do
     DATABASE_SCHEMA_CFGS+=("$config")
 done
 
+MIGRATIONS_DIRS=()
+
+# Populate migrations directories
+for url in ${DATABASE_URLS[@]}; do
+    base=$(basename "$url" ".db")
+
+    path=$(dirname "$url")
+    migration_root_dir="${path/$DATABASE_ROOT_DIR/$MIGRATIONS_DIR}"
+    migration_dir="$migration_root_dir/$base"
+
+    MIGRATIONS_DIRS+=("$migration_dir")
+done
+
 # Generate the schema file from the migration
 for i in "${!DATABASE_URLS[@]}"; do
     url="${DATABASE_URLS[i]}"
+    migration_dir="${MIGRATIONS_DIRS[i]}"
     cfg="${DATABASE_SCHEMA_CFGS[i]}"
 
     echo """Running:
     diesel  --database-url "$url" \\
             --config-file "$cfg" \\
             migration \\
-            --migration-dir "$MIGRATIONS_DIR" \\
+            --migration-dir "$migration_dir" \\
             run
     """
 
     diesel  --database-url "$url" \
             --config-file "$cfg" \
             migration \
-            --migration-dir "$MIGRATIONS_DIR" \
+            --migration-dir "$migration_dir" \
             run
 done

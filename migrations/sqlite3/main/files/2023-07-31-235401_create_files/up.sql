@@ -4,4 +4,4 @@ CREATE TABLE files (
     name VARCHAR(255) NOT NULL,
     path VARCHAR(255) NOT NULL
     -- mime_type VARCHAR(255) NOT NULL
-)
+);
