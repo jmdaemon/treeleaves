@@ -26,3 +26,24 @@ DATABASE_URLS=(
 
 # Diesel database schema mapping configs
 DATABASE_SCHEMA_CFGS=()
+
+# Database migrations
+MIGRATIONS_DIRS=()
+
+# Populate migrations directories
+# Replace ".treeleaves/main/files.db" -> "migrations/sqlite3/main/files"
+for url in ${DATABASE_URLS[@]}; do
+    base=$(basename "$url" ".db")
+    path=$(dirname "$url")
+    migration_root_dir="${path/$DATABASE_ROOT_DIR/$MIGRATIONS_DIR}"
+    migration_dir="$migration_root_dir/$base"
+    MIGRATIONS_DIRS+=("$migration_dir")
+done
+
+# Make necessary migrations directory structure
+for migration_dir in ${MIGRATIONS_DIRS[@]}; do
+    # Make directory if not already exists
+    if [[ ! -d "$migration_dir" ]]; then
+        mkdir -p "$migration_dir"
+    fi
+done

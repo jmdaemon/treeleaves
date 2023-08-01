@@ -2,5 +2,5 @@
 
 create TABLE mime_types (
     id INTEGER PRIMARY KEY,
-    type VARCHAR NOT NULL
+    mime_type VARCHAR NOT NULL
 );

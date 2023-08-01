@@ -11,10 +11,18 @@ for url in ${DATABASE_URLS[@]}; do
 done
 
 # Setup the databases with diesel-cli
-for url in ${DATABASE_URLS[@]}; do
+for i in "${!DATABASE_URLS[@]}"; do
+    migration_dir="${MIGRATIONS_DIRS[i]}"
+    url="${DATABASE_URLS[i]}"
     if [[ ! -f "$url" ]]; then
+        echo """Running
+        diesel --database-url "$url" \\
+               setup \\
+               --migration-dir "$migration_dir"
+
+        """
         diesel --database-url "$url" \
                setup \
-               --migration-dir "$MIGRATIONS_DIR"
+               --migration-dir "$migration_dir"
     fi
 done
