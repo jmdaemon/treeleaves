@@ -13,7 +13,6 @@ This document also provides an overview of the files to be found in the database
 - [File Type Metadata](#file-type-metadata)
 - [Advanced File Type Metadata](#advanced-file-type-metadata)
 
-
 ## Features
 
 - Aliases
@@ -162,3 +161,22 @@ We're going to have the following databases in our metadata folder hierarchy.
                 - languages.db
                 - genres.db
             - books.db
+
+## Data
+
+Data refers to values that we associate with records.
+
+We store certain amounts of generic data of our files in databases.
+This is done as a space-time trade-off where we trade disk space for runtime speed.
+
+Our data includes:
+- MIME Types
+- Languages
+
+Data Hierarchy
+- [data-dir]
+    - data
+        - mime_types.db
+        - languages.db
+
+**Note:** Our database doesn't quite implement this database hierarchy yet, but it will soon.
