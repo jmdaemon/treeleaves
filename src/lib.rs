@@ -7,6 +7,7 @@ pub mod schema;
 // Re-export schemas
 pub mod schemas {
     // Compile for sqlite3
+    #[cfg(feature="sqlite")]
     pub use super::schema::sqlite3::audio::*;
     pub use super::schema::sqlite3::files::*;
     pub use super::schema::sqlite3::images::*;
