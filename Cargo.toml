@@ -30,5 +30,5 @@ num-integer = "0.1.45"
 num-traits = "0.2.16"
 
 [features]
-sqlite = ["sqlite" "diesel/sqlite"]
-postgres = ["postgres" "diesel/postgres"]
+sqlite = ["diesel/sqlite"]
+postgres = ["diesel/postgres"]
