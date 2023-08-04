@@ -14,15 +14,13 @@ done
 for i in "${!DATABASE_URLS[@]}"; do
     migration_dir="${MIGRATIONS_DIRS[i]}"
     url="${DATABASE_URLS[i]}"
-    if [[ ! -f "$url" ]]; then
-        echo """Running
-        diesel --database-url "$url" \\
-               setup \\
-               --migration-dir "$migration_dir"
+    echo """Running
+    diesel --database-url "$url" \\
+           setup \\
+           --migration-dir "$migration_dir"
+    """
 
-        """
-        diesel --database-url "$url" \
-               setup \
-               --migration-dir "$migration_dir"
-    fi
+    diesel --database-url "$url" \
+           setup \
+           --migration-dir "$migration_dir"
 done

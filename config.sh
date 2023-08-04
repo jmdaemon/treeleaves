@@ -1,5 +1,9 @@
 #!/bin/bash
 
+##
+## Configurations
+##
+
 # Common shared databases between databases
 DATA_ROOT_DIR="db"
 
@@ -30,8 +34,19 @@ DATABASE_SCHEMA_CFGS=()
 # Database migrations
 MIGRATIONS_DIRS=()
 
-# Populate migrations directories
-# Replace ".treeleaves/main/files.db" -> "migrations/sqlite3/main/files"
+
+##
+## Setup
+##
+
+# Setup our database schema configs
+for url in ${DATABASE_URLS[@]}; do
+    base=$(basename "$url" ".db")
+    config="$DIESEL_SCHEMAS_DIR/${base}.toml"
+    DATABASE_SCHEMA_CFGS+=("$config")
+done
+
+# Setup our migrations directory structure
 for url in ${DATABASE_URLS[@]}; do
     base=$(basename "$url" ".db")
     path=$(dirname "$url")
@@ -40,9 +55,8 @@ for url in ${DATABASE_URLS[@]}; do
     MIGRATIONS_DIRS+=("$migration_dir")
 done
 
-# Make necessary migrations directory structure
+# Make the migrations hierarchy
 for migration_dir in ${MIGRATIONS_DIRS[@]}; do
-    # Make directory if not already exists
     if [[ ! -d "$migration_dir" ]]; then
         mkdir -p "$migration_dir"
     fi
