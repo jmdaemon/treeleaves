@@ -20,12 +20,15 @@ pub struct MIMEType {
     pub mime_type: String,
 }
 
+#[derive(Queryable, Selectable)]
+#[diesel(table_name = files)]
+#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct File {
     pub id: FileID,
     pub name: String,
     pub path: PathBuf,
-    pub mime_type: String,
     pub size: i64,
+    pub mime_type_id: i32,
 }
 
 pub enum FolderViewType {

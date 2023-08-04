@@ -2,8 +2,10 @@
 
 diesel::table! {
     files (id) {
-        id -> Nullable<Integer>,
+        id -> Integer,
         name -> Text,
         path -> Text,
+        mime_type_id -> Integer,
+        size -> Integer,
     }
 }

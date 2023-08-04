@@ -6,12 +6,13 @@ pub mod schema;
 
 // Re-export schemas
 pub mod schemas {
-    pub use super::schema::audio::*;
-    pub use super::schema::files::*;
-    pub use super::schema::images::*;
-    pub use super::schema::main::*;
-    pub use super::schema::mime_types::*;
-    pub use super::schema::videos::*;
+    // Compile for sqlite3
+    pub use super::schema::sqlite3::audio::*;
+    pub use super::schema::sqlite3::files::*;
+    pub use super::schema::sqlite3::images::*;
+    pub use super::schema::sqlite3::main::*;
+    pub use super::schema::sqlite3::mime_types::*;
+    pub use super::schema::sqlite3::videos::*;
 }
 
 use diesel::prelude::*;
