@@ -14,15 +14,14 @@ pub type DateTimestamp = DateTime<Utc>;
 
 #[derive(Queryable, Selectable)]
 #[diesel(table_name = mime_types)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct MIMEType {
-    pub id: i32,
+    pub id: u32,
     pub mime_type: String,
 }
 
 #[derive(Queryable, Selectable)]
 #[diesel(table_name = files)]
-#[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct File {
     pub id: FileID,
     pub name: String,

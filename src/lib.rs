@@ -2,6 +2,7 @@
 
 // Declare modules
 pub mod models;
+pub mod diesel_ext;
 pub mod schema;
 
 // Re-export schemas
@@ -19,7 +20,12 @@ pub mod schemas {
 use diesel::prelude::*;
 use models::MIMEType;
 
+#[cfg(feature="sqlite")]
 pub fn create_mime_type(conn: &mut SqliteConnection, mime_type: &str) -> MIMEType {
+    MIMEType { id: 0, mime_type: "".to_owned()}
+}
+
+pub fn create_mime_type(conn: &mut PgConnection, mime_type: &str) -> MIMEType {
     MIMEType { id: 0, mime_type: "".to_owned()}
 }
 
