@@ -36,21 +36,21 @@ We will be using a few PostgreSQL databases.
 
 #### Development
 
-- Database Cluster Directory    : `/var/lib/postgres/data/dev/treeleaves`
-- PostgreSQL User Account       : `postgres`
-- Database User                 : `treeleaves-dev`
-
-Notes:
-- The cluster will manage both:
-    - The local test files data
-    - The shared database data
+| Setup                               | Value                                          |
+|-------------------------------------|------------------------------------------------|
+| Database Cluster Directory (Target) | `/var/lib/postgres/data/dev/treeleaves/target` |
+| Database Cluster Directory (Shared) | `/var/lib/postgres/data/dev/treeleaves/shared` |
+| PostgreSQL User Account             | `postgres`                                     |
+| Database User                       | `treeleaves-dev`                               |
 
 #### Production
 
-- Database Cluster Directory (Target)   : `[target]/.treeleaves/data`
-- Database Cluster Directory (Shared)   : `~/.local/share/treeleaves/data`
-- PostgreSQL User Account               : `postgres`
-- Database User                         : `[user]`
+| Setup                               | Value                            |
+|-------------------------------------|----------------------------------|
+| Database Cluster Directory (Target) | `[target]/.treeleaves/data`      |
+| Database Cluster Directory (Shared) | `~/.local/share/treeleaves/data` |
+| PostgreSQL User Account             | `postgres`                       |
+| Database User                       | `[user]`                         |
 
 The two clusters manage manage two separate types of data.
 - `Target` manages the local target files data.
