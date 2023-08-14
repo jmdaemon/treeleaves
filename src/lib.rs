@@ -2,19 +2,24 @@
 
 // Declare modules
 pub mod models;
-pub mod diesel_ext;
+//pub mod diesel_ext;
 pub mod schema;
 
 // Re-export schemas
 pub mod schemas {
     // Compile for sqlite3
-    #[cfg(feature="sqlite")]
-    pub use super::schema::sqlite3::audio::*;
-    pub use super::schema::sqlite3::files::*;
-    pub use super::schema::sqlite3::images::*;
-    pub use super::schema::sqlite3::main::*;
-    pub use super::schema::sqlite3::mime_types::*;
-    pub use super::schema::sqlite3::videos::*;
+    #[cfg(feature="sqlite")] 
+    pub use super::schema::sqlite3::{audio::*, files::*, images::*, main::*, mime_types::*,videos::*};
+
+    #[cfg(feature="postgres")]
+    pub use super::schema::postgres::{audio::*, files::*, images::*, main::*, mime_types::*,videos::*};
+
+    //pub use super::schema::postgres::audio::*;
+    //pub use super::schema::postgres::files::*;
+    //pub use super::schema::postgres::images::*;
+    //pub use super::schema::postgres::main::*;
+    //pub use super::schema::postgres::mime_types::*;
+    //pub use super::schema::postgres::videos::*;
 }
 
 use diesel::prelude::*;

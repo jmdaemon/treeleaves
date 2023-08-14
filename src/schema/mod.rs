@@ -1,4 +1,8 @@
+#[cfg(feature="sqlite")]
 pub mod sqlite3;
+
+#[cfg(feature="postgres")]
+pub mod postgres;
 
 //pub mod audio;
 //pub mod files;

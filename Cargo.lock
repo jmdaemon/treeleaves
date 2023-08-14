@@ -242,6 +242,7 @@ dependencies = [
  "diesel_derives",
  "itoa",
  "libsqlite3-sys",
+ "num-traits",
  "pq-sys",
  "time 0.3.23",
  "url",

@@ -12,7 +12,8 @@ DATABASE_ROOT_DIR=".treeleaves"
 
 # Migrations directory
 MIGRATIONS_ROOT_DIR="migrations"
-DATABASE_TYPE="sqlite3"
+DATABASE_TYPE="postgres"
+
 MIGRATIONS_DIR="$MIGRATIONS_ROOT_DIR/$DATABASE_TYPE"
 
 # Diesel schema configuration directory
