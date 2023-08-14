@@ -36,32 +36,32 @@ We will be using a few PostgreSQL databases.
 
 #### Development
 
-For our development environment, we will have just a single database cluster set up in the project root under `.treeleaves`
+- Database Cluster Directory    : `/var/lib/postgres/data/dev/treeleaves`
+- PostgreSQL User Account       : `postgres`
+- Database User                 : `treeleaves-dev`
 
-This database cluster will contain all our development databases.
-This cluster will manage both:
-- The local test files data
-- The shared database data
-
-The PostgreSQL user 
-
-We will create a new user `treeleaves-dev` to manage this cluster.
+Notes:
+- The cluster will manage both:
+    - The local test files data
+    - The shared database data
 
 #### Production
 
-For our production environment, we'll have two similar database clusters.
-- 1 database cluster in our desired directory under `.treeleaves`.
-    We'll call this cluster the Treeleaves cluster.
-- 1 database cluster in `~/.local/share/data/treeleaves/data`.
-    We'll call this the Shared Data cluster
+- Database Cluster Directory (Target)   : `[target]/.treeleaves/data`
+- Database Cluster Directory (Shared)   : `~/.local/share/treeleaves/data`
+- PostgreSQL User Account               : `postgres`
+- Database User                         : `[user]`
 
-These two database clusters will manage two separate stores of data.
-- The Treeleaves cluster will manage local file data.
-- The Shared Data cluster will manage the cached data that is shared with many Treeleaves database clusters
+The two clusters manage manage two separate types of data.
+- `Target` manages the local target files data.
+- `Shared` manages the global files data for all Treeleaves databases for the user.
 
-We'll have these two database clusters running under the current user
+Pros:
 
-For our development environment we'll set up a database cluster in our directory.
+- Multiple database clusters can be setup and managed for different target directories
+- These clusters can be enabled/disabled individually
+- The clusters can make use of the user's global data config
 
-The test database is run on a new
+Cons:
 
+- There is redundant data for the shared/global database data when running with multiple users
