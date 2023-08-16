@@ -12,23 +12,27 @@ PG_USER_ACCOUNT=postgres
 PG_DB_USER=treeleaves-dev
 
 # Login to postgres user account
-#sudo -iu "$PG_USER_ACCOUNT"
+echo "Logging in to postgres user account: ${PG_USER_ACCOUNT}"
+sudo -iu "$PG_USER_ACCOUNT"
 
 # Check if running as the postgres account user
-#if [ "$USER" != "$PG_USER_ACCOUNT" ]; then
-    #echo "Please run as the postgres user account: \"${PG_USER_ACCOUNT}\""
-    #exit
-#fi
-# Now running as $PG_USER_ACCOUNT
+if [ "$USER" != "$PG_USER_ACCOUNT" ]; then
+    echo "Please run as the postgres user account: \"${PG_USER_ACCOUNT}\""
+    exit
+fi
+echo "Now running as: $PG_USER_ACCOUNT ..."
 
 # Create clusters
-#initdb -D "$DB_CLUSTER_SHARED_DIR"
-#initdb -D "$DB_CLUSTER_TARGET_DIR"
+echo "Creating database clusters"
+initdb -D "$DB_CLUSTER_SHARED_DIR"
+initdb -D "$DB_CLUSTER_TARGET_DIR"
 
 # Create our postgres database user
-#createuser "$PG_DB_USER"
+echo "Creating database user"
+createuser "$PG_DB_USER"
 
 # Create all our development databases
+echo "Creating databases"
 
 # We will reverse these ports for treeleaves
 # Development:
@@ -56,12 +60,6 @@ PORT_TARGET=5550
 HOST=localhost
 
 function create_all_dbs() {
-    #dbs=$1
-    #dbs=("$@")
-    #host=$2
-    #port=$3
-    #user=$4
-
     host=$1
     user=$2
     port=$3
@@ -84,18 +82,16 @@ function create_all_dbs() {
             "$dbname"
         """
 
-        #createdb \
-            #-D "$dir" \
-            #-p "$port" \
-            #-U "$user" \
-            #"$dbname"
+        createdb \\
+            -h "$host" \\
+            -U "$user" \\
+            -D "$dir" \\
+            -p "$port" \\
+            "$dbname"
 
         let "port++"
     done
 }
-
-#create_all_dbs "${DBS_SHARED[@]}" "$HOST" "$PORT_SHARED" "$PG_USER_ACCOUNT"
-#create_all_dbs "${DBS_TARGET[@]}" "$HOST" "$PORT_TARGET" "$PG_USER_ACCOUNT"
 
 create_all_dbs "$HOST" "$PG_USER_ACCOUNT" "$PORT_SHARED" "${DBS_SHARED[@]}"
 create_all_dbs "$HOST" "$PG_USER_ACCOUNT" "$PORT_TARGET" "${DBS_TARGET[@]}"
