@@ -84,15 +84,82 @@ function setup_migrations() {
     shift;
     migrations=("$@")
     for path in ${migrations[@]}; do
+        base=$(basename "$path")
+        name="create_${base}"
         log """Running
-        diesel --database-url "$url" \\
-               setup \\
-               --migration-dir "$path"
+        diesel setup \\
+                --database-url "$url" \\
+                --migration-dir "$path"
         """
 
-        diesel --database-url "$url" \
-               setup \
-               --migration-dir "$path"
+        diesel setup \
+                --database-url "$url"
+                #--database-url "$url" \
+                #--migration-dir "$path"
+
+        #diesel --database-url "$url" \
+               #setup \
+               #--migration-dir "$path"
+
+               #--migration-dir "$path" \
+               #"$name"
+    done
+    log "Setup all migrations"
+}
+
+function run_migrations() {
+    url=$1
+    shift;
+    migrations=("$@")
+    for path in ${migrations[@]}; do
+        base=$(basename "$path")
+        name="create_${base}"
+
+
+    log """Running:
+        diesel  --database-url "$url" \\
+                migration \\
+                --migration-dir "$path" \\
+                run
+        """
+
+    diesel  --database-url "$url" \
+            migration \
+            --migration-dir "$path" \
+            run
+            #redo
+
+
+        #log """Running:
+        #diesel migration \\
+                #--database-url "$url" \\
+                #--migration-dir "$migration_dir" \\
+                #redo
+        #"""
+
+        #diesel migration \\
+                #--database-url "$url" \\
+                #--migration-dir "$path" \\
+                #redo
+
+        #log """Running
+        #diesel setup \\
+                #--database-url "$url" \\
+                #--migration-dir "$path"
+        #"""
+
+        #diesel setup \
+                #--database-url "$url"
+
+                #--database-url "$url" \
+                #--migration-dir "$path"
+
+        #diesel --database-url "$url" \
+               #setup \
+               #--migration-dir "$path"
+
+               #--migration-dir "$path" \
+               #"$name"
     done
     log "Setup all migrations"
 }
