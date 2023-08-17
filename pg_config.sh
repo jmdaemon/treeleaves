@@ -24,15 +24,14 @@ DATABASE_TYPE="postgres"
 MIGRATIONS_ROOT_DIR="migrations"
 MIGRATIONS_DIR="$MIGRATIONS_ROOT_DIR/$DATABASE_TYPE"
 
-DB_MIGRATIONS_SHARED=()
-DB_MIGRATIONS_TARGET=()
-
 ## Diesel Schemas
 
 DIESEL_SCHEMAS_ROOT_DIR="diesel-configs"
 DIESEL_SCHEMAS_DIR="$DIESEL_SCHEMAS_ROOT_DIR/$DATABASE_TYPE"
 
 ## Postgres Database Cluster
+
+### Directories
 DB_CLUSTER_DIR=/var/lib/postgres/data
 
 DB_CLUSTER_SHARED_DIR="/var/lib/postgres/data/dev/treeleaves/shared"
@@ -40,6 +39,11 @@ DB_CLUSTER_TARGET_DIR="/var/lib/postgres/data/dev/treeleaves/target"
 
 DB_CLUSTER_SHARED_LOG="$DB_CLUSTER_SHARED_DIR/shared.log"
 DB_CLUSTER_TARGET_LOG="$DB_CLUSTER_TARGET_DIR/target.log"
+
+### URLs
+
+DB_CLUSTER_SHARED_URL="postgresql://$PG_USER_ACCOUNT@$HOST:$DB_CLUSTER_SHARED_PORT"
+DB_CLUSTER_TARGET_URL="postgresql://$PG_USER_ACCOUNT@$HOST:$DB_CLUSTER_TARGET_PORT"
 
 # We will reverse these ports for treeleaves
 # Development:

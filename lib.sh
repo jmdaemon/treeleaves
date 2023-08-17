@@ -65,16 +65,34 @@ function create_all_dbs() {
     done
 }
 
+# Migrations
 function pop_migrations() {
     declare -n migrations=$1
     shift;
     db_urls=("$@")
     for url in ${db_urls[@]}; do
-        base=$(basename "$url" ".db")
+        base=$(basename "$url")
         path=$(dirname "$url")
-        #migration_root_dir="${path/$DATABASE_ROOT_DIR/$MIGRATIONS_DIR}"
-        migration_root_dir="${path/$DATABASE_ROOT_DIR/$MIGRATIONS_DIR}"
-        migration_dir="$migration_root_dir/$base"
+        migration_dir="$MIGRATIONS_DIR/$path/$base"
         migrations+=("$migration_dir")
     done
+}
+
+# Setup all migrations
+function setup_migrations() {
+    url=$1
+    shift;
+    migrations=("$@")
+    for path in ${migrations[@]}; do
+        log """Running
+        diesel --database-url "$url" \\
+               setup \\
+               --migration-dir "$path"
+        """
+
+        diesel --database-url "$url" \
+               setup \
+               --migration-dir "$path"
+    done
+    log "Setup all migrations"
 }
