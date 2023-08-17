@@ -40,11 +40,6 @@ DB_CLUSTER_TARGET_DIR="/var/lib/postgres/data/dev/treeleaves/target"
 DB_CLUSTER_SHARED_LOG="$DB_CLUSTER_SHARED_DIR/shared.log"
 DB_CLUSTER_TARGET_LOG="$DB_CLUSTER_TARGET_DIR/target.log"
 
-### URLs
-
-DB_CLUSTER_SHARED_URL="postgresql://$PG_USER_ACCOUNT@$HOST:$DB_CLUSTER_SHARED_PORT"
-DB_CLUSTER_TARGET_URL="postgresql://$PG_USER_ACCOUNT@$HOST:$DB_CLUSTER_TARGET_PORT"
-
 # We will reverse these ports for treeleaves
 # Development:
 #   5500+ (Shared)
@@ -60,6 +55,11 @@ PG_USER_ACCOUNT=postgres
 PG_DB_USER=treeleaves-dev
 
 HOST=localhost
+
+### URLs
+
+DB_CLUSTER_SHARED_URL="postgresql://$PG_USER_ACCOUNT@$HOST:$DB_CLUSTER_SHARED_PORT"
+DB_CLUSTER_TARGET_URL="postgresql://$PG_USER_ACCOUNT@$HOST:$DB_CLUSTER_TARGET_PORT"
 
 # Colors
 COLOR_RED='\e[0;31m'
