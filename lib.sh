@@ -96,3 +96,40 @@ function setup_migrations() {
     done
     log "Setup all migrations"
 }
+
+function pop_schemas() {
+    declare -n schemas=$1
+    shift;
+    tables=("$@")
+    for table in "${tables[@]}"; do
+        config="$DIESEL_SCHEMAS_DIR/${table}.toml"
+        schemas+=("$config")
+    done
+}
+
+# Runs the migration and generates the schema file
+function setup_schemas() {
+    url=$1
+    declare -n migrations=$2
+    shift; shift;
+    configs=("$@")
+
+    for i in ${!configs[@]}; do
+        cfg="${configs[i]}"
+        migration="${migrations[i]}"
+        log """Running:
+        diesel  --database-url "$url" \\
+                --config-file "$cfg" \\
+                migration \\
+                --migration-dir "$migration" \\
+                run
+        """
+
+        diesel  --database-url "$url" \
+                --config-file "$cfg" \
+                migration \
+                --migration-dir "$migration_dir" \
+                run
+    done
+    log "Generated all database schemas"
+}
