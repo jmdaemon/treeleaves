@@ -2,6 +2,36 @@
 
 # Postgres Development Configuration
 
+## Config
+
+## Postgres Databases
+DBS_SHARED=(
+    "data/mime_types"
+)
+
+DBS_TARGET=(
+    "main/files"
+    "main/main"
+    "types/images"
+    "types/videos"
+    "types/audio"
+)
+
+DATABASE_TYPE="postgres"
+
+## Diesel Migrations
+
+MIGRATIONS_ROOT_DIR="migrations"
+MIGRATIONS_DIR="$MIGRATIONS_ROOT_DIR/$DATABASE_TYPE"
+
+DB_MIGRATIONS_SHARED=()
+DB_MIGRATIONS_TARGET=()
+
+## Diesel Schemas
+
+DIESEL_SCHEMAS_ROOT_DIR="diesel-configs"
+DIESEL_SCHEMAS_DIR="$DIESEL_SCHEMAS_ROOT_DIR/$DATABASE_TYPE"
+
 ## Postgres Database Cluster
 DB_CLUSTER_DIR=/var/lib/postgres/data
 
@@ -11,6 +41,14 @@ DB_CLUSTER_TARGET_DIR="/var/lib/postgres/data/dev/treeleaves/target"
 DB_CLUSTER_SHARED_LOG="$DB_CLUSTER_SHARED_DIR/shared.log"
 DB_CLUSTER_TARGET_LOG="$DB_CLUSTER_TARGET_DIR/target.log"
 
+# We will reverse these ports for treeleaves
+# Development:
+#   5500+ (Shared)
+#   5550+ (Target)
+# Production:
+#   5600+ (Shared)
+#   5650+ (Target)
+
 DB_CLUSTER_SHARED_PORT=5450
 DB_CLUSTER_TARGET_PORT=5451
 
@@ -18,19 +56,6 @@ PG_USER_ACCOUNT=postgres
 PG_DB_USER=treeleaves-dev
 
 HOST=localhost
-
-## Postgres Databases
-DBS_SHARED=(
-    "$DB_CLUSTER_SHARED_DIR/data/mime_types.db"
-)
-
-DBS_TARGET=(
-    "$DB_CLUSTER_TARGET_DIR/main/files.db"
-    "$DB_CLUSTER_TARGET_DIR/main/main.db"
-    "$DB_CLUSTER_TARGET_DIR/types/images.db"
-    "$DB_CLUSTER_TARGET_DIR/types/videos.db"
-    "$DB_CLUSTER_TARGET_DIR/types/audio.db"
-)
 
 # Colors
 COLOR_RED='\e[0;31m'

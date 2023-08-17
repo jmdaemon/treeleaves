@@ -32,3 +32,49 @@ function suppress_cd_error() {
     # Suppress errors "could not change directory to $cwd: Permission denied"
     cd $HOME
 }
+
+function create_all_dbs() {
+    host=$1
+    user=$2
+    port=$3
+    db_cluster_dir=$4
+    shift; shift; shift; shift;
+    dbs=("$@")
+
+    for path in ${dbs[@]}; do
+        dir=$(dirname "$path")
+        dbpath=$(basename "$path")
+        dbname="$db_cluster_dir/$dbpath"
+        if [[ -z "$dbname" ]]; then
+            break;
+        fi
+        # Create the database in the given tablespaces directory
+        log """
+        createdb \\
+            -h "$host" \\
+            -U "$user" \\
+            -p "$port" \\
+            "$dbname"
+        """
+
+        #createdb \
+            #-h "$host" \
+            #-U "$user" \
+            #-p "$port" \
+            #"$dbname"
+    done
+}
+
+function pop_migrations() {
+    declare -n migrations=$1
+    shift;
+    db_urls=("$@")
+    for url in ${db_urls[@]}; do
+        base=$(basename "$url" ".db")
+        path=$(dirname "$url")
+        #migration_root_dir="${path/$DATABASE_ROOT_DIR/$MIGRATIONS_DIR}"
+        migration_root_dir="${path/$DATABASE_ROOT_DIR/$MIGRATIONS_DIR}"
+        migration_dir="$migration_root_dir/$base"
+        migrations+=("$migration_dir")
+    done
+}
