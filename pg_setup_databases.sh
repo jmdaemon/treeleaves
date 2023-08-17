@@ -6,7 +6,7 @@
 # - `postgres` user has been created
 
 # Setup
-source pg_config.sh
+source config.sh
 run_as "$PG_USER_ACCOUNT" "$0"
 suppress_cd_error
 

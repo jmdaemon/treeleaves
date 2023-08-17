@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source pg_config.sh
+source config.sh
 
 # Handle cli arguments
 database_cluster="$1"

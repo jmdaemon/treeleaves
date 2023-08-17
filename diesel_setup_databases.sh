@@ -2,7 +2,7 @@
 
 # Setup database migrations
 
-source pg_config.sh
+source config.sh
 
 DB_MIGRATIONS_SHARED=()
 DB_MIGRATIONS_TARGET=()
