@@ -79,38 +79,22 @@ function pop_migrations() {
 }
 
 # Setup all migrations
-function setup_migrations() {
-    url=$1
-    shift;
-    migrations=("$@")
-    for path in ${migrations[@]}; do
-        base=$(basename "$path")
-        name="create_${base}"
-        log """Running
-        diesel setup \\
-                --database-url "$url" \\
-                --migration-dir "$path"
-        """
-
-        diesel setup \
-                --database-url "$url"
-                #--database-url "$url" \
-                #--migration-dir "$path"
-
-        #diesel --database-url "$url" \
-               #setup \
-               #--migration-dir "$path"
-
-               #--migration-dir "$path" \
-               #"$name"
-    done
-    log "Setup all migrations"
-}
-
 function run_migrations() {
-    url=$1
-    shift;
+    choice="$1"
+    url=$2
+    shift; shift;
     migrations=("$@")
+
+    run_as=""
+    if [[ "$choice" == "run" ]]; then
+        run_as=run
+    elif [[ "$choice" == "redo" ]]; then
+        run_as=redo
+    else
+        log "Usage: run_migrations [run|redo] [db_cluster_url] [db_migrations_array]"
+        exit 1;
+    fi
+
     for path in ${migrations[@]}; do
         base=$(basename "$path")
         name="create_${base}"
@@ -120,48 +104,15 @@ function run_migrations() {
         diesel  --database-url "$url" \\
                 migration \\
                 --migration-dir "$path" \\
-                run
+                $run_as
         """
 
     diesel  --database-url "$url" \
             migration \
             --migration-dir "$path" \
-            run
-            #redo
-
-
-        #log """Running:
-        #diesel migration \\
-                #--database-url "$url" \\
-                #--migration-dir "$migration_dir" \\
-                #redo
-        #"""
-
-        #diesel migration \\
-                #--database-url "$url" \\
-                #--migration-dir "$path" \\
-                #redo
-
-        #log """Running
-        #diesel setup \\
-                #--database-url "$url" \\
-                #--migration-dir "$path"
-        #"""
-
-        #diesel setup \
-                #--database-url "$url"
-
-                #--database-url "$url" \
-                #--migration-dir "$path"
-
-        #diesel --database-url "$url" \
-               #setup \
-               #--migration-dir "$path"
-
-               #--migration-dir "$path" \
-               #"$name"
+            $run_as
     done
-    log "Setup all migrations"
+    log "Ran all migrations"
 }
 
 function pop_schemas() {
