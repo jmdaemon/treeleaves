@@ -13,15 +13,11 @@ pub type DateTimestamp = DateTime<Utc>;
 // Main Tables
 //
 
-//#[derive(Queryable, Selectable)]
-//#[diesel(table_name = mime_types)]
-#[derive(Queryable, Selectable)]
+#[derive(Queryable, Selectable, Insertable)]
 #[diesel(table_name = mime_types)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct MIMEType {
-    //#[diesel(serialize_as = i32, deserialize_as = u32)]
-    #[diesel(serialize_as = i32, deserialize_as = u32)]
-    pub id: u32,
+    pub id: i32,
     pub mime_type: String,
 }
 
