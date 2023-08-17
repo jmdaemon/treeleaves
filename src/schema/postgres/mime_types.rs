@@ -2,7 +2,7 @@
 
 diesel::table! {
     mime_types (id) {
-        id -> Integer,
-        mime_type -> Text,
+        id -> Int4,
+        mime_type -> Varchar,
     }
 }
