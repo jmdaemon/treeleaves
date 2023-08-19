@@ -1,12 +1,3 @@
-
-//use diesel::prelude::*;
-//use indexmap::IndexMap;
-//use serde_json::Value;
-
-//use crate::models::*;
-
-//use crate::schema::postgres::*;
-
 use crate::{schema::postgres::*, models::*};
 
 use serde_json::Value;
@@ -41,12 +32,7 @@ pub mod media_types {
     use diesel::prelude::*;
     use super::{DATA_MIME_JSON, DataMap, mime_types::mime_types::dsl::*, MIMEType};
 
-    //use super::mime_types::mime_types::dsl::*;
-    //use crate::schema::postgres::mime_types::mime_types::dsl::*;
-    //use crate::models::*;
-
     pub fn pop_mime_types(con: &mut PgConnection) {
-
         // Retrieve our media type data
         let conts = fs::read_to_string(DATA_MIME_JSON)
             .expect("Could not find db.json");
@@ -57,7 +43,6 @@ pub mod media_types {
         let mut media_types = vec![];
         let mut index = 1;
         for (k, _) in data {
-            //let mime_type =  MIMEType { id: index, mime_type: v.as_str().to_owned() };
             let media_type =  MIMEType { id: index, mime_type: k.to_string() };
             media_types.push(media_type);
             index += 1;
