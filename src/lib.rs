@@ -4,6 +4,10 @@
 pub mod models;
 //pub mod diesel_ext;
 pub mod schema;
+pub mod cfgfile;
+pub mod consts;
+pub mod config;
+pub mod db;
 
 // Re-export schemas
 pub mod schemas {
