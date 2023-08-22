@@ -31,27 +31,14 @@ impl std::fmt::Display for Config {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SharedConfig {
-    #[serde(flatten)]
-    pub cfg: Config
+    pub shared: Config,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TargetConfig {
-    //#[serde(rename = "url")]
-    // #[serde(rename(deserialize = "url"))]
-    #[serde(flatten)]
-    pub cfg: Config
-    //pub url: String
+    pub target: Config,
 }
 
-//impl std::fmt::Display for TargetConfig {
-    //fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        //write!(f, "{}", self.url)
-    //}
-//}
-
-/*
 lazy_static!(
-    pub static ref TREELEAVES_CONFIG: ConfigFile = create_config("config.toml");
+    pub static ref TREELEAVES_SHARED_CONFIG: ConfigFile = create_config("config.toml");
 );
-*/
