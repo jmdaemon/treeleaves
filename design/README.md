@@ -24,3 +24,10 @@ in order to show more detail and provide explanation.
 
 - `Design.md`: Document that outlines the entire database's design with respect to the fields, keys, and tables created.
 - `Fields.md`: Document that specifies the complete field specifications for every field in all our tables.
+
+## Priorities
+
+Our priorities for our database design are to:
+1. Eliminate any and all unnecessary redundant data
+2. Be modular & ergonomic to use
+3. Be fast to query

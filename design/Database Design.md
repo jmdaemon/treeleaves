@@ -1,299 +1,13 @@
-# Design
+# Database Design
 
-Design document and rationale for the Treeleaves database.
+Final revised design document for the Treeleaves database.
 
 ## Table of Contents
 
-- [Mission Statement](#mission-statement)
-- [Mission Objective](#mission-objective)
-- [Terminology](#terminology)
-- [Database Analysis](#database-analysis)
-    - [Current Database State](#current-database-state)
-    - [Data Collection](#data-collection)
-    - [Data Presentation](#data-presentation)
-- [Data Structure](#data-structure)
-    - [Subjects](#subjects)
-    - [Characteristics](#characteristics)
-    - [Preliminary Field List](#preliminary-field-list)
-    - [Calculated Field List](#calculated-field-list)
-    - [Preliminary Table List](#preliminary-table-list)
-    - [Final Table List](#final-table-list)
-    - [Tables with Associated Fields](#tables-with-associated-fields)
+- [Final Table List](#final-table-list)
+- [Tables with Associated Fields](#tables-with-associated-fields)
 - [Table Level Integrity](#table-level-integrity)
 - [Field Level Integrity](#field-level-integrity)
-
-## Mission Statement
-
-The purpose of the Treeleaves database is to maintain the data of files of users to
-allow users to both easily and quickly find and access their personal on disk files.
-A secondary objective of Treeleaves is to also make these files easily shareable
-with others.
-
-## Mission Objective
-
-The objectives of the database are to:
-
-- Maintain information on user files
-- Maintain some information on file hash
-- Maintain complete information file name
-- Maintain some information on file name variants
-- Maintain some information on file sources
-- Maintain complete information on file tags
-- Maintain complete information on file alias
-- Maintain complete information on file type
-- Maintain complete information on file mime type
-- Maintain complete information on file size
-
-- Keep track of duplicate files
-- Keep track of current file paths
-
-## Terminology
-
-- Data: The values and records present in the database.
-- Information: Data that is processed to be useful or have meaning.
-- Subjects: Nouns, specifically nouns that reference a person, place or thing.
-- Characteristics: Adjectives, specifically descriptions of aspects of the subjects.
-
-- Paper-based database: A file system that consists of physical forms of data sorted by some coding scheme.
-- Human-based database: A biological database based on the memory of one or more entities in any given organization.
-
-- Preliminary Field List: A characteristic of a particular subject
-- Calculated Field List: A field that is calculated as a result from the preliminary field list
-
-## Database Analysis
-
-## Current Database State
-
-The database format as it stands currently is essentially a paper-based database consisting mostly
-of some organized sorted files in folders.
-
-The database is also a human-based database as the locations of where specific files are found, is only
-known by the owner of those files.
-
-### Data Collection
-
-- Files collections are aggregated to by way of being saved to various on disk directories.
-- Files with "like" properties are grouped into folders
-
-### Data Presentation
-
-#### Folders
-
-Folders are just a collection or encoding scheme used to organize and sort files.
-
-Folders are useful in being able to group like-objects together. Folders often works similar to informal sets
-containing
-
-Users find folders useful in that some folders/directories are frequently navigated to
-during a session. Folders can also contain thumbnails representative of the contents stored inside.
-
-Folders can present files in a variety of views. For example, folders can present files in
-an icon view that shows the files listed side by side with big thumbnails representing the file contents.
-
-Folders can also present files in a table format with specific columns tailored to files.
-
-#### Images
-
-Images are typically looked up with a file manager. It often takes a lot of time to load image thumbnails,
-and there are a lot of files to go through before the user finds the desired image.
-
-On some image boorus, it can be a lot quicker to find images due to the images being tagged very well, indexed,
-and easy to search.
-
-#### Photos
-
-Photos are similar to images with a few exceptions. Photos are images taken purely with a camera.
-These photos contain metadata such as
-- GPS Location metadata
-- Camera settings
-- Device & hardware information
-- Lens information
-- Image size
-- Pixel dimensions
-- Date & time
-- The app used to take the picture
-
-#### Songs
-
-Users also often have lots of music they like to listen to.
-
-These songs are made by certain artists, have track titles, are part of an album, are made in a specific year, often as part of
-an associated music genre. Many songs also contain lyrics and track numbers specifying their order. These are typically specified
-as music tags.
-
-An example of an application that manages such metadata is [audacity](https://manual.audacityteam.org/man/metadata_editor.html).
-
-Songs also come in uncompressed formats that capture studio level sound quality. These are bigger than compressed files,
-but offer the best sound.
-
-#### Audio
-
-Some users also have general audio sounds or samples. These don't contain as much metadata, but they do still have an audio frequency and duration.
-
-#### Books
-
-On some book searching websites, books can be searched by title, author(s), publisher, year, language or file type.
-
-Users often have lots of books saved to their personal disks, and it can be a hassle to remember where a book is,
-if the user is not constantly trifling through their library.
-
-Users also are able to buy and/or download books online from a variety of web sites and sources.
-
-#### Alias
-
-An alias is a shorthand name for something else. This is typically a reference to another item or thing
-of the same type. Shorthands are useful because one can remember easier to recall names than some specific
-characteristics of an item. Aliases centralized in a single location allows you to group together like-objects
-together, making them more easily found.
-
-Aliases, emotes and alternative file names are also pretty similar in function and in name.
-
-### Data Structure
-
-#### Subjects
-
-- Files
-    - Images
-    - Photos
-    - Audio
-    - Songs
-    - Documents/Books
-    - Videos
-    - Comics
-- File metadata
-- Folders
-- Aliases
-- User
-
-#### Characteristics
-
-- Hash
-- File Name, File Path, File Type File Size
-- Source
-- Tags
-
-- Alternate File Names
-- Alias
-- Emote
-
-- Creation Date
-- Updated Date
-- File Lifespan Dates / File Timestamps
-
-- Times Accessed
-
-- Audio Frequency
-
-- Artist
-- Album Name
-- Track Title
-- Track Number
-- Genre
-
-- Author
-- Song Title
-- Duration
-- Genre
-
-- Author
-- Publisher
-- Publish Date
-- Page Count
-
-- File Folder View Type
-
-### Preliminary Field List
-
-1. Determine and list all the characteristics of your subjects
-2. Refine the field list by specifying more specific names, and pruning duplicates
-3. Ensure the list of characteristics list are characteristics by definition
-
-- File Name Variant
-
-- File Alias
-
-- Local File Tags
-- File Tag Aliases
-
-- Song Artist
-- Song Album Name
-- Song Track Title
-- Song Track Number
-- Song Genre
-- Song Lyrics
-
-- Book Author or Authors
-- Book Genre
-- Book Publisher
-- Book Publish Date (Year)
-- Book Language
-
-### Calculated Field List
-
-- File Name
-- File Path
-- File MIME Type
-- File Size
-
-- File Hash Type
-- File Hash
-
-- File Creation Date
-- File Last Updated Date
-- File Last Accessed Date
-
-- Number of Times Accessed (Frequency)
-- File Folder Directory
-
-- Image Pixels
-- Image Width
-- Image Height
-
-- Photo Date
-
-- File Source Site
-- File Source URL
-- File Source Tags
-
-- Video Width
-- Video Height
-- Video Duration
-
-- Audio Frequency
-- Song Duration
-
-- Document Page Count
-
-- Folder View Type
-
-### Preliminary Table List
-
-The preliminary table list is obtained from grouping the various fields in the preliminary field list.
-
-- Files
-- Sources
-- Tags
-- Hashes
-- Timestamps
-- Frequency
-
-- File Aliases*
-
-- Folders
-
-- Images
-- Photos
-
-- Videos
-
-- Songs
-- Audio
-
-- Books
-
-- \*Aliases could technically be a part of a group of alternative names.
-    As such it is hard to include these into the current table list since there could be many alias groups/tables.
-    For now we will ignore these.
 
 ### Final Table List
 
@@ -314,15 +28,162 @@ The preliminary table list is obtained from grouping the various fields in the p
 
 ### Tables with Associated Fields
 
-| Files     | Sources     | File Sources    | Source Tag Types   | Tag Type Template           | File Source Tags | Hash Types     | File Hashes | Frequency      | Timestamps         | Images             | Photo Metadata | Location Metadata | Videos             | Audio           | Songs      | Song Bands | Bands     | Song Artists | Song Artist Names  | Song Lyrics | Song `Genre` Template | Music Genres     | Albums     | Track `Name` Set Template | Books           | Book Languages   | Languages     | Book Publishers       | Literary Publishers     | Book Genres       | Literary Genres     | Book Authors   | Author Names       | Folders          |
-|-----------|-------------|-----------------|--------------------|-----------------------------|------------------|----------------|-------------|----------------|--------------------|--------------------|----------------|-------------------|--------------------|-----------------|------------|------------|-----------|--------------|--------------------|-------------|-----------------------|------------------|------------|---------------------------|-----------------|------------------|---------------|-----------------------|-------------------------|-------------------|---------------------|----------------|--------------------|------------------|
-| File ID   | Source ID   | File ID         | Source Tag Type ID | `Tag Type Table Definition` | File ID          | Hash Type ID   | File ID     | File ID        | File ID            | File ID            | File ID        | File ID           | File ID            | File ID         | File ID    | File ID    | Band ID   | File ID      | Artist ID          | File ID     | File ID               | Music Genre ID   | Album ID   | File ID                   | File ID         | Book Language ID | Language ID   | File ID               | Literary Publisher ID   | File ID           | Literary Genre ID   | File ID        | Author ID          | File ID          |
-| File Name | Source Name | File Source URL |                    |                             | Tag Type ID      | Hash Type Name | File Hash   | Times Accessed | Creation Date      | Image Pixel Count  | Date Taken     | Latitude          | Video Duration     | Audio Duration  | Song Title | Band ID    | Band Name | Artist ID    | Artist First Name  | Song Lyrics | Music Genre ID        | Music Genre Name | Album Name | Track Order               | Book Title      | File ID          | Language Code | Literary Publisher ID | Literary Publisher Name | Literary Genre ID | Literary Genre Name | Author Name ID | Author First Name  | Folder View Type |
-| File Path |             |                 |                    |                             |                  |                |             |                | Last Updated Date  | Image Width        | Time Taken     | Longitude         | Video Width        | Audio Frequency |            |            |           |              | Artist Middle Name |             |                       |                  |            |                           | Book Page Count | Language ID      | Language Name | Book Publish Date     |                         |                   |                     |                | Author Middle Name |                  |
-| MIME Type |             |                 |                    |                             |                  |                |             |                | Last Accessed Date | Image Height       |                |                   | Video Height       |                 |            |            |           |              | Artist Last Name   |             |                       |                  |            |                           |                 |                  |               |                       |                         |                   |                     |                | Author Last Name   |                  |
-| File Size |             |                 |                    |                             |                  |                |             |                |                    | Image Aspect Ratio |                |                   | Video Aspect Ratio |                 |            |            |           |              |                    |             |                       |                  |            |                           |                 |                  |               |                       |                         |                   |                     |                |                    |                  |
-|           |             |                 |                    |                             |                  |                |             |                |                    |                    |                |                   |                    |                 |            |            |           |              |                    |             |                       |                  |            |                           |                 |                  |               |                       |                         |                   |                     |                |                    |                  |
-|           |             |                 |                    |                             |                  |                |             |                |                    |                    |                |                   |                    |                 |            |            |           |              |                    |             |                       |                  |            |                           |                 |                  |               |                       |                         |                   |                     |                |                    |                  |
+The tables have been split up and listed below to make them easier to view.
+
+#### Main Tables
+
+| Files     | Folders          | Timestamps         |
+|-----------|------------------|--------------------|
+| File ID   | File ID          | File ID            |
+| File Name | Folder View Type | Creation Date      |
+| File Path |                  | Last Updated Date  |
+| MIME Type |                  | Last Accessed Date |
+| File Size |                  |                    |
+
+#### Subset Tables
+
+| Images             | Videos             | Audio           |
+|--------------------|--------------------|-----------------|
+| File ID            | File ID            | File ID         |
+| Image Pixel Count  | Video Duration     | Audio Duration  |
+| Image Width        | Video Width        | Audio Frequency |
+| Image Height       | Video Height       |                 |
+| Image Aspect Ratio | Video Aspect Ratio |                 |
+
+#### Simple Feature Tables
+
+| Hash Types     | File Hashes | Frequency      |
+|----------------|-------------|----------------|
+| Hash Type ID   | File ID     | File ID        |
+| Hash Type Name | File Hash   | Times Accessed |
+
+#### Advanced Feature Tables
+
+##### Feature: Aliases
+
+| Aliases    |
+|------------|
+| File ID    |
+| Alias Name |
+
+##### Feature: Sources
+
+| Sources     | File Sources    |
+|-------------|-----------------|
+| Source ID   | File ID         |
+| Source Name | File Source URL |
+
+##### Feature: Sources Tags
+
+| Source Tag Types   | Tag Type Template           | File Source Tags |
+|--------------------|-----------------------------|------------------|
+| Source Tag Type ID | `Tag Type Table Definition` | File ID          |
+|                    |                             | Tag Type ID      |
+
+##### Feature: Photos
+
+| Photo Metadata | Location Metadata |
+|----------------|-------------------|
+| File ID        | File ID           |
+| Date Taken     | Latitude          |
+| Time Taken     | Longitude         |
+
+###### Feature: Photo Albums
+
+| Photo Albums |
+|--------------|
+| File ID      |
+| Photo Order  |
+
+##### Feature: Songs
+
+| Songs      |
+|------------|
+| File ID    |
+| Song Title |
+
+###### Feature: Songs Artists
+
+| Song Artists | Song Artist Names  |
+|--------------|--------------------|
+| File ID      | Artist ID          |
+| Artist ID    | Artist First Name  |
+|              | Artist Middle Name |
+|              | Artist Last Name   |
+
+###### Feature: Songs Bands
+
+| Song Bands | Bands     |
+|------------|-----------|
+| File ID    | Band ID   |
+| Band ID    | Band Name |
+
+###### Feature: Songs Lyrics
+
+| Song Lyrics |
+|-------------|
+| File ID     |
+| Song Lyrics |
+
+###### Feature: Songs Genres
+
+| Song `Genre` Template | Music Genres     |
+|-----------------------|------------------|
+| File ID               | Music Genre ID   |
+| Music Genre ID        | Music Genre Name |
+
+###### Feature: Song Albums
+
+| Albums     | Track `Name` Set Template |
+|------------|---------------------------|
+| Album ID   | File ID                   |
+| Album Name | Track Order               |
+
+##### Feature: Books
+
+| Books           |
+|-----------------|
+| File ID         |
+| Book Title      |
+| Book Page Count |
+
+###### Feature: Book Publications
+
+| Book Publications |
+|-------------------|
+| File ID           |
+| Publication Date  |
+
+###### Feature: Book Publishers
+
+| Book Publishers       | Literary Publishers     |
+|-----------------------|-------------------------|
+| File ID               | Literary Publisher ID   |
+| Literary Publisher ID | Literary Publisher Name |
+
+###### Feature: Book Languages
+
+| Book Languages   | Languages     |
+|------------------|---------------|
+| Book Language ID | Language ID   |
+| File ID          | Language Code |
+| Language ID      | Language Name |
+
+###### Feature: Book Genres
+
+| Book Genres       | Literary Genres     |
+|-------------------|---------------------|
+| File ID           | Literary Genre ID   |
+| Literary Genre ID | Literary Genre Name |
+
+###### Feature: Book Authors
+
+| Book Authors   | Author Names       |
+|----------------|--------------------|
+| File ID        | Author ID          |
+| Author Name ID | Author First Name  |
+|                | Author Middle Name |
+|                | Author Last Name   |
 
 ## Table Level Integrity
 

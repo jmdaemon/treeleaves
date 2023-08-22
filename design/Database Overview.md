@@ -15,6 +15,7 @@ This document also provides an overview of the files to be found in the database
 
 ## Features
 
+- Aliases
 - Hashes
 - Timestamps
 - Frequency
@@ -28,6 +29,18 @@ This document also provides an overview of the files to be found in the database
     - Photos
     - Songs
     - Books
+
+## Aliases
+
+Each file can have a number of aliases. There are many aliases
+
+This will be defined in the structure:
+- `aliases`
+    - `aliases1.db`
+    - `aliases2.db`
+    - `aliases3.db`
+
+Each of these databases contains a table of user-defined file aliases.
 
 ## Hashes
 
@@ -95,3 +108,75 @@ These are created as `addons` which offer more specific information for our data
     - `songs`
     - `albums`
     - `books`
+
+## Databases
+
+We're going to have the following databases in our metadata folder hierarchy.
+
+- .treeleaves
+    - main
+        - files.db
+        - main.db
+    - types
+        - images.db
+        - videos.db
+        - audio.db
+    - features
+        - hashes
+            - sha1.db
+            - sha256.db
+            - md5.db
+        - frequency
+            - frequency.db
+    - addons
+        - aliases
+            - aliases1.db
+            - aliases2.db
+            - aliases3.db
+        - sources
+            - src1
+                - sources.db
+                - tags.db
+            - src2
+                - sources.db
+                - tags.db
+        - songs
+            - data
+                - artists.db
+                - bands.db
+                - albums.db
+                - lyrics.db
+                - genres.db
+            - songs.db
+        - photos
+            - data
+                - datetime.db
+                - location.db
+                - album.db
+            - photos.db
+        - books
+            - data
+                - authors.db
+                - publishers.db
+                - languages.db
+                - genres.db
+            - books.db
+
+## Data
+
+Data refers to values that we associate with records.
+
+We store certain amounts of generic data of our files in databases.
+This is done as a space-time trade-off where we trade disk space for runtime speed.
+
+Our data includes:
+- MIME Types
+- Languages
+
+Data Hierarchy
+- [data-dir]
+    - data
+        - mime_types.db
+        - languages.db
+
+**Note:** Our database doesn't quite implement this database hierarchy yet, but it will soon.

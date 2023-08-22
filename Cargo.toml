@@ -1,23 +1,9 @@
-[package]
-name = "treeleaves"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+members = [
+    'treeleaves',
+    'treeleaves-plugins',
+]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-chrono = "0.4.23"
-clap = "4.0.27"
-digest = "0.10.6"
-hex = "0.4.3"
-lazy_static = "1.4.0"
-log = "0.4.17"
-md-5 = "0.10.5"
-pretty_env_logger = "0.4.0"
-regex = "1.7.0"
-reqwest = { version = "0.11", features = ["json", "blocking"] }
-rusqlite = { version = "0.28.0", features = ["bundled", "backup"] }
-sha1 = "0.10.5"
-#tokio = { version = "1", features = ["full"] }
-walkdir = "2.3.2"
-tl = "0.7.7"
+exclude = [
+    'design'
+]

@@ -1,0 +1,44 @@
+[package]
+name = "treeleaves"
+version = "0.1.0"
+edition = "2021"
+authors = ["Joseph Diza <josephm.diza@gmail.com>"]
+repository = "https://github.com/jmdaemon/treeleaves"
+homepage = "https://github.com/jmdaemon/treeleaves"
+description = "Manage your files your way"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = "0.4.23"
+clap = "4.0.27"
+digest = "0.10.6"
+hex = "0.4.3"
+lazy_static = "1.4.0"
+log = "0.4.17"
+md-5 = "0.10.5"
+pretty_env_logger = "0.4.0"
+regex = "1.7.0"
+reqwest = { version = "0.11", features = ["json", "blocking"] }
+rusqlite = { version = "0.28.0", features = ["bundled", "backup"] }
+sha1 = "0.10.5"
+#tokio = { version = "1", features = ["full"] }
+walkdir = "2.3.2"
+tl = "0.7.7"
+diesel = { version = "2.1.0", features = ["64-column-tables", "url", "num-traits"] }
+url = "2.4.0"
+serde = { version = "1.0.180", features = ["derive"] }
+serde_json = { version = "1.0.104", features = ["preserve_order"] }
+indexmap = { version = "2.0.0", features = ["serde"] }
+num-integer = "0.1.45"
+num-traits = "0.2.16"
+directories = "5.0.1"
+toml = { version = "0.7.6", features = ["preserve_order"] }
+mime_guess = "2.0.4"
+mime = "0.3.17"
+anyhow = { version = "1.0.75", features = ["backtrace"] }
+
+[features]
+default = ["postgres"]
+sqlite = ["diesel/sqlite"]
+postgres = ["diesel/postgres", "diesel/postgres_backend"]
