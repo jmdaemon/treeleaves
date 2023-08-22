@@ -39,8 +39,10 @@ pub fn pop_mime_types(con: &mut SharedConnection) {
     batch_insert!(con, "mime_types", tbl_mime_types, mime_types);
 }
 
-pub fn pop_files(con: &mut TargetConnection, dir: &Path) -> Result<()> {
-    let con = &mut con.0;
+pub fn pop_files(shared: &mut SharedConnection, target: &mut TargetConnection, dir: &Path) -> Result<()> {
+    let target = &mut target.0;
+    let shared = &mut shared.0;
+
     let mut id = 1;
     let mut files = vec![];
     for file_entry in WalkDir::new(dir) {
@@ -54,7 +56,7 @@ pub fn pop_files(con: &mut TargetConnection, dir: &Path) -> Result<()> {
         use postgres::mime_types::mime_types::dsl::{mime_types as tbl_mime_types, mime_type as field_mime_type};
         let mime_type_id = tbl_mime_types
             .filter(field_mime_type.eq(mime_type.to_string()))
-            .first::<(i32, String)>(con)?
+            .first::<(i32, String)>(shared)?
             .0;
 
         let file = File { id,
@@ -66,6 +68,6 @@ pub fn pop_files(con: &mut TargetConnection, dir: &Path) -> Result<()> {
         id += 1;
     }
     use postgres::files::files::table as tbl_files;
-    batch_insert!(con, "files", tbl_files, files);
+    batch_insert!(target, "files", tbl_files, files);
     Ok(())
 }

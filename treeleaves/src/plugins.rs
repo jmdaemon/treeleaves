@@ -2,24 +2,6 @@ use std::path::Path;
 
 use crate::database::{SharedConnection, TargetConnection};
 
-pub mod alias;
-pub mod band;
-pub mod book;
-pub mod book_author;
-pub mod book_genre;
-pub mod book_language;
-pub mod book_publication;
-pub mod frequency;
-pub mod hash;
-pub mod photo;
-pub mod photo_album;
-pub mod song;
-pub mod song_album;
-pub mod song_genre;
-pub mod song_lyric;
-pub mod source;
-pub mod tag;
-
 // Support additional addons for the database tables
 // These addons allow you to:
 //      1. Create additional shared/target databases or database tables

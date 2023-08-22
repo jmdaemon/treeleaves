@@ -1,7 +1,6 @@
 //#![feature(trivial_bounds)]
 
 pub mod app;
-pub mod addons;
 pub mod models;
 pub mod schema;
 pub mod cfgfile;
@@ -10,6 +9,7 @@ pub mod config;
 pub mod data;
 pub mod database;
 pub mod table;
+pub mod plugins;
 
 // Re-export schemas
 pub mod schemas {
