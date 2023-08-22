@@ -12,9 +12,13 @@ function run_as() {
 
     # Check if running as the postgres account user
     if [ "$USER" != "$PG_USER_ACCOUNT" ]; then
-        # Ensure our parent directory is owned by our user
+        # Ensure /var/lib/postgres/data is owned by our user
         sudo mkdir -p "$DB_CLUSTER_DIR"
         sudo chown $PG_USER_ACCOUNT:$PG_USER_ACCOUNT -R $DB_CLUSTER_DIR
+
+        # Ensure /run/postgresql is owned by our user
+        sudo mkdir -p "$DB_CLUSTER_LOCK_DIR"
+        sudo chown $PG_USER_ACCOUNT:$PG_USER_ACCOUNT -R "$DB_CLUSTER_LOCK_DIR"
 
         # Login to postgres user account
         log "Logging in to postgres user account: ${PG_USER_ACCOUNT}"

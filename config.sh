@@ -33,6 +33,7 @@ DIESEL_SCHEMAS_DIR="$DIESEL_SCHEMAS_ROOT_DIR/$DATABASE_TYPE"
 
 ### Directories
 DB_CLUSTER_DIR=/var/lib/postgres/data
+DB_CLUSTER_LOCK_DIR=/run/postgresql
 
 DB_CLUSTER_SHARED_DIR="/var/lib/postgres/data/dev/treeleaves/shared"
 DB_CLUSTER_TARGET_DIR="/var/lib/postgres/data/dev/treeleaves/target"
