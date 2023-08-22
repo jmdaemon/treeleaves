@@ -26,34 +26,8 @@ pub struct TargetConfigFile {
     pub target: DatabaseConfig,
 }
 
-pub trait ConfigWith {
-    fn env(name: Option<&str>) -> ConfigFile {
-        match name {
-            Some(file) => {
-                ConfigFile::new(file)
-            }
-            None => {
-                ConfigFile::from_project_dirs(create_project_dirs(), "config.toml")
-            }
-        }
-    }
-}
-
-impl ConfigWith for ConfigFile { }
-
-impl TargetConfigFile {
-    pub fn new(path: &str) -> Self {
-        let config = ConfigFile::new(path);
-        toml::from_str(&config.read()).expect("Could not parse config")
-    }
-
-}
-
 impl Default for SharedConfigFile {
     fn default() -> Self {
-        //let config = ConfigFile::from_option_env(option_env!("TREELEAVES_CONFIG_FILE"))
-            //.unwrap_or(ConfigFile::from_project_dirs(create_project_dirs(), "config.toml"));
-        //let config = ConfigFile::from_option_env(option_env!("TREELEAVES_CONFIG_FILE"))
         let config = ConfigFile::from_option_env("TREELEAVES_CONFIG_FILE")
             .fallback_path(format_config_path(create_project_dirs(), "config.toml"));
         toml::from_str(&config.read()).expect("Could not parse config")
@@ -63,5 +37,12 @@ impl Default for SharedConfigFile {
 impl SharedConfigFile {
     pub fn new() -> Self {
         SharedConfigFile::default()
+    }
+}
+
+impl TargetConfigFile {
+    pub fn new(path: &str) -> Self {
+        let config = ConfigFile::new(path);
+        toml::from_str(&config.read()).expect("Could not parse config")
     }
 }
