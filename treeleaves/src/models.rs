@@ -4,7 +4,9 @@ use diesel::prelude::*;
 use chrono::{DateTime, Utc, NaiveDate, NaiveTime};
 use url::Url;
 
-use std::{path::PathBuf, time::Duration};
+use std::time::Duration;
+
+// Model the database tables
 
 //pub type FileID = u64;
 pub type FileID = i64;

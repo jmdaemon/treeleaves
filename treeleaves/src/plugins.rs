@@ -3,6 +3,7 @@ use std::path::Path;
 use crate::database::{SharedConnection, TargetConnection};
 
 // Support additional addons for the database tables
+//
 // These addons allow you to:
 //      1. Create additional shared/target databases or database tables
 //      2. View any data found in anyone of the defined databases and database tables
