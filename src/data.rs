@@ -9,11 +9,17 @@ use std::{
 use md5::Md5;
 use mime::Mime;
 use sha1::Sha1;
+use indexmap::IndexMap;
 
 use diesel::prelude::*;
 use chrono::prelude::*;
+use serde_json::Value;
 
 pub const DEFFAULT_MIME_TYPE: Mime = mime::APPLICATION_OCTET_STREAM;
+
+pub const DATA_MIME_JSON: &str = "data/db.json";
+
+pub type DataMap<'a> = IndexMap<&'a str, Value>;
 
 pub fn md5sum(conts: &str) -> String {
     use md5::Digest;

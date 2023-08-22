@@ -1,14 +1,13 @@
 //#![feature(trivial_bounds)]
 
-// Declare modules
 pub mod models;
-//pub mod diesel_ext;
 pub mod schema;
 pub mod cfgfile;
 pub mod consts;
 pub mod config;
 pub mod data;
-pub mod db;
+pub mod database;
+pub mod table;
 
 // Re-export schemas
 pub mod schemas {
