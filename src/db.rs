@@ -1,4 +1,5 @@
-use crate::{schema::postgres::*, models::*};
+//use crate::{schema::postgres::*, models::*};
+use crate::{schema::postgres, models::*};
 
 use serde_json::Value;
 use indexmap::IndexMap;
@@ -27,30 +28,48 @@ pub fn connect_db_cluster(cluster_type: DatabaseClusterType) -> PgConnection {
         .unwrap_or_else(|_| panic!("Error connecting to {}", url))
 }
 
-pub mod media_types {
-    use std::fs;
-    use diesel::prelude::*;
-    use super::{DATA_MIME_JSON, DataMap, mime_types::mime_types::dsl::*, MIMEType};
+// MIMEType
+use std::fs;
+use diesel::prelude::*;
+//use super::{DATA_MIME_JSON, DataMap, mime_types::mime_types::dsl::*, MIMEType};
+//use ::mime_types::dsl::*;
+//use mime_types::{mime_types::dsl::*, MIMEType};
+use postgres::mime_types::mime_types::dsl::*;
 
-    pub fn pop_mime_types(con: &mut PgConnection) {
-        // Retrieve our media type data
-        let conts = fs::read_to_string(DATA_MIME_JSON)
-            .expect("Could not find db.json");
-        let data: DataMap = serde_json::from_str(&conts)
-        .expect("Could not deserialize data");
+macro_rules! batch_insert {
+    ($con:expr, $table_name:expr, $table:expr, $records:expr) => {
+        diesel::insert_into($table)
+            .values($records)
+            .execute($con)
+            .expect(&format!("Could not fill {} table", $table_name));
+        
+    };
+}
+//pub fn batch_insert<T, V, VT>(con: &mut PgConnection, table_name: &str, table: T, records: &Vec<V>)
+//where
+    //T: diesel::Table + diesel::query_builder::QueryId,
+    //V: diesel::Insertable<T> + diesel::query_source::Table
+//{
+    //diesel::insert_into(table)
+        //.values(records)
+        //.execute(con)
+        //.expect(&format!("Could not fill {} table", table_name));
+//}
 
-        // Serialize it to the database
-        let mut media_types = vec![];
-        let mut index = 1;
-        for (k, _) in data {
-            let media_type =  MIMEType { id: index, mime_type: k.to_string() };
-            media_types.push(media_type);
-            index += 1;
-        }
+pub fn pop_mime_types(con: &mut PgConnection) {
+    // Retrieve our media type data
+    let conts = fs::read_to_string(DATA_MIME_JSON)
+        .expect("Could not find db.json");
+    let data: DataMap = serde_json::from_str(&conts)
+    .expect("Could not deserialize data");
 
-        diesel::insert_into(mime_types)
-            .values(media_types)
-            .execute(con)
-            .expect("Could not fill mime_types table");
-        }
+    // Serialize it to the database
+    let mut media_types = vec![];
+    let mut index = 1;
+    for (k, _) in data {
+        let media_type =  MIMEType { id: index, mime_type: k.to_string() };
+        media_types.push(media_type);
+        index += 1;
+    }
+    batch_insert!(con, "mime_types", mime_types, media_types);
 }
