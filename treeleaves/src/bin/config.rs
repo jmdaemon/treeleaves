@@ -1,17 +1,10 @@
-use treeleaves::{cfgfile::ConfigFile, config::{SharedConfig, TargetConfig}};
+use treeleaves::config::{SharedConfigFile, TargetConfigFile};
 
 fn main() {
-    let config = SharedConfig::new();
-    println!("{}", config.shared.url);
+    let shared = SharedConfigFile::new().shared;
+    println!("{}", shared.url);
 
-    // Target Config
-    let file = "config.toml";
-    let config_dir = "test/target_data/.treeleaves/";
-    let target_config = ConfigFile::new(config_dir, file);
-    target_config.make_dirs();
-
-    let config: TargetConfig = toml::from_str(&target_config.read())
-        .expect("Could not parse config");
-
-    println!("{}", config.target);
+    let path = "test/target_data/.treeleaves/config.toml";
+    let target = TargetConfigFile::new(path).target;
+    println!("{}", target.url);
 }
