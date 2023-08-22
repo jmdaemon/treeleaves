@@ -6,6 +6,8 @@ use url::Url;
 
 use std::time::Duration;
 
+// Model the database tables
+
 //pub type FileID = u64;
 pub type FileID = i64;
 pub type DateTimestamp = DateTime<Utc>;

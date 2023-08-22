@@ -6,6 +6,8 @@ use crate::{
 use directories::ProjectDirs;
 use serde::{Serialize, Deserialize};
 
+// Manage Treeleaves configs
+
 pub fn create_project_dirs() -> ProjectDirs {
     ProjectDirs::from(QUALIFIER, ORGANIZATION, APPLICATION)
         .expect("Could not initialize project directories")

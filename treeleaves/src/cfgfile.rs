@@ -8,7 +8,8 @@ use std::{
 
 use directories::ProjectDirs;
 
-/// Manage application config files
+// Manage application config files
+
 #[derive(Debug, Default, Clone)]
 pub struct ConfigFile {
     pub path: PathBuf,

@@ -1,5 +1,7 @@
 use diesel::prelude::*;
 
+// Manage database interactions
+
 pub fn connect_db_cluster(url: &str) -> PgConnection {
     PgConnection::establish(url)
         .unwrap_or_else(|_| panic!("Error connecting to {}", url))
