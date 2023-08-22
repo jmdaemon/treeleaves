@@ -11,7 +11,6 @@ use mime::Mime;
 use sha1::Sha1;
 use indexmap::IndexMap;
 
-use diesel::prelude::*;
 use chrono::prelude::*;
 use serde_json::Value;
 
