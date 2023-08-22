@@ -1,5 +1,6 @@
 use crate::{
     data::{metadata, size, get_mime_type, DATA_MIME_JSON, DataMap},
+    database::{SharedConnection, TargetConnection},
     schema::postgres,
     models::*,
     batch_insert
@@ -17,7 +18,9 @@ use anyhow::Result;
 //      - Import table [name] as tbl_name
 //      - Import field [name] as field_name
 
-pub fn pop_mime_types(con: &mut PgConnection) {
+pub fn pop_mime_types(con: &mut SharedConnection) {
+    let con = &mut con.0;
+
     // Retrieve our media type data
     let conts = fs::read_to_string(DATA_MIME_JSON)
         .expect("Could not find db.json");
@@ -36,7 +39,8 @@ pub fn pop_mime_types(con: &mut PgConnection) {
     batch_insert!(con, "mime_types", tbl_mime_types, mime_types);
 }
 
-pub fn pop_files(con: &mut PgConnection, dir: &Path) -> Result<()> {
+pub fn pop_files(con: &mut TargetConnection, dir: &Path) -> Result<()> {
+    let con = &mut con.0;
     let mut id = 1;
     let mut files = vec![];
     for file_entry in WalkDir::new(dir) {

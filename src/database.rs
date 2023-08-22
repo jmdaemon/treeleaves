@@ -19,6 +19,10 @@ pub fn connect_db_cluster(cluster_type: DatabaseClusterType) -> PgConnection {
         .unwrap_or_else(|_| panic!("Error connecting to {}", url))
 }
 
+// Prevent users from using the wrong database cluster
+pub struct SharedConnection(pub PgConnection);
+pub struct TargetConnection(pub PgConnection);
+
 #[macro_export]
 macro_rules! batch_insert {
     ($con:expr, $table_name:expr, $table:expr, $records:expr) => {
