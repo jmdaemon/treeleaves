@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    'treeleaves',
+    'treeleaves-plugins',
+]
+
+exclude = [
+    'design'
+]
