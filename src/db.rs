@@ -1,10 +1,14 @@
+use crate::data::{metadata, size, get_mime_type};
 use crate::{schema::postgres, models::*};
 
-use std::fs;
+use std::{fs, path::Path};
 
 use serde_json::Value;
 use indexmap::IndexMap;
 use diesel::prelude::*;
+
+use walkdir::WalkDir;
+use anyhow::Result;
 
 // Database Cluster URLs
 pub const DB_SHARED_URL: &str = include_str!("url.shared");
@@ -39,8 +43,10 @@ macro_rules! batch_insert {
     };
 }
 
+// Tables
+
 // MIMEType
-use postgres::mime_types::mime_types::dsl::*;
+//use postgres::mime_types::mime_types::dsl::*;
 
 pub fn pop_mime_types(con: &mut PgConnection) {
     // Retrieve our media type data
@@ -57,5 +63,45 @@ pub fn pop_mime_types(con: &mut PgConnection) {
         media_types.push(media_type);
         index += 1;
     }
+    use postgres::mime_types::mime_types::dsl::mime_types;
     batch_insert!(con, "mime_types", mime_types, media_types);
+}
+
+//use postgres::files::files::dsl::*;
+
+//pub fn pop_files(con: &mut PgConnection, dir: &Path) {
+//pub fn pop_files(con: &mut PgConnection, dir: &Path) -> Result<(), Box<dyn std::error::Error>> {
+pub fn pop_files(con: &mut PgConnection, dir: &Path) -> Result<()> {
+    let treeleaves_root = WalkDir::new(dir);
+    let mut id = 1;
+    let mut files = vec![];
+    for file_entry in treeleaves_root {
+        //let fpath = file_entry.unwrap().path();
+        //let metadata = metadata(fpath);
+
+        //
+
+        let file_entry = file_entry?;
+        let path = file_entry.path();
+        let metadata = metadata(path);
+
+        //let (_name) = (fpath.file_name().unwrap());
+        let (name, size, mime_type) = (path.file_name().unwrap(), size(&metadata), get_mime_type(path));
+        use postgres::mime_types::mime_types::dsl::{mime_types, mime_type as media_type};
+        let mime_type_id = mime_types
+            .filter(media_type.eq(mime_type.to_string()))
+            .first::<(i32, String)>(con)?
+            .0;
+
+        let file = File { id,
+            name: name.to_string_lossy().to_string(),
+            path: path.to_string_lossy().to_string(),
+            size: size.try_into()?, mime_type_id
+        };
+        files.push(file);
+        id += 1;
+    }
+    use postgres::files::files::table as tbl_files;
+    batch_insert!(con, "files", tbl_files, files);
+    Ok(())
 }

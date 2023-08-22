@@ -7,35 +7,13 @@ pub mod schema;
 pub mod cfgfile;
 pub mod consts;
 pub mod config;
+pub mod data;
 pub mod db;
 
 // Re-export schemas
 pub mod schemas {
-    // Compile for sqlite3
-    #[cfg(feature="sqlite")] 
-    pub use super::schema::sqlite3::{audio::*, files::*, images::*, main::*, mime_types::*,videos::*};
-
-    #[cfg(feature="postgres")]
+    #[cfg(feature = "postgres")]
     pub use super::schema::postgres::{audio::*, files::*, images::*, main::*, mime_types::*,videos::*};
-
-    //pub use super::schema::postgres::audio::*;
-    //pub use super::schema::postgres::files::*;
-    //pub use super::schema::postgres::images::*;
-    //pub use super::schema::postgres::main::*;
-    //pub use super::schema::postgres::mime_types::*;
-    //pub use super::schema::postgres::videos::*;
-}
-
-use diesel::prelude::*;
-use models::MIMEType;
-
-#[cfg(feature="sqlite")]
-pub fn create_mime_type(conn: &mut SqliteConnection, mime_type: &str) -> MIMEType {
-    MIMEType { id: 0, mime_type: "".to_owned()}
-}
-
-pub fn create_mime_type(conn: &mut PgConnection, mime_type: &str) -> MIMEType {
-    MIMEType { id: 0, mime_type: "".to_owned()}
 }
 
 /*

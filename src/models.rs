@@ -6,7 +6,8 @@ use url::Url;
 
 use std::{path::PathBuf, time::Duration};
 
-pub type FileID = u64;
+//pub type FileID = u64;
+pub type FileID = i64;
 pub type DateTimestamp = DateTime<Utc>;
 
 //
@@ -21,19 +22,18 @@ pub struct MIMEType {
     pub mime_type: String,
 }
 
-#[derive(Queryable, Selectable)]
+#[derive(Queryable, Selectable, Insertable)]
 #[diesel(table_name = files)]
-//#[diesel(check_for_backend(diesel::pg::Pg))]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct File {
-    #[diesel(serialize_as = i64, deserialize_as = u64)]
     pub id: FileID,
     pub name: String,
-    #[diesel(serialize_as = String, deserialize_as = PathBuf)]
-    pub path: PathBuf,
-    #[diesel(serialize_as = i64, deserialize_as = u64)]
-    pub size: u64,
-    #[diesel(serialize_as = i32, deserialize_as = u32)]
-    pub mime_type_id: u32,
+    //pub path: PathBuf,
+    pub path: String,
+    //pub size: u64,
+    pub size: i64,
+    //pub mime_type_id: u32,
+    pub mime_type_id: i32,
 }
 
 pub enum FolderViewType {
