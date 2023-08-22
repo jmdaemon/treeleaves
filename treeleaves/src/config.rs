@@ -1,8 +1,5 @@
-use crate::{
-    consts::{QUALIFIER, ORGANIZATION, APPLICATION},
-    cfgfile::{ConfigFile, format_config_path, FallbackExt}
-};
-
+use crate::consts::{QUALIFIER, ORGANIZATION, APPLICATION};
+use cfg::{ConfigFile, format_config_path, FallbackExt};
 use directories::ProjectDirs;
 use serde::{Serialize, Deserialize};
 

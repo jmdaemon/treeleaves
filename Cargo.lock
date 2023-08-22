@@ -203,6 +203,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "cfg"
+version = "0.2.0"
+source = "git+https://github.com/jmdaemon/cfg.git?rev=103bef9#103bef976e6bff5304b23ed776960f2e76772a3c"
+dependencies = [
+ "directories",
+]
+
+[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1533,6 +1541,7 @@ name = "treeleaves"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "cfg",
  "chrono",
  "clap",
  "diesel",

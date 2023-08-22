@@ -1,5 +1,4 @@
 pub mod app;
-pub mod cfgfile;
 pub mod config;
 pub mod consts;
 pub mod data;

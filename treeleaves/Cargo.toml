@@ -12,6 +12,7 @@ description = "Manage your files your way"
 [dependencies]
 chrono = "0.4.23"
 clap = "4.0.27"
+cfg = { git = "https://github.com/jmdaemon/cfg.git", rev = "103bef9", features = ["directories"] }
 digest = "0.10.6"
 hex = "0.4.3"
 lazy_static = "1.4.0"
