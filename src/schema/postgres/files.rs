@@ -2,10 +2,10 @@
 
 diesel::table! {
     files (id) {
-        id -> Integer,
-        name -> Text,
-        path -> Text,
-        mime_type_id -> Integer,
-        size -> Integer,
+        id -> BigInt,
+        name -> Varchar,
+        path -> Varchar,
+        mime_type_id -> Int4,
+        size -> BigInt,
     }
 }
