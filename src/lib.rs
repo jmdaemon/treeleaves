@@ -1,5 +1,7 @@
 //#![feature(trivial_bounds)]
 
+pub mod app;
+pub mod addons;
 pub mod models;
 pub mod schema;
 pub mod cfgfile;
