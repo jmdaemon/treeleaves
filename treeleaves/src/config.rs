@@ -4,6 +4,7 @@ use crate::{
 };
 
 use directories::ProjectDirs;
+use lazy_static::lazy_static;
 use serde::{Serialize, Deserialize};
 
 pub fn create_project_dirs() -> ProjectDirs {
@@ -22,14 +23,35 @@ pub struct Config {
     pub url: String
 }
 
+impl std::fmt::Display for Config {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{}", self.url)
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SharedConfig {
     #[serde(flatten)]
-    cfg: Config
+    pub cfg: Config
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TargetConfig {
+    //#[serde(rename = "url")]
+    // #[serde(rename(deserialize = "url"))]
     #[serde(flatten)]
-    cfg: Config
+    pub cfg: Config
+    //pub url: String
 }
+
+//impl std::fmt::Display for TargetConfig {
+    //fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        //write!(f, "{}", self.url)
+    //}
+//}
+
+/*
+lazy_static!(
+    pub static ref TREELEAVES_CONFIG: ConfigFile = create_config("config.toml");
+);
+*/
