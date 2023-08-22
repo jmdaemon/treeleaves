@@ -11,7 +11,6 @@ DBS_SHARED=(
 
 DBS_TARGET=(
     "main/files"
-    "main/main"
     "types/images"
     "types/videos"
     "types/audio"
