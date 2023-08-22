@@ -20,10 +20,11 @@ pub mod song_lyric;
 pub mod source;
 pub mod tag;
 
-// Support additional metadata plugins for the database tables
-// These plugins allow you to:
-//      1. Create additional shared and target database tables
-//      2. Manage data in tables of any of the target/shared databases
+// Support additional addons for the database tables
+// These addons allow you to:
+//      1. Create additional shared/target databases or database tables
+//      2. View any data found in anyone of the defined databases and database tables
+//      3. Modify any data found in said databases and tables
 
 // Creation Traits
 pub trait SharedExt {
